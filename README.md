@@ -44,3 +44,23 @@ So, if you want to build automated testing program that targets SE, your tech-st
 `uuselib` is originally a package called `uuspaceagent` added to the iv4xr-SE-jvm-client. More specifically, it was developed in the branch `uubranch3D-v2*`.
 
 At the moment we are working on extracting this `uuspaceagent` and placing it under a separate project, namely this `uuselib`. Among other things, this would enable us to unpin `uuspaceagent` dependency on the old version of the SE-jvm-client.
+
+### Installing iv4xr-SE-plugin
+
+TO DO
+
+### Working on this project from Eclipse IDE
+
+* From Eclipse, import the this project. Import it as a Maven project.
+
+* Open the project in Eclipse. Then open the project properties:
+   * Check that the Java Compiler is set with at least version 15.
+   * In the tab for _Java Build Path_, _Libraries_, add the jar `./libs/space-engineers-api-0.9.0.jar` to the classpath there.
+
+* That was it. See, if you now can run some of the tests that come with the project.
+
+### Where are the worlds?
+
+There are some pre-made SE-worlds (game levels) in `assets/se-worlds` you can use for experiments. For example, some tests in the project use them.
+
+Just be careful; by default SE will auto-save a world if you let it open for sometime, which may then mess up the saved worlds.
