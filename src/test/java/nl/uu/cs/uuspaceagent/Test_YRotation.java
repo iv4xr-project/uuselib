@@ -4,7 +4,7 @@ import eu.iv4xr.framework.spatial.Vec3;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static uuspaceagent.Rotation.getYRotation;
+import static nl.uu.cs.uuspaceagent.Rotation.getYRotation;
 
 /**
  * For testing the calculation of rotation around y-axis as provided by the
