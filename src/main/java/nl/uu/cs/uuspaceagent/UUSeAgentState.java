@@ -226,9 +226,13 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
         for(var block : SEBlockFunctions.getAllBlocks(gridsAndBlocksStates)) {
             navgrid.addObstacle(block);
             // check if it is a door, and get its open/close state:
-            Boolean isOpen = SEBlockFunctions.geSlideDoorState(block) ;
+            
+            // TODO: Use this function once it gains support. Currently doorstate always returns true for some reason
+            /*Boolean isOpen = SEBlockFunctions.geSlideDoorState(block) ;*/
+            
+            var isOpen =  block.getProperty("isOpen");
             if (isOpen != null) {
-                navgrid.setObstacleBlockingState(block,! isOpen);
+                navgrid.setObstacleBlockingState(block,! isOpen.toString().equals("true"));
             }
         }
         // updating dynamic blocking-state: (e.g. handling doors)
