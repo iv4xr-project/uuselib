@@ -23,7 +23,7 @@ import static nl.uu.cs.uuspaceagent.TestUtils.loadSE;
 public class Test_ComplexPathfinding {
 
     /**
-     * Auto-navigate to a given point.
+     * Auto-navigate to a given point, opening closed doors along the way.
      */
     public Pair<TestAgent,GoalStructure> deployAgent(Vec3 destination) throws InterruptedException {
         console("*** start test...") ;
@@ -33,8 +33,6 @@ public class Test_ComplexPathfinding {
         Thread.sleep(1000);
         state.updateState(state.agentId);
 
-        // agent start location should be around: <10.119276,-5.0025,55.681934>
-        //  orientationForward: <-0.043967947,-2.0614608E-4,0.9990329> ... so looking towards z-axis
         console(showWOMAgent(state.worldmodel));
 
         var sqAgent = state.navgrid.gridProjectedLocation(state.worldmodel.position) ;
@@ -51,7 +49,9 @@ public class Test_ComplexPathfinding {
                     var pos = positionAndOrientation.fst ;
                     return Vec3.sub(centerOfSqDestination,pos).lengthSq() <= UUTacticLib.THRESHOLD_SQUARED_DISTANCE_TO_SQUARE ;
                 })
-                .withTactic(UUTacticLib.navigateToTAC(destination))
+                //TODO: implement a navigation tactic that allows opening doors
+                // along the way to the destination.
+                .withTactic(UUTacticLib.navigateToTAC(destination)) 
                 .lift() ;
 
         agent.setGoal(G) ;
@@ -86,8 +86,8 @@ public class Test_ComplexPathfinding {
     }
 
     @Test
-    public void test_navigate_and_grind() throws InterruptedException {
-        // This is a position that is unreachable, so this goal should abort
+    public void test_navigate_through_doors() throws InterruptedException {
+        // This is a position that is hidden behind three doors that should be opened along the way.
         console("*** start test...") ;
         Vec3 dest = new Vec3(43,1.25f,7.5f) ;
         var agent_and_goal = deployAgent(dest);
