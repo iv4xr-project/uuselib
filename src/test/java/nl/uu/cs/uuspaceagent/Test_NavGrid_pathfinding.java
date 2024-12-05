@@ -86,7 +86,7 @@ public class Test_NavGrid_pathfinding {
         // Should not be reachable:
         var sqAgent = state.navgrid.gridProjectedLocation(state.worldmodel.position) ;
         var sqDesitnation = state.navgrid.gridProjectedLocation(destination) ;
-        List<DPos3> path = state.pathfinder2D.findPath(state.navgrid,sqAgent,sqDesitnation) ;
+        List<DPos3> path = state.pathfinder.findPath(state.navgrid,sqAgent,sqDesitnation) ;
         //SocketReaderWriterKt.closeIfCloseable(state.env().getController());
         TestUtils.closeConnectionToSE(state);
 

@@ -32,7 +32,7 @@ public class Coba_UseObject {
             // run a loop to heal
             state.env().getController().getAdmin().getCharacter().use(target.id, 0,
                     UseObject.Companion.getManipulate());
-            //Thread.sleep(20);
+            Thread.sleep(20);
             state.updateState(state.agentId);
             float h = (Float) state.val("health") ;
             float h0 = (Float) state.before("health") ;

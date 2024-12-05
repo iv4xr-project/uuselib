@@ -158,20 +158,6 @@ public class SEBlockFunctions {
         return blocks ;
     }
 
-    /**
-     * Get the state of a slide-door. If it is open, we return true, else false. If it is
-     * not a door. the method returns null.
-     *
-     * NOTE: for now, because SE does not propagate open/close state of doors, this will
-     * always return true.
-     */
-    public static Boolean geSlideDoorState(WorldEntity block) {
-        if(!block.type.equals("block")) return null ;
-        if (block.getStringProperty("blockType").contains("SlideDoor")) {
-            return true ;
-        }
-        return null ;
-    }
 
     /**
      * Return all blocks of the specified type.

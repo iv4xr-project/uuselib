@@ -23,7 +23,7 @@ import java.util.*;
  * The type of navigation supported by this class is "above ground" navigation. It
  * assumes there is a flat ground surface. The surface on the ground is assumed to be
  * navigable, and flat. On the other hand, the ground beneath this surface is assumed
- * o be unnavigable. The ground surface is also assumed to extend infinitely (it has no
+ * to be unnavigable. The ground surface is also assumed to extend infinitely (it has no
  * "edge of the world" that would allow an agent to wrap around to go beneath the
  * ground surface :D ).
  *
@@ -213,8 +213,8 @@ public class NavGrid implements Navigatable<DPos3>{
     }
 
     /**
-     * Add the block as an obstacle on the grid. This is only the case the block intersects
-     * with the grid's 2D plane. This assumes that:
+     * Add the block as an obstacle on the grid. This is only the case if the block is on
+     * or above the grid's 2D plane. This assumes that:
      *    (1) the block's orientation is upright and aligned with the grid (it is not
      *    vertically tilted, nor horizontally angled).
      *    (2) the block does not move nor rotate, so we will not update its position in the future;

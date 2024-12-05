@@ -32,9 +32,16 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
 
     public String agentId ;
     
-    // We will use a custom navigation-graph and pathfinder:
+    /**
+     * A custom-navigation graph; with sparse representation of navigation nodes. Navigable
+     * nodes are not literally stored. Instead, we store blocked nodes.
+     */
     public NavGrid navgrid = new NavGrid() ;
-    public Pathfinder<DPos3> pathfinder2D = new AStar<>() ;
+    /**
+     * An A* path-finder. This will be used in conjunction with the navgrid, with the later
+     * provides a navigation-graph.
+     */
+    public Pathfinder<DPos3> pathfinder = new AStar<>() ;
     public List<DPos3> currentPathToFollow = new LinkedList<>();
 
     public WorldEntity previousTargetBlock;
@@ -225,10 +232,13 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
         // for open-doors is more complicated. TODO.
         for(var block : SEBlockFunctions.getAllBlocks(gridsAndBlocksStates)) {
             navgrid.addObstacle(block);
-            // check if it is a door, and get its open/close state:
-            Boolean isOpen = SEBlockFunctions.geSlideDoorState(block) ;
-            if (isOpen != null) {
-                navgrid.setObstacleBlockingState(block,! isOpen);
+            // check if it has an open-state (we then assume it is a door) and it is open :
+            var isOpen = block.properties.get("isOpen") ;
+            //if (isOpen != null) {
+            //	System.out.println(">>>> door-like block: " + block.id + "," + block.properties.get("blockType")) ;
+            // }
+            if (isOpen != null && (Boolean) isOpen) {
+                navgrid.setObstacleBlockingState(block,! (Boolean) isOpen);
             }
         }
         // updating dynamic blocking-state: (e.g. handling doors)
