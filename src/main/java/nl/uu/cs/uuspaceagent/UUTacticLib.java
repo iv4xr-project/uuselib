@@ -409,7 +409,7 @@ public class UUTacticLib {
                     if (currentPathLength == 0
                             || ! destinationSq.equals(state.currentPathToFollow.get(currentPathLength - 1)))
                     {  // there is no path planned, or there is an ongoing path, but it goes to a different target
-                        List<DPos3> path = state.pathfinder2D.findPath(state.navgrid, agentSq, destinationSq)  ;
+                        List<DPos3> path = state.pathfinder.findPath(state.navgrid, agentSq, destinationSq)  ;
                         if (path == null) {
                             // the pathfinder cannot find a path. The tactic is then not enabled:
                             System.out.println("### NO path to " + destination);
