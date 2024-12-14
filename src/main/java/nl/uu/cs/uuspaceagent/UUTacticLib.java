@@ -9,6 +9,9 @@ import spaceEngineers.model.Block;
 import spaceEngineers.model.CharacterObservation;
 import spaceEngineers.model.DoorBase;
 import spaceEngineers.model.Vec2F;
+import static nl.uu.cs.aplib.AplibEDSL.*;
+import eu.iv4xr.framework.spatial.Vec3;
+import static nl.uu.cs.uuspaceagent.TestUtils.console;
 
 import java.util.List;
 
@@ -426,6 +429,53 @@ public class UUTacticLib {
                     }
                 })
                 .lift();
+    }
+    
+    /**
+     * Improved version of navigateToTAC that opens doors needed to follow path.
+     * 
+     * A tactic; if executed repeatedly it guides the agent to get to some distance close to a
+     * given destination, if it is reachable. 2D grid-based pathfinding is used to do this.
+     * To be more precise, the tactic targets the square S on the grid where the destination is
+     * located. Then it travels to some point with the distance at most d to the center of S.
+     * D is the square root of THRESHOLD_SQUARED_DISTANCE_TO_SQUARE.
+     *
+     * The tactic returns the resulting new position and forward-orientation of the agent.
+     */
+    public static Tactic smartNavigateToTAC(Vec3 destination) {
+    	return FIRSTof(
+    			action("openDoors").do2((UUSeAgentState state)
+                        -> (Pair<DPos3, Boolean> queryResult) -> {
+                      
+                	var doorPosition = queryResult.fst ; //
+                    var doorOpened = queryResult.snd ;    	
+                        	
+                    
+                    // TODO: actually open the door
+                    
+                    CharacterObservation obs = state.env().getController().getObserver().observe();
+                    return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
+                })
+    			.on((UUSeAgentState state)  -> {
+    				
+    				CharacterObservation cobs = state.env().getController().getObserver().observe();
+    				
+    		        if(cobs.getTargetBlock() != null) {
+    		        	
+    		        	// TODO: maybe improve the detection of doors? The ability to check if there's a 
+    		        	// door on the next node of the path would be helpful.
+    		            if (cobs.getTargetBlock().getDefinitionId().toString().toLowerCase().contains("door")) {
+    		            	// TODO: provide the position and state of the door
+    		            	return new Pair<>(null, null) ; 
+    		            }
+    		        }
+    				
+    				//No door found.
+    				return null;
+    			})
+    			.lift(),
+    			navigateToTAC(destination)
+    			);
     }
 
     /**

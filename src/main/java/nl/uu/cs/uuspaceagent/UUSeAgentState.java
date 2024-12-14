@@ -36,7 +36,7 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
      * A custom-navigation graph; with sparse representation of navigation nodes. Navigable
      * nodes are not literally stored. Instead, we store blocked nodes.
      */
-    public NavGrid navgrid = new NavGrid() ;
+    public NavGrid navgrid = new NavGrid(true) ;
     /**
      * An A* path-finder. This will be used in conjunction with the navgrid, with the later
      * provides a navigation-graph.

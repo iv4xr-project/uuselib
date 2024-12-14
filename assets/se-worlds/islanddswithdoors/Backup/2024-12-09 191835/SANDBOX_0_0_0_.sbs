@@ -10,7 +10,7 @@
       <MyObjectBuilder_GlobalEventBase>
         <SubtypeName>SpawnCargoShip</SubtypeName>
         <Enabled>true</Enabled>
-        <ActivationTimeMs>2641617</ActivationTimeMs>
+        <ActivationTimeMs>2705617</ActivationTimeMs>
       </MyObjectBuilder_GlobalEventBase>
     </Events>
   </SectorEvents>
@@ -233,14 +233,14 @@
       <PersistentFlags>CastShadows InScene</PersistentFlags>
       <Name>124168712738897777</Name>
       <PositionAndOrientation>
-        <Position x="15.07235513481419" y="1.2417032495141029" z="24.857000526310266" />
-        <Forward x="0.9998927" y="-0.000206489334" z="-0.014647305" />
-        <Up x="0.000206672266" y="1" z="1.09754619E-05" />
+        <Position x="20.951163877715366" y="1.247842812910676" z="24.884299516683178" />
+        <Forward x="0.997757852" y="-4.1950355E-07" z="-0.0669273138" />
+        <Up x="4.20445843E-07" y="1" z="-6.082246E-12" />
         <Orientation>
-          <X>-6.862384E-05</X>
-          <Y>-0.701909065</Y>
-          <Z>-7.745476E-05</Z>
-          <W>0.712266564</W>
+          <X>-1.43591762E-07</X>
+          <Y>-0.683034658</Y>
+          <Z>-1.53541791E-07</Z>
+          <W>0.730385959</W>
         </Orientation>
       </PositionAndOrientation>
       <LocalPositionAndOrientation xsi:nil="true" />
@@ -419,8 +419,8 @@
       </Battery>
       <LightEnabled>false</LightEnabled>
       <UsingLadder xsi:nil="true" />
-      <HeadAngle x="-8.411015" y="0" />
-      <LinearVelocity x="2.19654466E-05" y="0.000130482018" z="5.846964E-07" />
+      <HeadAngle x="-2.50714064" y="0" />
+      <LinearVelocity x="0" y="0" z="0" />
       <AutoenableJetpackDelay>0</AutoenableJetpackDelay>
       <JetpackEnabled>false</JetpackEnabled>
       <ColorMaskHSV x="0.575" y="0.167133212" z="0.18923834" />
@@ -458,14 +458,14 @@
       <PersistentFlags>CastShadows InScene</PersistentFlags>
       <Name>120901531966736068</Name>
       <PositionAndOrientation>
-        <Position x="-5335.8981671519578" y="-5325.9123495090753" z="-1297.9370267353952" />
-        <Forward x="0.8122469" y="-0.412464738" z="-0.4124657" />
-        <Up x="-0.3686144" y="0.185079187" z="-0.910971642" />
+        <Position x="-5733.0341796875" y="-5126.50732421875" z="-2279.4248046875" />
+        <Forward x="0.8122468" y="-0.412464857" z="-0.4124658" />
+        <Up x="-0.368614465" y="0.1850794" z="-0.9109715" />
         <Orientation>
-          <X>-0.462206</X>
-          <Y>-0.283077329</Y>
-          <Z>0.440256745</Z>
-          <W>0.715826</W>
+          <X>-0.462205976</X>
+          <Y>-0.28307727</Y>
+          <Z>0.440256685</Z>
+          <W>0.715826035</W>
         </Orientation>
       </PositionAndOrientation>
       <LocalPositionAndOrientation xsi:nil="true" />
@@ -2096,7 +2096,7 @@
                   <TimerEnabled>true</TimerEnabled>
                   <RemoveEntityOnTimer>false</RemoveEntityOnTimer>
                   <TimerType>Frame10</TimerType>
-                  <FramesFromLastTrigger>0</FramesFromLastTrigger>
+                  <FramesFromLastTrigger>40</FramesFromLastTrigger>
                   <TimerTickInFrames>80</TimerTickInFrames>
                   <IsSessionUpdateEnabled>false</IsSessionUpdateEnabled>
                 </Component>
@@ -3331,8 +3331,8 @@
           <BuiltBy>144115188075855896</BuiltBy>
         </MyObjectBuilder_CubeBlock>
       </CubeBlocks>
-      <LinearVelocity x="6.26173" y="-3.14892769" z="15.4906158" />
-      <AngularVelocity x="3.57930174E-09" y="1.37408076E-08" z="3.10164339E-09" />
+      <LinearVelocity x="6.25589" y="-3.12773228" z="15.41819" />
+      <AngularVelocity x="4.40772219E-08" y="5.992656E-08" z="-1.26650281E-08" />
       <ConveyorLines>
         <MyObjectBuilder_ConveyorLine>
           <StartPosition x="0" y="7" z="-1" />
@@ -7732,14 +7732,14 @@
       <PersistentFlags>CastShadows InScene</PersistentFlags>
       <Name>109266905091939579</Name>
       <PositionAndOrientation>
-        <Position x="10398.786891441792" y="1872.3322793971747" z="339.38670373335481" />
-        <Forward x="0.3570092" y="0.2385715" z="-0.9031213" />
-        <Up x="-0.7978335" y="-0.4249497" z="-0.427644342" />
+        <Position x="9948.2421875" y="1571.1455078125" z="1486.0743408203125" />
+        <Forward x="0.356176" y="0.238066852" z="-0.903583348" />
+        <Up x="-0.798231542" y="-0.4251807" z="-0.4266705" />
         <Orientation>
-          <X>-0.09489932</X>
-          <Y>-0.198578626</Y>
-          <Z>0.8387306</Z>
-          <W>0.498088062</W>
+          <X>-0.09465077</X>
+          <Y>-0.198115036</Y>
+          <Z>0.8388275</Z>
+          <W>0.4981567</W>
         </Orientation>
       </PositionAndOrientation>
       <LocalPositionAndOrientation xsi:nil="true" />
@@ -9739,7 +9739,7 @@
                   <TimerEnabled>true</TimerEnabled>
                   <RemoveEntityOnTimer>false</RemoveEntityOnTimer>
                   <TimerType>Frame10</TimerType>
-                  <FramesFromLastTrigger>0</FramesFromLastTrigger>
+                  <FramesFromLastTrigger>40</FramesFromLastTrigger>
                   <TimerTickInFrames>60</TimerTickInFrames>
                   <IsSessionUpdateEnabled>false</IsSessionUpdateEnabled>
                 </Component>
@@ -11379,7 +11379,7 @@
                   <TimerEnabled>true</TimerEnabled>
                   <RemoveEntityOnTimer>false</RemoveEntityOnTimer>
                   <TimerType>Frame10</TimerType>
-                  <FramesFromLastTrigger>60</FramesFromLastTrigger>
+                  <FramesFromLastTrigger>20</FramesFromLastTrigger>
                   <TimerTickInFrames>80</TimerTickInFrames>
                   <IsSessionUpdateEnabled>false</IsSessionUpdateEnabled>
                 </Component>
@@ -11455,7 +11455,7 @@
                   <TimerEnabled>true</TimerEnabled>
                   <RemoveEntityOnTimer>false</RemoveEntityOnTimer>
                   <TimerType>Frame10</TimerType>
-                  <FramesFromLastTrigger>40</FramesFromLastTrigger>
+                  <FramesFromLastTrigger>70</FramesFromLastTrigger>
                   <TimerTickInFrames>80</TimerTickInFrames>
                   <IsSessionUpdateEnabled>false</IsSessionUpdateEnabled>
                 </Component>
@@ -11552,7 +11552,7 @@
                   <TimerEnabled>true</TimerEnabled>
                   <RemoveEntityOnTimer>false</RemoveEntityOnTimer>
                   <TimerType>Frame10</TimerType>
-                  <FramesFromLastTrigger>0</FramesFromLastTrigger>
+                  <FramesFromLastTrigger>30</FramesFromLastTrigger>
                   <TimerTickInFrames>80</TimerTickInFrames>
                   <IsSessionUpdateEnabled>false</IsSessionUpdateEnabled>
                 </Component>
@@ -11616,7 +11616,7 @@
                   <TimerEnabled>true</TimerEnabled>
                   <RemoveEntityOnTimer>false</RemoveEntityOnTimer>
                   <TimerType>Frame10</TimerType>
-                  <FramesFromLastTrigger>60</FramesFromLastTrigger>
+                  <FramesFromLastTrigger>20</FramesFromLastTrigger>
                   <TimerTickInFrames>80</TimerTickInFrames>
                   <IsSessionUpdateEnabled>false</IsSessionUpdateEnabled>
                 </Component>
@@ -13122,7 +13122,7 @@
                   <TimerEnabled>true</TimerEnabled>
                   <RemoveEntityOnTimer>false</RemoveEntityOnTimer>
                   <TimerType>Frame10</TimerType>
-                  <FramesFromLastTrigger>40</FramesFromLastTrigger>
+                  <FramesFromLastTrigger>20</FramesFromLastTrigger>
                   <TimerTickInFrames>60</TimerTickInFrames>
                   <IsSessionUpdateEnabled>false</IsSessionUpdateEnabled>
                 </Component>
@@ -14859,7 +14859,7 @@
                   <TimerEnabled>true</TimerEnabled>
                   <RemoveEntityOnTimer>false</RemoveEntityOnTimer>
                   <TimerType>Frame10</TimerType>
-                  <FramesFromLastTrigger>0</FramesFromLastTrigger>
+                  <FramesFromLastTrigger>30</FramesFromLastTrigger>
                   <TimerTickInFrames>60</TimerTickInFrames>
                   <IsSessionUpdateEnabled>false</IsSessionUpdateEnabled>
                 </Component>
@@ -15889,8 +15889,8 @@
           <BuiltBy>144115188075855896</BuiltBy>
         </MyObjectBuilder_CubeBlock>
       </CubeBlocks>
-      <LinearVelocity x="7.04081154" y="4.69160652" z="-18.0874863" />
-      <AngularVelocity x="2.3755143E-05" y="-3.97456024E-05" z="-1.54884333E-06" />
+      <LinearVelocity x="7.11964226" y="4.6760807" z="-18.06588" />
+      <AngularVelocity x="7.23787252E-06" y="-6.008564E-06" z="1.6739383E-06" />
       <ConveyorLines>
         <MyObjectBuilder_ConveyorLine>
           <StartPosition x="0" y="17" z="29" />

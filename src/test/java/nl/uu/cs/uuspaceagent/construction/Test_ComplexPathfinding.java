@@ -51,7 +51,7 @@ public class Test_ComplexPathfinding {
                 })
                 //TODO: implement a navigation tactic that allows opening doors
                 // along the way to the destination.
-                .withTactic(UUTacticLib.navigateToTAC(destination)) 
+                .withTactic(UUTacticLib.smartNavigateToTAC(destination)) 
                 .lift() ;
 
         agent.setGoal(G) ;

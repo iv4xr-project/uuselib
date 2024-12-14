@@ -2,9 +2,10 @@ package nl.uu.cs.uuspaceagent;
 
 import eu.iv4xr.framework.extensions.pathfinding.Navigatable;
 import eu.iv4xr.framework.mainConcepts.WorldEntity;
-import eu.iv4xr.framework.spatial.Obstacle;
+//import eu.iv4xr.framework.spatial.Obstacle;
 import eu.iv4xr.framework.spatial.Vec3;
 import nl.uu.cs.aplib.utils.Pair;
+import static nl.uu.cs.uuspaceagent.TestUtils.console;
 
 import java.util.*;
 
@@ -89,12 +90,18 @@ public class NavGrid implements Navigatable<DPos3>{
      */
     public boolean enableFlying = false ;
 
+    /**
+     * When set to true, cubes that are considered doors will not be included neighbors.
+     * This allows the NavGrid to pathfind through openable doors. To allow actual navigation through doors,
+     * The agent should handle whatever interaction is necessary to traverse through doors.
+     */
+    public boolean useDoors = true;
 
     /**
      * Map unit-cubes to the obstacles that block them. Note that there might be multiple
      * obstacles that block the same cube.
      */
-    public Map<DPos3,List<Obstacle<String>>> knownObstacles = new HashMap<>() ;
+    public Map<DPos3,List<SEObstacle<String>>> knownObstacles = new HashMap<>() ;
 
     /**
      * Keep track of all block-id that intersect the this grid (and hence blocking some cubes
@@ -102,7 +109,9 @@ public class NavGrid implements Navigatable<DPos3>{
      */
     public Set<String> allObstacleIDs = new HashSet<>() ;
 
-    public NavGrid() { }
+    public NavGrid(boolean useDoors) { 
+    	this.useDoors = useDoors;
+    }
 
     /**
      * Reset the grid to a new origin. This will clear the list of known obstacles (because
@@ -229,8 +238,10 @@ public class NavGrid implements Navigatable<DPos3>{
         }
 
         var obstructedCubes = getObstructedCubes(block) ;
-        var obstacle = new Obstacle<>(block.id) ;
+        var obstacle = new SEObstacle<>(block.id) ;
         obstacle.isBlocking = true ;
+        obstacle.isTraversable = block.properties.get("blockType").toString().toLowerCase().contains("door");
+
         boolean added = false ;
         for(var cube : obstructedCubes) {
             var olist = knownObstacles.get(cube) ;
@@ -268,7 +279,7 @@ public class NavGrid implements Navigatable<DPos3>{
         List<DPos3> cubesThatBecomeFree = new LinkedList<>() ;
         for(var e : knownObstacles.entrySet()) {
             var olist = e.getValue() ;
-            Obstacle<String> tobeRemoved = null ;
+            SEObstacle<String> tobeRemoved = null ;
             for(var o : olist) {
                 if(o.obstacle.equals(blockId)) {
                     tobeRemoved = o ;
@@ -372,7 +383,7 @@ public class NavGrid implements Navigatable<DPos3>{
                     if(x==p.x && y==p.y && z==p.z) continue;
                     var neighbourCube = new DPos3(x,y,z) ; // a neighbouring cube
                     var obstacle = knownObstacles.get(neighbourCube) ;
-                    if(obstacle!=null && obstacle.stream().anyMatch(o -> o.isBlocking)) continue;
+                    if(obstacle!=null && obstacle.stream().anyMatch(o -> !o.canTraverse(useDoors))) continue;
                     candidates.add(neighbourCube) ;
                 }
             }
