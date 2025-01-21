@@ -10,7 +10,6 @@ import eu.iv4xr.framework.mainConcepts.Iv4xrAgentState;
 import eu.iv4xr.framework.mainConcepts.WorldEntity;
 import eu.iv4xr.framework.mainConcepts.WorldModel;
 import eu.iv4xr.framework.spatial.Vec3;
-import nl.uu.cs.aplib.agents.State ;
 import nl.uu.cs.aplib.utils.Pair;
 import spaceEngineers.model.Block;
 import spaceEngineers.model.CharacterObservation;
@@ -22,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static uuspaceagent.SEBlockFunctions.fromSEVec3;
+import static nl.uu.cs.uuspaceagent.SEBlockFunctions.fromSEVec3;
 
 /**
  * The state of an aplib-agent meant for controlling SE. Notice that
@@ -96,6 +95,7 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
         agentWE.properties.put("displayName", obs.getDisplayName()) ;
         agentWE.properties.put("targetBlock", targetBlock == null ? null : targetBlock.getId()) ;
         agentWE.properties.put("previousTargetBlock", null) ;
+        agentWE.properties.put("cameraOrientationForward", fromSEVec3(obs.getCamera().getOrientationForward())) ;
        //System.out.println(">>> constructing extra info for agent") ;
         return agentWE ;
     }
@@ -250,6 +250,10 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
 
     public Vec3 orientationForward() {
         return (Vec3) worldmodel.elements.get(agentId).properties.get("orientationForward") ;
+    }
+    
+    public Vec3 cameraOrientationForward() {
+    	return (Vec3) worldmodel.elements.get(agentId).properties.get("cameraOrientationForward") ;
     }
 
     public WorldEntity targetBlock() {

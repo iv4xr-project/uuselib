@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <MyObjectBuilder_Checkpoint xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <CurrentSector x="0" y="0" z="0" />
-  <ElapsedGameTime>19719520000</ElapsedGameTime>
+  <ElapsedGameTime>10200800000</ElapsedGameTime>
   <SessionName>islanddswithdoors</SessionName>
   <SpectatorPosition>
     <Position x="-0.32934382554148806" y="-0.074394008015407867" z="1.5750704078872861" />
@@ -21,8 +21,8 @@
   <ControlledObject>124168712738897777</ControlledObject>
   <Password />
   <Description />
-  <LastSaveTime>2024-12-09T19:19:40.768507+01:00</LastSaveTime>
-  <SpectatorDistance>1.53086472</SpectatorDistance>
+  <LastSaveTime>2023-08-23T13:39:22.1725918+02:00</LastSaveTime>
+  <SpectatorDistance>1.64200318</SpectatorDistance>
   <WorkshopId xsi:nil="true" />
   <WorkshopId1 xsi:nil="true" />
   <CharacterToolbar>
@@ -102,7 +102,7 @@
         <Value>
           <ClientId>0</ClientId>
           <SerialId>0</SerialId>
-          <HashedId>1351293462121172723</HashedId>
+          <HashedId>18195075058561875270</HashedId>
         </Value>
       </item>
     </dictionary>
@@ -312,16 +312,16 @@
   <Identities>
     <MyObjectBuilder_Identity>
       <IdentityId>144115188075855895</IdentityId>
-      <DisplayName>Charlie</DisplayName>
+      <DisplayName>sa.shirzadeh</DisplayName>
       <CharacterEntityId>124168712738897777</CharacterEntityId>
       <Model>Default_Astronaut</Model>
-      <ColorMask x="0.575" y="0.167133212" z="0.18923834" />
+      <ColorMask x="0" y="-0.96" z="-0.5" />
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2024-12-09T19:13:37.0642891+01:00</LastLoginTime>
+      <LastLoginTime>2023-08-23T13:38:54.2148502+02:00</LastLoginTime>
       <SavedCharacters>
         <long>124168712738897777</long>
       </SavedCharacters>
-      <LastLogoutTime>2024-12-09T19:19:40.768507+01:00</LastLogoutTime>
+      <LastLogoutTime>2023-08-23T13:39:22.1725918+02:00</LastLogoutTime>
       <RespawnShips />
       <LastDeathPosition xsi:nil="true" />
       <ActiveContracts />
@@ -332,7 +332,7 @@
       <DisplayName>Space Pirates</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2024-12-09T19:13:37.2012919+01:00</LastLoginTime>
+      <LastLoginTime>2023-08-23T13:38:54.2942428+02:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>0001-01-01T00:00:00</LastLogoutTime>
       <RespawnShips />
@@ -348,10 +348,10 @@
         <Key>
           <ClientId>0</ClientId>
           <SerialId>0</SerialId>
-          <HashedId>1351293462121172723</HashedId>
+          <HashedId>18195075058561875270</HashedId>
         </Key>
         <Value>
-          <DisplayName>Charlie</DisplayName>
+          <DisplayName>sa.shirzadeh</DisplayName>
           <IdentityId>144115188075855895</IdentityId>
           <Connected>true</Connected>
           <ForceRealPlayer>false</ForceRealPlayer>
@@ -428,8 +428,8 @@
           <EntityCameraData>
             <CameraControllerSettings EntityId="124168712738897777">
               <IsFirstPerson>false</IsFirstPerson>
-              <Distance>1.5308646559715273</Distance>
-              <HeadAngle x="-8.411015" y="0" />
+              <Distance>1.6420031834736588</Distance>
+              <HeadAngle x="-21.6386776" y="0" />
             </CameraControllerSettings>
           </EntityCameraData>
           <BuildColorSlots>
@@ -718,7 +718,7 @@
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_SectorWeatherComponent">
       <BaseSunDirection x="0.339467347" y="0.709795356" z="-0.617213368" />
-      <SunDirectionNormalized x="-0.9171181" y="-0.106110252" z="-0.384233326" />
+      <SunDirectionNormalized x="-0.467371017" y="0.4466502" z="-0.7629338" />
       <WeatherPlanetData />
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_SessionComponentAssetModifiers" />
@@ -6855,9 +6855,22 @@
       <LevelScriptFiles xsi:nil="true" />
       <StateMachines xsi:nil="true" />
       <Questlog>
-        <LineData />
+        <LineData>
+          <MultilineData>
+            <Completed>false</Completed>
+            <IsObjective>false</IsObjective>
+            <Data>Hello, Engineer! My name is Good.bot. I am an AI teacher that helps you by offering directions. Let's get you started! You can access useful information in the help screen.</Data>
+            <CharactersDisplayed>-1</CharactersDisplayed>
+          </MultilineData>
+          <MultilineData>
+            <Completed>false</Completed>
+            <IsObjective>true</IsObjective>
+            <Data>Press [F1] to open help screen.</Data>
+            <CharactersDisplayed>-1</CharactersDisplayed>
+          </MultilineData>
+        </LineData>
         <Title>Good.bot: Introduction</Title>
-        <Visible>false</Visible>
+        <Visible>true</Visible>
         <IsUsedByVisualScripting>false</IsUsedByVisualScripting>
       </Questlog>
       <ExclusiveHighlights>
@@ -6867,7 +6880,7 @@
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_AntennaSessionComponent" />
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_EnvironmentBotSpawningSystem">
-      <TimeSinceLastEventInMs>24850</TimeSinceLastEventInMs>
+      <TimeSinceLastEventInMs>113517</TimeSinceLastEventInMs>
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_TradingManager" />
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_CoordinateSystem">
@@ -6909,15 +6922,9 @@
       <ShipsInProgress>
         <ShipTimePair>
           <EntityIds>
-            <long>109266905091939579</long>
+            <long>86014713599571267</long>
           </EntityIds>
-          <TimeTicks>33651520000</TimeTicks>
-        </ShipTimePair>
-        <ShipTimePair>
-          <EntityIds>
-            <long>120901531966736068</long>
-          </EntityIds>
-          <TimeTicks>33648160000</TimeTicks>
+          <TimeTicks>28037760000</TimeTicks>
         </ShipTimePair>
       </ShipsInProgress>
     </MyObjectBuilder_SessionComponent>

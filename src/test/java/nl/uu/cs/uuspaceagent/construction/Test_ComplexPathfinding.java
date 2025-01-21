@@ -6,14 +6,11 @@ import eu.iv4xr.framework.spatial.Vec3;
 import nl.uu.cs.aplib.mainConcepts.Goal;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 import nl.uu.cs.aplib.utils.Pair;
-import nl.uu.cs.uuspaceagent.DPos3;
 import nl.uu.cs.uuspaceagent.TestUtils;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
 import nl.uu.cs.uuspaceagent.UUTacticLib;
 
 import org.junit.jupiter.api.Test;
-import uuspaceagent.*;
-
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static nl.uu.cs.uuspaceagent.PrintInfos.showWOMAgent;
@@ -49,8 +46,7 @@ public class Test_ComplexPathfinding {
                     var pos = positionAndOrientation.fst ;
                     return Vec3.sub(centerOfSqDestination,pos).lengthSq() <= UUTacticLib.THRESHOLD_SQUARED_DISTANCE_TO_SQUARE ;
                 })
-                //TODO: implement a navigation tactic that allows opening doors
-                // along the way to the destination.
+
                 .withTactic(UUTacticLib.smartNavigateToTAC(destination)) 
                 .lift() ;
 
@@ -60,7 +56,7 @@ public class Test_ComplexPathfinding {
         while(G.getStatus().inProgress()) {
             console(">> [" + turn + "] " + showWOMAgent(state.worldmodel));
             agent.update();
-            //Thread.sleep(50);
+            Thread.sleep(50);
             turn++ ;
             if (turn >= 1400) break ;
         }
@@ -88,7 +84,6 @@ public class Test_ComplexPathfinding {
     @Test
     public void test_navigate_through_doors() throws InterruptedException {
         // This is a position that is hidden behind three doors that should be opened along the way.
-        console("*** start test...") ;
         Vec3 dest = new Vec3(43,1.25f,7.5f) ;
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;
@@ -96,6 +91,7 @@ public class Test_ComplexPathfinding {
         GoalStructure G = agent_and_goal.snd;
         G.printGoalStructureStatus();
         assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
         //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
 }

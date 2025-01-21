@@ -122,6 +122,7 @@ public class NavGrid implements Navigatable<DPos3>{
         this.origin = origin ;
         knownObstacles.clear();
         allObstacleIDs.clear();
+        console("new plane");
     }
 
 

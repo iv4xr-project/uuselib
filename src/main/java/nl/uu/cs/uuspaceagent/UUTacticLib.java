@@ -5,10 +5,13 @@ import nl.uu.cs.aplib.mainConcepts.Action;
 import nl.uu.cs.aplib.mainConcepts.Tactic;
 import nl.uu.cs.aplib.utils.Pair;
 import spaceEngineers.controller.useobject.UseObjectExtensions;
+import spaceEngineers.model.BasePose;
 import spaceEngineers.model.Block;
 import spaceEngineers.model.CharacterObservation;
 import spaceEngineers.model.DoorBase;
 import spaceEngineers.model.Vec2F;
+import spaceEngineers.model.Vec3F;
+
 import static nl.uu.cs.aplib.AplibEDSL.*;
 import eu.iv4xr.framework.spatial.Vec3;
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
@@ -243,6 +246,159 @@ public class UUTacticLib {
     }
 
     /**
+     * A primitive method that sends a burst of successive turn-angle commands to SE.
+     *
+     * The number of the turn-commands bursted is specified by the parameter duration. The agent
+     * will turn on its place so that it would face the given destination. The parameter
+     * "cosAlphaThreshold" specifies how far the agent should turn. It would turn until the angle
+     * alpha between its forward direction and the straight line between itself and destination
+     * is alpha. The cosAlphaThreshold expresses this alpha in terms of cos(alpha).
+     *
+     * The method will burst the turning, if the remaining angle towards alpha is still large,
+     * after which it will not burst (so it will just send one turn-command and return).
+     *
+     * If at the beginning the angle to destination is less than alpha this method returns null,
+     * and else it returns an observation at the end of the turns.
+     */
+    public static CharacterObservation TurnTowardACT(UUSeAgentState agentState, Vec3 destination, double cosAlphaThreshold, Integer duration) {
+    	
+    	float hTurningSpeed = TURNING_SPEED ;
+        float vTurningSpeed = TURNING_SPEED ;
+        boolean hFastturning = true ;
+        boolean vFastturning = true;
+    	
+    	// direction vector to the next node:
+        agentState.worldmodel.extent = new Vec3(0, 2, 0); //Fix agentState extent
+        
+        Vec3 dirToGo = Vec3.sub(destination,Vec3.add(agentState.worldmodel.position, new Vec3(0, agentState.worldmodel.extent.y, 0))); 
+        Vec3 agentDir = agentState.cameraOrientationForward();
+    	
+        if(dirToGo.lengthSq() < 1) {
+            // the destination is too close within the agent's y-cylinder;
+            // don't bother to rotate then
+            return  null ;
+        }
+        
+        dirToGo = dirToGo.normalized() ;
+        agentDir = agentDir.normalized() ;
+        
+        // for calculating 2D rotation we ignore the y-value:
+        Vec3 hDirToGo = dirToGo.copy();
+        Vec3 agentHdir = agentDir.copy();
+        hDirToGo.y = 0 ;
+        agentHdir.y = 0 ;
+        hDirToGo = hDirToGo.normalized() ;
+        agentHdir = agentHdir.normalized() ;
+        Vec3 hNormalVector = Vec3.cross(agentHdir,hDirToGo) ;
+        
+        // angle between the dir-to-go and the agent's own direction (expressed as cos(angle)):
+        double hCos_alpha = Vec3.dot(agentHdir,hDirToGo) ;
+        
+        if(hCos_alpha >= THRESHOLD_ANGLE_TO_SLOW_TURNING) {
+        	if (hCos_alpha > cosAlphaThreshold)
+        	{
+        		// the horizontal angle is within the threshold so stop turning in that axis
+        		hTurningSpeed = 0;
+        		console("no horizontal turn");
+        	}
+        	else
+        	{
+        		// the angle between the agent's own direction and target direction is less than 10-degree
+	            // we reduce the turning-speed:
+	            hTurningSpeed = TURNING_SPEED*0.25f ;
+	            hFastturning = false ;
+        	}
+        }
+        
+     // for calculating pitch rotation we ignore take the dirToGo as yaw
+        Vec3 vDirToGo = dirToGo.copy();
+        Vec3 agentVdir = agentDir.copy();
+        
+        double angleToGo = Math.atan2(vDirToGo.y, Math.sqrt(vDirToGo.x*vDirToGo.x + vDirToGo.y*vDirToGo.y));
+        double angleAgent = Math.atan2(agentVdir.y, Math.sqrt(agentVdir.x*agentVdir.x + agentVdir.y*agentVdir.y));
+        double vCos_alpha = Math.cos(angleToGo - angleAgent);
+        
+        //var vCos_alpha = Vec3.dot(agentVdir,vDirToGo) ;
+        if(vCos_alpha >= THRESHOLD_ANGLE_TO_SLOW_TURNING) {
+        	if (vCos_alpha > cosAlphaThreshold)
+        	{
+        		// the horizontal angle is within the threshold so stop turning in that axis
+        		vTurningSpeed = 0;
+        		console("no vertical turn");
+        	}
+        	else
+        	{
+        		// the angle between the agent's own direction and target direction is less than 10-degree
+	            // we reduce the turning-speed:
+	            vTurningSpeed = TURNING_SPEED*0.25f ;
+	            vFastturning = false ;
+        	}
+        }
+        
+        // check if we have to turn clockwise or counter-clockwise
+        if (hNormalVector.y > 0) {
+            // The agent should then turn clock-wise; for SE this means giving
+            // a negative turning speed. Else positive turning speed.
+        	hTurningSpeed = - hTurningSpeed ;
+        }
+        // check if we have to turn up or down
+        if (agentVdir.y < vDirToGo.y)
+        {
+        	vTurningSpeed = - vTurningSpeed;
+        }
+        // Default duration
+        if (duration == null) {
+        	duration = 5;
+        }
+        // Decrease number of steps if fast turning is disabled
+        if(!hFastturning  || !vFastturning) {
+            duration /= 2 ;
+        }
+        Vec2F turningVector = new Vec2F(vTurningSpeed, hTurningSpeed) ;
+        System.out.println(agentVdir.y + ", " + vDirToGo.y);
+        System.out.println(vTurningSpeed);
+        System.out.println(vCos_alpha);
+        System.out.println(hCos_alpha);
+        System.out.println("Threshold: " + cosAlphaThreshold);
+        try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        //TODO: Maybe do something with setting a fake vertical angle where the horizontal angle is already finished???
+
+        // now send the turning commands:
+        CharacterObservation obs = null ;
+        for (int k=0; k<duration; k++) {
+            obs = agentState.env().getController().getCharacter().moveAndRotate(
+                    SEBlockFunctions.toSEVec3(ZEROV3),
+                    turningVector,
+                    0, 1) ; // "roll" and "tick" ... using default vals;
+            dirToGo = Vec3.sub(destination,SEBlockFunctions.fromSEVec3(obs.getPosition())) ;
+            agentHdir = SEBlockFunctions.fromSEVec3(obs.getCamera().getOrientationForward()) ;
+           
+            if(dirToGo.lengthSq() < 1) {
+                // the destination is too close within the agent's y-cylinder;
+                // don't bother to rotate then
+                break ;
+            }
+           
+            dirToGo = dirToGo.normalized() ;
+            agentHdir = agentHdir.normalized() ;
+            // angle between the dir-to-go and the agent's own direction (expressed as cos(angle)):
+            float cos_alpha = Vec3.dot(agentHdir,dirToGo) ;
+            //if(1 - cos_alpha < 0.01) {
+            if(cos_alpha > cosAlphaThreshold) {
+                // the angle is already quite aligned to the direction of where we have to go, no turning.
+               break ;
+            }
+        }
+        
+        
+        return obs;
+    }
+    /**
      * Fix the polarity of move-vector to be given to the SE's method moveAndRotate(). It
      * requires us to reverse the polarity of the values for x and z-axis, but not the y-axis.
      */
@@ -306,6 +462,49 @@ public class UUTacticLib {
                 }) ;
     }
 
+    /**
+     * When invoked repeatedly, this action turns the agent until it horizontally faces towards the
+     * given destination. The turning is around the y-axis (so, on the XZ plane; the y coordinates on all
+     * points in the agent would stay the same). When the agent faces towards the destination
+     * (with some epsilon), the action is no longer enabled.
+     *
+     * The action returns the resulting angle (expressed in cos-alpha) between the agent's
+     * forward-orientation and the direction-vector towards the given destination.
+     */
+    public static Action TurnTowardACT(Vec3 destination) {
+
+        double cosAlphaThreshold  = 0.9995f ;
+        double cosAlphaThreshold_ = 0.9995f ;
+
+        return action("turning towards " + destination)
+                .on((UUSeAgentState state) ->{
+                	
+                    Vec3 dirToGo = Vec3.sub(destination,state.worldmodel.position) ;
+                    Vec3 forwardOrientation = state.orientationForward() ;
+                    dirToGo = dirToGo.normalized() ;
+                    forwardOrientation = forwardOrientation.normalized() ;
+                    var cos_alpha = Vec3.dot(forwardOrientation,dirToGo) ;
+                    
+                    if(cos_alpha >= cosAlphaThreshold) { // the angle is quite aligned, the action is disabled
+                        //return null ;
+                        return cosAlphaThreshold;
+                    }
+                    return cos_alpha ;
+                })
+                .do2((UUSeAgentState state) -> (Float cos_alpha) -> {
+                    CharacterObservation obs = TurnTowardACT(state, destination,cosAlphaThreshold_,10) ;
+                    if(obs == null) {
+                        return cos_alpha ;
+                    }
+                    Vec3 dirToGo = Vec3.sub(destination,state.worldmodel.position) ;
+                    Vec3 forwardOrientation = SEBlockFunctions.fromSEVec3(obs.getOrientationForward()) ;
+                    dirToGo = dirToGo.normalized() ;
+                    forwardOrientation = forwardOrientation.normalized() ;
+                    cos_alpha = Vec3.dot(forwardOrientation,dirToGo) ;
+                    return cos_alpha ;
+                }) ;
+    }
+    
     /**
      * When invoked repeatedly, this action drives the agent to move in the straight-line towards the given
      * destination. The destination is assumed to be on the same XZ plane as the agent. The space between
@@ -451,13 +650,15 @@ public class UUTacticLib {
                     var doorOpened = queryResult.snd ;    	
                         	
                     
+                    TurnTowardACT(state, new Vec3(11.5f, 3.75f, 17), 0.999f, 10);
+                    
                     // TODO: actually open the door
                     
                     CharacterObservation obs = state.env().getController().getObserver().observe();
                     return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
                 })
     			.on((UUSeAgentState state)  -> {
-    				
+    				if (true) return new Pair<>(null, null); // Temp;
     				CharacterObservation cobs = state.env().getController().getObserver().observe();
     				
     		        if(cobs.getTargetBlock() != null) {
