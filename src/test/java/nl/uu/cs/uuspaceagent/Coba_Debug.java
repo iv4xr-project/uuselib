@@ -42,16 +42,11 @@ class Coba_Debug {
 //            var val = state.worldmodel.elements.get(state.agentId);
 //            if (val != null)
 //            	console(val.getStringProperty ("targetBlock"));
-//            
+//          
             CharacterObservation cobs = state.env().getController().getObserver().observe();
+			console(state.navgrid.gridProjectedLocation(state.worldmodel.position).toString());
 			
-            console("Y: " + cobs.getHeadLocalYAngle() + ", X: " + cobs.getHeadLocalXAngle());
-            
-	        if(cobs.getTargetBlock() != null) {
-	        	console(cobs.getTargetBlock().toString());
-	        
-	        }
-//            
+                  
             
             
             Thread.sleep(500);

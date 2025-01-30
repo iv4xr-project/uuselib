@@ -3,24 +3,29 @@ package nl.uu.cs.uuspaceagent.construction;
 import eu.iv4xr.framework.mainConcepts.TestAgent;
 import eu.iv4xr.framework.mainConcepts.TestDataCollector;
 import eu.iv4xr.framework.spatial.Vec3;
+import nl.uu.cs.aplib.AplibEDSL;
 import nl.uu.cs.aplib.mainConcepts.Goal;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 import nl.uu.cs.aplib.utils.Pair;
 import nl.uu.cs.uuspaceagent.TestUtils;
+import nl.uu.cs.uuspaceagent.UUGoalLib;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
 import nl.uu.cs.uuspaceagent.UUTacticLib;
 
 import org.junit.jupiter.api.Test;
-import static nl.uu.cs.aplib.AplibEDSL.* ;
+import static nl.uu.cs.aplib.AplibEDSL.DEPLOY;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.lang.reflect.Method;
+
 import static nl.uu.cs.uuspaceagent.PrintInfos.showWOMAgent;
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
 import static nl.uu.cs.uuspaceagent.TestUtils.loadSE;
 
-public class Test_ComplexPathfinding {
+public class Test_PlaceBlockAt {
 
     /**
-     * Auto-navigate to a given point, opening closed doors along the way.
+     * Auto-navigate to a given point and then place a block there.
      */
     public Pair<TestAgent,GoalStructure> deployAgent(Vec3 destination) throws InterruptedException {
         console("*** start test...") ;
@@ -39,16 +44,7 @@ public class Test_ComplexPathfinding {
         //float dth = 1.3f * Grid2DNav.SQUARE_SIZE ;
         //final float distance_to_sq_threshold = dth*dth ;
 
-        GoalStructure G = goal("close to destination")
-                .toSolve((Pair<Vec3,Vec3> positionAndOrientation) -> {
-                    //var currentAgentSq = st.grid2D.gridProjectedLocation(st.wom.position) ;
-                    //return currentAgentSq.equals(sqDestination) ;
-                    var pos = positionAndOrientation.fst ;
-                    return Vec3.sub(centerOfSqDestination,pos).lengthSq() <= UUTacticLib.THRESHOLD_SQUARED_DISTANCE_TO_SQUARE ;
-                })
-
-                .withTactic(UUTacticLib.smartNavigateToTAC(destination)) 
-                .lift() ;
+        GoalStructure G = DEPLOY(UUGoalLib.placedBlockAt(destination, "LargeHeavyBlockArmorBlock"));
 
         agent.setGoal(G) ;
 
@@ -82,9 +78,9 @@ public class Test_ComplexPathfinding {
     }
 
     @Test
-    public void test_navigate_through_doors() throws InterruptedException {
-        // This is a position that is hidden behind three doors that should be opened along the way.
-    	Vec3 dest = new Vec3(2.8f, 2.5f, 20);
+    public void test_placeBlockAt() throws InterruptedException {
+        //TODO: finish writing this test
+        Vec3 dest = new Vec3(2.8f, 2.5f, 20);
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;

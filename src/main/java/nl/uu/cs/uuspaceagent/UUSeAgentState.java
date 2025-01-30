@@ -301,6 +301,12 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
         }
     }
 
+    public Vec3 getHeadPosition() {
+    	//TODO: This function is not yet properly implemented and is a temporary fix!!!
+    	worldmodel.extent = new Vec3(0, 2, 0); //Fix agentState extent
+    	var headPosition = Vec3.add(worldmodel.position, new Vec3(0, worldmodel.extent.y, 0));
+    	return headPosition;
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package nl.uu.cs.uuspaceagent;
 
+import eu.iv4xr.framework.mainConcepts.WorldEntity;
 import eu.iv4xr.framework.spatial.Vec3;
 import nl.uu.cs.aplib.mainConcepts.Action;
 import nl.uu.cs.aplib.mainConcepts.Tactic;
@@ -17,6 +18,8 @@ import eu.iv4xr.framework.spatial.Vec3;
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static nl.uu.cs.aplib.AplibEDSL.action;
 
@@ -268,9 +271,9 @@ public class UUTacticLib {
         boolean vFastturning = true;
     	
     	// direction vector to the next node:
-        agentState.worldmodel.extent = new Vec3(0, 2, 0); //Fix agentState extent
         
-        Vec3 dirToGo = Vec3.sub(destination,Vec3.add(agentState.worldmodel.position, new Vec3(0, agentState.worldmodel.extent.y, 0))); 
+        
+        Vec3 dirToGo = Vec3.sub(destination,agentState.getHeadPosition()); 
         Vec3 agentDir = agentState.cameraOrientationForward();
     	
         if(dirToGo.lengthSq() < 1) {
@@ -463,9 +466,8 @@ public class UUTacticLib {
     }
 
     /**
-     * When invoked repeatedly, this action turns the agent until it horizontally faces towards the
-     * given destination. The turning is around the y-axis (so, on the XZ plane; the y coordinates on all
-     * points in the agent would stay the same). When the agent faces towards the destination
+     * When invoked repeatedly, this action turns the agent until it faces towards the
+     * given destination. When the agent faces towards the destination
      * (with some epsilon), the action is no longer enabled.
      *
      * The action returns the resulting angle (expressed in cos-alpha) between the agent's
@@ -479,7 +481,7 @@ public class UUTacticLib {
         return action("turning towards " + destination)
                 .on((UUSeAgentState state) ->{
                 	
-                    Vec3 dirToGo = Vec3.sub(destination,state.worldmodel.position) ;
+                    Vec3 dirToGo = Vec3.sub(destination,state.getHeadPosition()) ;
                     Vec3 forwardOrientation = state.orientationForward() ;
                     dirToGo = dirToGo.normalized() ;
                     forwardOrientation = forwardOrientation.normalized() ;
@@ -496,7 +498,7 @@ public class UUTacticLib {
                     if(obs == null) {
                         return cos_alpha ;
                     }
-                    Vec3 dirToGo = Vec3.sub(destination,state.worldmodel.position) ;
+                    Vec3 dirToGo = Vec3.sub(destination,state.getHeadPosition()) ;
                     Vec3 forwardOrientation = SEBlockFunctions.fromSEVec3(obs.getOrientationForward()) ;
                     dirToGo = dirToGo.normalized() ;
                     forwardOrientation = forwardOrientation.normalized() ;
@@ -649,8 +651,12 @@ public class UUTacticLib {
                 	var doorPosition = queryResult.fst ; //
                     var doorOpened = queryResult.snd ;    	
                         	
+                    var target = new Vec3(15, 2.7f, 20);
                     
-                    TurnTowardACT(state, new Vec3(11.5f, 3.75f, 17), 0.999f, 10);
+                    target = SEBlockFunctions.findClosestFace(state.worldmodel, target);
+                    console("Target: " + target);
+                    
+                    TurnTowardACT(state, target, 0.999f, 10);
                     
                     // TODO: actually open the door
                     
@@ -658,7 +664,7 @@ public class UUTacticLib {
                     return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
                 })
     			.on((UUSeAgentState state)  -> {
-    				if (true) return new Pair<>(null, null); // Temp;
+    				//if (true) return new Pair<>(null, null); // Temp;
     				CharacterObservation cobs = state.env().getController().getObserver().observe();
     				
     		        if(cobs.getTargetBlock() != null) {
@@ -741,4 +747,5 @@ public class UUTacticLib {
         })
        .lift();
     }
+   
 }

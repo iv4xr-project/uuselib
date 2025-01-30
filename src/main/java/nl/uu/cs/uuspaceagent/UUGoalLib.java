@@ -6,6 +6,8 @@ import eu.iv4xr.framework.mainConcepts.TestAgent;
 import eu.iv4xr.framework.mainConcepts.WorldEntity;
 import eu.iv4xr.framework.mainConcepts.WorldModel;
 import eu.iv4xr.framework.spatial.Vec3;
+import spaceEngineers.iv4xr.goal.GoalBuilder;
+import spaceEngineers.iv4xr.goal.TacticLib;
 import nl.uu.cs.aplib.mainConcepts.*;
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 import nl.uu.cs.aplib.utils.Pair;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import static nl.uu.cs.uuspaceagent.TestUtils.console;
 
 public class UUGoalLib {
 
@@ -303,6 +306,19 @@ public class UUGoalLib {
                 .withTactic(FIRSTof(UUTacticLib.yTurnTowardACT(p).lift() , ABORT()))
                 .lift() ;
     }
+    
+    public static GoalStructure faceToward(String goalname, Vec3 p) {
+        if (goalname == null) {
+            goalname = "face towards " + p ;
+        }
+        return goal(goalname)
+                .toSolve((Float cos_alpha) -> {
+                	console("cos alpha =" + String.valueOf(cos_alpha));
+                	return 1 - cos_alpha <= 0.03;
+                })
+                .withTactic(FIRSTof(UUTacticLib.TurnTowardACT(p).lift() , ABORT()))
+                .lift() ;
+    }
 
 
     public static boolean  findItemPredicate(UUSeAgentState st, String blockType){
@@ -359,4 +375,53 @@ public class UUGoalLib {
         }) ;
     }
 
+    public static Function<UUSeAgentState, GoalStructure> placedBlockAt(Vec3 blockLocation, String blockType){
+    	
+    	return (UUSeAgentState state) -> {
+    		
+    		// lookTarget is the nearest face to the where the block should be placed
+    		Vec3 lookTarget = SEBlockFunctions.findClosestFace(state.worldmodel, blockLocation);
+    		
+    		Vec3 playerDestination = blockLocation;
+    		
+    		//TODO: currently, the pathfinding doesn't work unless the player is at the exact same y-pos as the destination due
+    		// to the grid based navigation. As such, we lower the destination's y to align with the grid. A better solution is needed.
+    		playerDestination.y = 1.25f;
+    		
+    		// Goal to move within placement/view range of the target.
+    		GoalStructure nearLookTarget = goal("move to near the target:" + blockLocation)
+                    .toSolve((Pair<Vec3,Vec3> posAndOrientation) -> {
+                        var agentPosition = posAndOrientation.fst;
+                        float dist = Vec3.sub(playerDestination,agentPosition).lengthSq();
+                        console("distance; " + String.valueOf(dist));
+                        return dist <= 4*4 ;
+                    })
+                    .withTactic(
+                       FIRSTof(UUTacticLib.smartNavigateToTAC(playerDestination), ABORT()) )
+                    .lift() ;
+
+    		// Goal to actually place block from inventory.
+            GoalStructure blockPlaced =  goal("place block at")
+            		.toSolve((Boolean e) -> {
+            			return e;
+            		})
+            		.withTactic(SEQ(
+            				// TODO: Using TacticLib tactics currently gives the following error:
+            				// java.lang.ClassCastException: class nl.uu.cs.uuspaceagent.UUSeAgentState cannot be cast to class environments.SeAgentState 
+            				// (nl.uu.cs.uuspaceagent.UUSeAgentState and environments.SeAgentState are in unnamed module of loader 'app'
+            				new TacticLib().equip(blockType),
+            				null //TODO: Replace this with actually placing the block.
+    				))
+            		.lift();
+            
+            // Execution sequence:
+            // 1. Move to the adjacent spot
+        	// 2. Look at the face of a nearby block that is closest to the intended destination
+        	// 3. Equip and use block from inventory
+            return SEQ(
+            		nearLookTarget, 
+            		faceToward(null, lookTarget),
+            		blockPlaced);
+        } ;		
+    }
 }

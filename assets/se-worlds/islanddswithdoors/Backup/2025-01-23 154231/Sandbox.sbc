@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <MyObjectBuilder_Checkpoint xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <CurrentSector x="0" y="0" z="0" />
-  <ElapsedGameTime>13260000000</ElapsedGameTime>
+  <ElapsedGameTime>13053440000</ElapsedGameTime>
   <SessionName>islanddswithdoors</SessionName>
   <SpectatorPosition>
     <Position x="-0.32934382554148806" y="-0.074394008015407867" z="1.5750704078872861" />
@@ -21,13 +21,13 @@
   <ControlledObject>124168712738897777</ControlledObject>
   <Password />
   <Description />
-  <LastSaveTime>2025-01-23T15:43:29.3883001+01:00</LastSaveTime>
-  <SpectatorDistance>1.55398488</SpectatorDistance>
+  <LastSaveTime>2025-01-23T15:42:30.873987+01:00</LastSaveTime>
+  <SpectatorDistance>2.5</SpectatorDistance>
   <WorkshopId xsi:nil="true" />
   <WorkshopId1 xsi:nil="true" />
   <CharacterToolbar>
     <ToolbarType>Character</ToolbarType>
-    <SelectedSlot xsi:nil="true" />
+    <SelectedSlot>0</SelectedSlot>
     <Slots>
       <Slot>
         <Index>0</Index>
@@ -313,7 +313,7 @@
           <MyObjectBuilder_Station>
             <Id>936649712028199213</Id>
             <Position x="-2427713.7964480841" y="4979117.64945668" z="872912.18184235727" />
-            <Up x="0.997379" y="0.05416437" z="0.0479721352" />
+            <Up x="0.997379065" y="0.0541643724" z="0.04797214" />
             <Forward x="-0.0722221062" y="0.7052602" z="0.7052602" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -445,7 +445,7 @@
           <MyObjectBuilder_Station>
             <Id>917950567336343601</Id>
             <Position x="-3242789.3697511624" y="-7080618.9230905306" z="4727373.4652909879" />
-            <Up x="0.141214579" y="0.7314992" z="0.667058766" />
+            <Up x="0.141214564" y="0.731499135" z="0.6670587" />
             <Forward x="-0.989958048" y="0.09995761" z="0.09995761" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -709,7 +709,7 @@
           <MyObjectBuilder_Station>
             <Id>924487977253130680</Id>
             <Position x="-2199784.5853299638" y="-8524250.3377024569" z="2628674.9656252442" />
-            <Up x="0.5865133" y="-0.6150893" z="0.526941538" />
+            <Up x="0.5865132" y="-0.615089238" z="0.5269415" />
             <Forward x="0.105676837" y="0.703147352" z="0.703147352" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -841,7 +841,7 @@
           <MyObjectBuilder_Station>
             <Id>872742254260591604</Id>
             <Position x="8423408.9245646484" y="2098924.0947235748" z="-1160080.6757386189" />
-            <Up x="-0.564514458" y="0.699507535" z="-0.438192457" />
+            <Up x="-0.5645145" y="0.6995076" z="-0.4381925" />
             <Forward x="-0.311080843" y="-0.6720226" z="-0.6720226" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -1255,8 +1255,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855897</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855929</PlayerId>
@@ -1292,8 +1292,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855898</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
         </Members>
         <JoinRequests />
@@ -1324,8 +1324,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855899</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855900</PlayerId>
@@ -1344,7 +1344,7 @@
           <MyObjectBuilder_Station>
             <Id>872274824698345911</Id>
             <Position x="7957804.7314131958" y="622032.54691612755" z="-79166.36787063464" />
-            <Up x="0.338590682" y="-0.168880329" z="-0.925654233" />
+            <Up x="0.338590652" y="-0.168880329" z="-0.925654233" />
             <Forward x="0.916163266" y="0.2834121" z="0.2834121" />
             <StationType>MiningStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -1671,7 +1671,7 @@
           <MyObjectBuilder_Station>
             <Id>867037929873578521</Id>
             <Position x="3414561.1910638884" y="4473921.9828843856" z="-363808.93734710536" />
-            <Up x="-0.967253268" y="-0.163834989" z="0.193853453" />
+            <Up x="-0.9672533" y="-0.163834989" z="0.193853453" />
             <Forward x="-0.021939598" y="-0.7069366" z="-0.7069366" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -1972,7 +1972,7 @@
           <MyObjectBuilder_Station>
             <Id>891295700161483855</Id>
             <Position x="-5865584.5136444494" y="-3871678.251148331" z="-3570629.7120931777" />
-            <Up x="0.672935247" y="0.69502455" z="0.253177822" />
+            <Up x="0.6729353" y="0.6950246" z="0.253177822" />
             <Forward x="-0.705813468" y="0.500912845" z="0.500912845" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -2247,7 +2247,7 @@
           <MyObjectBuilder_Station>
             <Id>912710562927772466</Id>
             <Position x="2520688.2856333591" y="8903044.4711441044" z="1033032.569309758" />
-            <Up x="0.604342639" y="0.486762971" z="0.6307391" />
+            <Up x="0.604342639" y="0.486763" z="0.6307391" />
             <Forward x="-0.7943204" y="0.4295667" z="0.4295667" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -2579,8 +2579,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855901</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855902</PlayerId>
@@ -4213,8 +4213,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855903</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855904</PlayerId>
@@ -4233,8 +4233,8 @@
           <MyObjectBuilder_Station>
             <Id>932418974486129932</Id>
             <Position x="-5248423.798179267" y="-2143864.0222294247" z="-2489756.2278936454" />
-            <Up x="-0.898462832" y="-0.417372" z="-0.1362539" />
-            <Forward x="0.399443924" y="-0.6482455" z="-0.6482455" />
+            <Up x="-0.898462832" y="-0.417372" z="-0.136253878" />
+            <Forward x="0.3994439" y="-0.6482455" z="-0.6482455" />
             <StationType>MiningStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
             <StationEntityId>0</StationEntityId>
@@ -4547,7 +4547,7 @@
           <MyObjectBuilder_Station>
             <Id>934806592034152636</Id>
             <Position x="-541690.44939170277" y="1833408.8467947794" z="1118574.2915562347" />
-            <Up x="0.491777152" y="0.86514765" z="-0.09836034" />
+            <Up x="0.491777152" y="0.86514765" z="-0.0983603448" />
             <Forward x="-0.7407096" y="0.475052267" z="0.475052267" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -4874,8 +4874,8 @@
           <MyObjectBuilder_Station>
             <Id>932762336090672983</Id>
             <Position x="4031538.5909364889" y="-1331670.6780631999" z="1151871.3553886684" />
-            <Up x="0.897621453" y="0.428266644" z="-0.104227856" />
-            <Forward x="-0.247332662" y="0.6851374" z="0.6851374" />
+            <Up x="0.897621453" y="0.428266644" z="-0.104227863" />
+            <Forward x="-0.247332647" y="0.6851374" z="0.6851374" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
             <StationEntityId>0</StationEntityId>
@@ -5463,7 +5463,7 @@
           <MyObjectBuilder_Station>
             <Id>877260445426450362</Id>
             <Position x="2529831.6166176889" y="-1059668.3905021185" z="3769100.1614161087" />
-            <Up x="0.7028257" y="-0.594293058" z="-0.3909626" />
+            <Up x="0.7028258" y="-0.5942931" z="-0.390962631" />
             <Forward x="0.703995347" y="0.5021905" z="0.5021905" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -5808,8 +5808,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855905</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855906</PlayerId>
@@ -7084,7 +7084,7 @@
           <MyObjectBuilder_Station>
             <Id>871427724784956894</Id>
             <Position x="-2198727.9993126588" y="-919097.18534963671" z="-9368984.63428083" />
-            <Up x="0.389249146" y="-0.426381767" z="-0.816507" />
+            <Up x="0.389249146" y="-0.426381737" z="-0.816507" />
             <Forward x="0.9143332" y="0.2863518" z="0.2863518" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -7398,7 +7398,7 @@
           <MyObjectBuilder_Station>
             <Id>870177970551983217</Id>
             <Position x="487841.60316126532" y="1101226.2828197791" z="-14815.220514990089" />
-            <Up x="-0.8573319" y="0.511177659" z="-0.0606581643" />
+            <Up x="-0.8573318" y="0.5111776" z="-0.0606581643" />
             <Forward x="-0.348309338" y="-0.6628275" z="-0.6628275" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -7717,8 +7717,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855907</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855908</PlayerId>
@@ -7737,7 +7737,7 @@
           <MyObjectBuilder_Station>
             <Id>930275180916681616</Id>
             <Position x="5806092.2622200828" y="-7217318.3507667966" z="-1676019.7419906452" />
-            <Up x="0.007844529" y="-0.8343626" z="-0.551160157" />
+            <Up x="0.00784453" y="-0.8343627" z="-0.5511602" />
             <Forward x="0.999967933" y="0.00566160167" z="0.00566160167" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -8311,7 +8311,7 @@
           <MyObjectBuilder_Station>
             <Id>894509030401069982</Id>
             <Position x="2191232.7321045194" y="3969557.4816341004" z="2600364.7937242477" />
-            <Up x="0.74674803" y="-0.246613815" z="-0.6176966" />
+            <Up x="0.746748" y="-0.2466138" z="-0.6176965" />
             <Forward x="0.633352041" y="0.5472043" z="0.5472043" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -10025,8 +10025,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855909</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855910</PlayerId>
@@ -11141,7 +11141,7 @@
           <MyObjectBuilder_Station>
             <Id>867026231132354937</Id>
             <Position x="24164276.424289268" y="-16766169.348460957" z="4565791.6815750441" />
-            <Up x="0.832729161" y="-0.0596053526" z="0.550462842" />
+            <Up x="0.832729161" y="-0.0596053638" z="0.550462842" />
             <Forward x="-0.384727" y="0.652681053" z="0.652681053" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>true</IsDeepSpaceStation>
@@ -11676,7 +11676,7 @@
           <MyObjectBuilder_Station>
             <Id>902735088539054741</Id>
             <Position x="-24219685.087239921" y="15416.175406149901" z="4832474.2867266722" />
-            <Up x="-0.154742464" y="0.728649557" z="-0.6671766" />
+            <Up x="-0.15474245" y="0.7286495" z="-0.667176545" />
             <Forward x="-0.270437837" y="-0.6807582" z="-0.6807582" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>true</IsDeepSpaceStation>
@@ -13333,7 +13333,7 @@
           <MyObjectBuilder_Station>
             <Id>895851522027376662</Id>
             <Position x="17597178.795082882" y="-6886598.783160449" z="-13904675.806384649" />
-            <Up x="-0.7395305" y="-0.09257762" z="-0.666726351" />
+            <Up x="-0.739530563" y="-0.09257763" z="-0.6667264" />
             <Forward x="0.5875049" y="-0.572205365" z="-0.572205365" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>true</IsDeepSpaceStation>
@@ -13868,7 +13868,7 @@
           <MyObjectBuilder_Station>
             <Id>926574494557112477</Id>
             <Position x="21644676.255810574" y="-12798789.339577178" z="11045722.00578103" />
-            <Up x="0.6087244" y="0.447787672" z="0.654935658" />
+            <Up x="0.6087245" y="0.4477877" z="0.6549357" />
             <Forward x="-0.788244963" y="0.435126334" z="0.435126334" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>true</IsDeepSpaceStation>
@@ -14982,8 +14982,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855911</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855912</PlayerId>
@@ -17207,7 +17207,7 @@
           <MyObjectBuilder_Station>
             <Id>921389306835699899</Id>
             <Position x="6705145.483884939" y="-123403.46718448502" z="-3375124.0976788816" />
-            <Up x="-0.0115251318" y="0.982561767" z="0.185579091" />
+            <Up x="-0.0115251308" y="0.9825617" z="0.185579091" />
             <Forward x="-0.999902666" y="-0.009865257" z="-0.009865257" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -18329,7 +18329,7 @@
           <MyObjectBuilder_Station>
             <Id>869752523326199441</Id>
             <Position x="-6304806.6775405956" y="14248531.313866355" z="-20943427.467566177" />
-            <Up x="-0.361338615" y="0.0367259048" z="-0.931711137" />
+            <Up x="-0.3613386" y="0.0367258973" z="-0.931711137" />
             <Forward x="0.8684145" y="-0.350611031" z="-0.350611031" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>true</IsDeepSpaceStation>
@@ -18908,8 +18908,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855913</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855914</PlayerId>
@@ -18928,7 +18928,7 @@
           <MyObjectBuilder_Station>
             <Id>889064977708372087</Id>
             <Position x="-2797745.9394172677" y="-500276.00102674949" z="-9070602.4634756558" />
-            <Up x="0.7958152" y="0.122736186" z="-0.592970431" />
+            <Up x="0.7958152" y="0.122736178" z="-0.592970431" />
             <Forward x="0.385520279" y="0.652447" z="0.652447" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -19476,7 +19476,7 @@
           <MyObjectBuilder_Station>
             <Id>920076574034838439</Id>
             <Position x="3191357.107233692" y="3460369.572192064" z="-1821051.9624762542" />
-            <Up x="-0.468500942" y="0.5334969" z="0.704193056" />
+            <Up x="-0.468500972" y="0.533497" z="0.7041931" />
             <Forward x="-0.8816246" y="-0.333720028" z="-0.333720028" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -20076,7 +20076,7 @@
           <MyObjectBuilder_Station>
             <Id>880834096844291526</Id>
             <Position x="-5850874.4024614021" y="-19854506.223505188" z="-21658683.776864294" />
-            <Up x="0.9939118" y="-0.0308270566" z="-0.105778113" />
+            <Up x="0.993911743" y="-0.0308270529" z="-0.105778106" />
             <Forward x="0.09673039" y="0.7037909" z="0.7037909" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>true</IsDeepSpaceStation>
@@ -20637,7 +20637,7 @@
           <MyObjectBuilder_Station>
             <Id>880780073227794786</Id>
             <Position x="12488478.302190686" y="21850561.898935966" z="-4738033.14166537" />
-            <Up x="0.31557706" y="-0.686765254" z="0.6548012" />
+            <Up x="0.31557706" y="-0.6867652" z="0.6548012" />
             <Forward x="0.0714380741" y="0.705300152" z="0.705300152" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>true</IsDeepSpaceStation>
@@ -21790,8 +21790,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855915</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855916</PlayerId>
@@ -21810,7 +21810,7 @@
           <MyObjectBuilder_Station>
             <Id>927686261811747130</Id>
             <Position x="3794957.5195436487" y="2297906.7294421839" z="-1153707.3880880559" />
-            <Up x="0.0794902146" y="-0.9321156" z="0.353329569" />
+            <Up x="0.07949021" y="-0.932115555" z="0.353329539" />
             <Forward x="0.9816553" y="0.134820089" z="0.134820089" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -22321,7 +22321,7 @@
           <MyObjectBuilder_Station>
             <Id>885057659176422690</Id>
             <Position x="3955899.2442982108" y="386298.54507442639" z="8417878.4528166782" />
-            <Up x="-0.904928863" y="-0.195762381" z="0.377863467" />
+            <Up x="-0.904929" y="-0.1957624" z="0.3778635" />
             <Forward x="-0.140873834" y="-0.7000552" z="-0.7000552" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -23273,7 +23273,7 @@
           <MyObjectBuilder_Station>
             <Id>920946590678394876</Id>
             <Position x="3167347.0328133223" y="2658918.7526871497" z="-4798018.09884786" />
-            <Up x="-0.483065635" y="0.797885537" z="-0.3605915" />
+            <Up x="-0.483065665" y="0.7978856" z="-0.360591531" />
             <Forward x="-0.5391175" y="-0.595546961" z="-0.595546961" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -24680,7 +24680,7 @@
           <MyObjectBuilder_Station>
             <Id>903600704759033518</Id>
             <Position x="1735706.7926170086" y="4991340.95478423" z="-6823767.602566" />
-            <Up x="0.402448058" y="0.8104891" z="-0.425608933" />
+            <Up x="0.4024481" y="0.8104892" z="-0.425608963" />
             <Forward x="-0.5601782" y="0.58574754" z="0.58574754" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -25167,8 +25167,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855917</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855918</PlayerId>
@@ -25187,7 +25187,7 @@
           <MyObjectBuilder_Station>
             <Id>884532434034721435</Id>
             <Position x="5588559.6295505911" y="-6623189.5773552526" z="4467638.8347755792" />
-            <Up x="-0.7379453" y="-0.478894234" z="0.4754966" />
+            <Up x="-0.7379453" y="-0.4788942" z="0.47549656" />
             <Forward x="0.00325563969" y="-0.707103" z="-0.707103" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -25656,7 +25656,7 @@
           <MyObjectBuilder_Station>
             <Id>886161345753363444</Id>
             <Position x="9755281.2058741227" y="862833.28652584518" z="-263424.0444540293" />
-            <Up x="-0.7967409" y="-0.5963817" z="-0.097636275" />
+            <Up x="-0.7967409" y="-0.5963817" z="-0.09763628" />
             <Forward x="0.5244406" y="-0.602064" z="-0.602064" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -26622,7 +26622,7 @@
           <MyObjectBuilder_Station>
             <Id>925590650126885242</Id>
             <Position x="-322811.182487766" y="-2665268.8085353118" z="8705531.6650134139" />
-            <Up x="-0.6973404" y="0.7044229" z="-0.132305279" />
+            <Up x="-0.6973404" y="0.704422832" z="-0.1323053" />
             <Forward x="-0.5018023" y="-0.611634851" z="-0.611634851" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -27634,8 +27634,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855919</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855920</PlayerId>
@@ -27654,7 +27654,7 @@
           <MyObjectBuilder_Station>
             <Id>884238076339333153</Id>
             <Position x="-1581521.8156350309" y="3543762.0223416304" z="1811568.7072355463" />
-            <Up x="-0.423991233" y="0.239005119" z="-0.873560548" />
+            <Up x="-0.423991263" y="0.239005134" z="-0.873560548" />
             <Forward x="0.726834834" y="-0.485649645" z="-0.485649645" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -28150,7 +28150,7 @@
           <MyObjectBuilder_Station>
             <Id>895141624626546677</Id>
             <Position x="-3147246.3909120965" y="4931099.0747183338" z="-2331308.5472726477" />
-            <Up x="0.3700104" y="0.519156456" z="0.7704342" />
+            <Up x="0.370010376" y="0.519156456" z="0.7704342" />
             <Forward x="-0.92662245" y="0.265867263" z="0.265867263" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -28632,7 +28632,7 @@
           <MyObjectBuilder_Station>
             <Id>922730912383250728</Id>
             <Position x="2887989.6767602419" y="-7054136.9653107841" z="6358121.9368579369" />
-            <Up x="-0.463166833" y="0.03847222" z="-0.8854357" />
+            <Up x="-0.4631668" y="0.0384722129" z="-0.885435641" />
             <Forward x="0.791038632" y="-0.432584018" z="-0.432584018" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -29114,7 +29114,7 @@
           <MyObjectBuilder_Station>
             <Id>891238561635748640</Id>
             <Position x="5343238.9583428949" y="183035.121045279" z="1744545.8187930742" />
-            <Up x="0.162452817" y="0.919137537" z="0.3588806" />
+            <Up x="0.1624528" y="0.9191375" z="0.358880579" />
             <Forward x="-0.9842236" y="0.125107691" z="0.125107691" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -29656,8 +29656,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855921</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855922</PlayerId>
@@ -30145,7 +30145,7 @@
           <MyObjectBuilder_Station>
             <Id>935179857661215051</Id>
             <Position x="-5579142.7487190571" y="2390582.6445694575" z="-7499999.22973232" />
-            <Up x="-0.37290597" y="-0.7469552" z="-0.550453544" />
+            <Up x="-0.37290594" y="-0.746955156" z="-0.5504535" />
             <Forward x="0.9263928" y="-0.2662672" z="-0.2662672" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -30628,7 +30628,7 @@
           <MyObjectBuilder_Station>
             <Id>897450887827673988</Id>
             <Position x="-2876216.8574315668" y="-2299602.4604680683" z="-7113108.7090247041" />
-            <Up x="0.3178723" y="-0.14184171" z="0.9374637" />
+            <Up x="0.317872256" y="-0.1418417" z="0.937463641" />
             <Forward x="-0.8706379" y="0.34784314" z="0.34784314" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -31125,7 +31125,7 @@
           <MyObjectBuilder_Station>
             <Id>929437011663259459</Id>
             <Position x="4874162.4111860292" y="2233286.4397508577" z="-5686032.53500525" />
-            <Up x="0.6173816" y="0.200853989" z="0.7605903" />
+            <Up x="0.6173816" y="0.200853974" z="0.7605903" />
             <Forward x="-0.7402967" y="0.475373924" z="0.475373924" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -31594,7 +31594,7 @@
           <MyObjectBuilder_Station>
             <Id>877228545378191880</Id>
             <Position x="-8758854.6910599675" y="-2732579.6466994835" z="508079.21417239151" />
-            <Up x="0.6095787" y="0.116144933" z="0.784171" />
+            <Up x="0.6095787" y="0.11614494" z="0.784171045" />
             <Forward x="-0.72228" y="0.489035577" z="0.489035577" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -32564,8 +32564,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855923</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855924</PlayerId>
@@ -33002,7 +33002,7 @@
           <MyObjectBuilder_Station>
             <Id>898799712327796676</Id>
             <Position x="-4257391.6420531534" y="-8444616.7472228128" z="-735963.49524996849" />
-            <Up x="-0.9194739" y="0.089965336" z="0.382719219" />
+            <Up x="-0.9194739" y="0.08996533" z="0.382719219" />
             <Forward x="-0.341638625" y="-0.664561152" z="-0.664561152" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -33421,7 +33421,7 @@
             <Id>890486768820037781</Id>
             <Position x="6473875.2525537321" y="-3542394.95953207" z="3217925.2323584575" />
             <Up x="-0.198775411" y="0.929392457" z="-0.310995221" />
-            <Forward x="-0.9103547" y="-0.2926212" z="-0.2926212" />
+            <Forward x="-0.910354733" y="-0.2926212" z="-0.2926212" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
             <StationEntityId>0</StationEntityId>
@@ -34274,8 +34274,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855925</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855926</PlayerId>
@@ -34294,7 +34294,7 @@
           <MyObjectBuilder_Station>
             <Id>873081387071528582</Id>
             <Position x="-659472.85840591369" y="-5893451.80504773" z="7075372.0666264407" />
-            <Up x="-0.747950554" y="0.356569737" z="0.5598464" />
+            <Up x="-0.7479506" y="0.356569767" z="0.559846461" />
             <Forward x="-0.654803753" y="-0.534430563" z="-0.534430563" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -35156,7 +35156,7 @@
           <MyObjectBuilder_Station>
             <Id>912985224243956269</Id>
             <Position x="2613057.949789301" y="145782.142886731" z="-409820.94382534927" />
-            <Up x="0.122596778" y="0.08698049" z="0.9886377" />
+            <Up x="0.122596785" y="0.0869805" z="0.988637745" />
             <Forward x="-0.9872568" y="0.11252553" z="0.11252553" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -35605,8 +35605,8 @@
         <Members>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855927</PlayerId>
-            <IsLeader>true</IsLeader>
-            <IsFounder>true</IsFounder>
+            <IsLeader>false</IsLeader>
+            <IsFounder>false</IsFounder>
           </MyObjectBuilder_FactionMember>
           <MyObjectBuilder_FactionMember>
             <PlayerId>144115188075855928</PlayerId>
@@ -36879,7 +36879,7 @@
           <MyObjectBuilder_Station>
             <Id>877125227420770664</Id>
             <Position x="-797820.49722532323" y="-8652957.3795396853" z="3588732.4630382396" />
-            <Up x="-0.16732958" y="-0.8025752" z="0.572602749" />
+            <Up x="-0.1673296" y="-0.802575231" z="0.5726028" />
             <Forward x="0.6969319" y="-0.507092655" z="-0.507092655" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -39372,7 +39372,7 @@
       <DisplayName>Universal Traders CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39386,7 +39386,7 @@
       <DisplayName>Universal Traders CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39400,7 +39400,7 @@
       <DisplayName>Mystic Traders CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39414,7 +39414,7 @@
       <DisplayName>Mystic Traders CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39428,7 +39428,7 @@
       <DisplayName>Sovereign Artisans CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39442,7 +39442,7 @@
       <DisplayName>Sovereign Artisans CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39456,7 +39456,7 @@
       <DisplayName>Mystic Industry CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39470,7 +39470,7 @@
       <DisplayName>Mystic Industry CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39484,7 +39484,7 @@
       <DisplayName>Revolutionary Heavy Industry CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39498,7 +39498,7 @@
       <DisplayName>Revolutionary Heavy Industry CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39512,7 +39512,7 @@
       <DisplayName>United Makers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39526,7 +39526,7 @@
       <DisplayName>United Makers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39540,7 +39540,7 @@
       <DisplayName>The First Security CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39554,7 +39554,7 @@
       <DisplayName>The First Security CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39568,7 +39568,7 @@
       <DisplayName>Royal Munitions CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39582,7 +39582,7 @@
       <DisplayName>Royal Munitions CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39596,7 +39596,7 @@
       <DisplayName>Specialized Tactical CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39610,7 +39610,7 @@
       <DisplayName>Specialized Tactical CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39624,7 +39624,7 @@
       <DisplayName>The Factorum</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:41:23.3873918+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:41:23.3873918+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39640,11 +39640,11 @@
       <Model>Default_Astronaut</Model>
       <ColorMask x="0.575" y="0.167133212" z="0.18923834" />
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9036205+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.445339+01:00</LastLoginTime>
       <SavedCharacters>
         <long>124168712738897777</long>
       </SavedCharacters>
-      <LastLogoutTime>2025-01-23T15:43:29.3883001+01:00</LastLogoutTime>
+      <LastLogoutTime>2025-01-23T15:42:30.8759879+01:00</LastLogoutTime>
       <RespawnShips />
       <LastDeathPosition xsi:nil="true" />
       <ActiveContracts />
@@ -39656,7 +39656,7 @@
       <DisplayName>Space Pirates</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:05.3892122+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:33.0233176+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>0001-01-01T00:00:00</LastLogoutTime>
       <RespawnShips />
@@ -39670,7 +39670,7 @@
       <DisplayName>The Factorum</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5843175+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5843175+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39684,7 +39684,7 @@
       <DisplayName>Unknown</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5853206+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5853206+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39698,7 +39698,7 @@
       <DisplayName>Revolutionary Minerals CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39712,7 +39712,7 @@
       <DisplayName>Revolutionary Minerals CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39726,7 +39726,7 @@
       <DisplayName>Clang Drillers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39740,7 +39740,7 @@
       <DisplayName>Clang Drillers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39754,7 +39754,7 @@
       <DisplayName>Righteous Miners Guild CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39768,7 +39768,7 @@
       <DisplayName>Righteous Miners Guild CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39782,7 +39782,7 @@
       <DisplayName>Galactic Excavators CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39796,7 +39796,7 @@
       <DisplayName>Galactic Excavators CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39810,7 +39810,7 @@
       <DisplayName>Divine Dwellers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39824,7 +39824,7 @@
       <DisplayName>Divine Dwellers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39838,7 +39838,7 @@
       <DisplayName>Sovereign Conglomerate CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39852,7 +39852,7 @@
       <DisplayName>Sovereign Conglomerate CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-01-23T15:43:04.9026092+01:00</LastLoginTime>
+      <LastLoginTime>2025-01-23T15:37:32.5873239+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-01-23T15:37:32.5873239+01:00</LastLogoutTime>
       <RespawnShips />
@@ -39949,8 +39949,8 @@
           <EntityCameraData>
             <CameraControllerSettings EntityId="124168712738897777">
               <IsFirstPerson>false</IsFirstPerson>
-              <Distance>1.553984850645064</Distance>
-              <HeadAngle x="-5.30605173" y="0" />
+              <Distance>2.5</Distance>
+              <HeadAngle x="-21.6724358" y="0" />
             </CameraControllerSettings>
           </EntityCameraData>
           <BuildColorSlots>
@@ -40162,6 +40162,87 @@
         <Value>
           <Entries>
             <Entry>
+              <name>New</name>
+              <description>New coordinates</description>
+              <coords>
+                <X>15</X>
+                <Y>0</Y>
+                <Z>20</Z>
+              </coords>
+              <isFinal>true</isFinal>
+              <showOnHud>true</showOnHud>
+              <alwaysVisible>false</alwaysVisible>
+              <color>
+                <PackedValue>4294035829</PackedValue>
+                <X>117</X>
+                <Y>201</Y>
+                <Z>241</Z>
+                <R>117</R>
+                <G>201</G>
+                <B>241</B>
+                <A>255</A>
+              </color>
+              <entityId>0</entityId>
+              <isObjective>false</isObjective>
+              <contractId>0</contractId>
+              <IsGlobalEncounterGPS>false</IsGlobalEncounterGPS>
+              <DisplayName />
+            </Entry>
+            <Entry>
+              <name>New</name>
+              <description>New coordinates</description>
+              <coords>
+                <X>15</X>
+                <Y>2.5</Y>
+                <Z>17.5</Z>
+              </coords>
+              <isFinal>true</isFinal>
+              <showOnHud>true</showOnHud>
+              <alwaysVisible>false</alwaysVisible>
+              <color>
+                <PackedValue>4294035829</PackedValue>
+                <X>117</X>
+                <Y>201</Y>
+                <Z>241</Z>
+                <R>117</R>
+                <G>201</G>
+                <B>241</B>
+                <A>255</A>
+              </color>
+              <entityId>0</entityId>
+              <isObjective>false</isObjective>
+              <contractId>0</contractId>
+              <IsGlobalEncounterGPS>false</IsGlobalEncounterGPS>
+              <DisplayName />
+            </Entry>
+            <Entry>
+              <name>New</name>
+              <description>New coordinates</description>
+              <coords>
+                <X>15</X>
+                <Y>2.7</Y>
+                <Z>20</Z>
+              </coords>
+              <isFinal>true</isFinal>
+              <showOnHud>true</showOnHud>
+              <alwaysVisible>false</alwaysVisible>
+              <color>
+                <PackedValue>4294035829</PackedValue>
+                <X>117</X>
+                <Y>201</Y>
+                <Z>241</Z>
+                <R>117</R>
+                <G>201</G>
+                <B>241</B>
+                <A>255</A>
+              </color>
+              <entityId>0</entityId>
+              <isObjective>false</isObjective>
+              <contractId>0</contractId>
+              <IsGlobalEncounterGPS>false</IsGlobalEncounterGPS>
+              <DisplayName />
+            </Entry>
+            <Entry>
               <name>Unidentified Signal</name>
               <description />
               <coords>
@@ -40310,10 +40391,6 @@
       <NPCGrids>
         <dictionary>
           <item>
-            <Key>84626735709212037</Key>
-            <Value xsi:nil="true" />
-          </item>
-          <item>
             <Key>120353327928959033</Key>
             <Value xsi:nil="true" />
           </item>
@@ -40326,15 +40403,19 @@
             <Value xsi:nil="true" />
           </item>
           <item>
-            <Key>119140288373705448</Key>
-            <Value xsi:nil="true" />
-          </item>
-          <item>
             <Key>84168323204593099</Key>
             <Value xsi:nil="true" />
           </item>
           <item>
             <Key>129718167921315041</Key>
+            <Value xsi:nil="true" />
+          </item>
+          <item>
+            <Key>119140288373705448</Key>
+            <Value xsi:nil="true" />
+          </item>
+          <item>
+            <Key>84626735709212037</Key>
             <Value xsi:nil="true" />
           </item>
           <item>
@@ -40465,7 +40546,7 @@
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_SectorWeatherComponent">
       <BaseSunDirection x="0.339467347" y="0.709795356" z="-0.617213368" />
-      <SunDirectionNormalized x="-0.66587013" y="0.285300642" z="-0.689362347" />
+      <SunDirectionNormalized x="-0.6538016" y="0.2969782" z="-0.695950747" />
       <WeatherPlanetData />
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_SessionComponentAntiCheat">
@@ -80785,7 +80866,7 @@
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_AntennaSessionComponent" />
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_EnvironmentBotSpawningSystem">
-      <TimeSinceLastEventInMs>72133</TimeSinceLastEventInMs>
+      <TimeSinceLastEventInMs>50633</TimeSinceLastEventInMs>
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_TradingManager" />
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_CoordinateSystem">
@@ -80956,272 +81037,8 @@
             <Log />
           </Account>
         </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855911</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855911</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855912</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855912</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855913</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855913</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855914</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855914</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855915</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855915</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855916</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855916</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855917</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855917</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855918</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855918</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855919</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855919</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855920</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855920</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855921</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855921</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855922</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855922</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855923</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855923</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855924</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855924</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855925</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855925</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855926</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855926</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855927</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855927</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855928</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855928</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855929</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855929</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855897</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855897</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855898</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855898</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855899</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855899</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855900</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855900</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855901</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855901</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855902</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855902</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855903</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855903</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855904</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855904</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855905</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855905</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855906</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855906</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855907</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855907</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855908</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855908</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855909</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855909</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855910</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855910</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
       </Accounts>
-      <OverallBalance>1500350000</OverallBalance>
+      <OverallBalance>1500020000</OverallBalance>
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_NeutralShipSpawner">
       <ShipsInProgress>
@@ -81262,6 +81079,7 @@
     <string>Models\Cubes\Large\MedicalRoom.mwm</string>
   </VicinityModelsCache>
   <VicinityArmorModelsCache>
+    <string>Models\Weapons\AngleGrinderMk4.mwm</string>
     <string>Models\Characters\Astronaut\SE_astronaut.mwm</string>
     <string>Models\Cubes\Large\Armor\HeavySquarePlate.mwm</string>
   </VicinityArmorModelsCache>

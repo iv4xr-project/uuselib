@@ -5,10 +5,14 @@ import eu.iv4xr.framework.mainConcepts.WorldModel;
 import eu.iv4xr.framework.spatial.Vec3;
 import spaceEngineers.model.CubeSize;
 
+import java.io.Console;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import static nl.uu.cs.uuspaceagent.TestUtils.console;
 
 /**
  * Utility functions related to SE blocks.
@@ -189,12 +193,37 @@ public class SEBlockFunctions {
                 .collect(Collectors.toList());
         if(candidates.isEmpty()) return null ;
         //System.out.println("candidates in find close block " + candidates.size());
-        candidates.forEach(e -> System.out.println("candidate to move" + e));
+        //candidates.forEach(e -> System.out.println("candidate to move" + e));
         if(candidates.size() == 1) return candidates.get(0) ;
         // if there are more than one, sort the candidates to get the closest one:
         candidates.sort((e1,e2) -> Float.compare(
                  Vec3.sub(e1.position,wom.position).lengthSq()
                 ,Vec3.sub(e2.position,wom.position).lengthSq())) ;
+
+        return candidates.get(0) ;
+    }
+    
+    /**
+     * Return the closest block with the specified property (the selector).
+     */
+    public static WorldEntity findClosestBlockPosition(WorldModel wom, Vec3 position, Float radius) {
+    	var sqradius = radius*radius;
+    	Predicate<WorldEntity> selector = (WorldEntity e)
+        		-> Vec3.sub(e.position, position).lengthSq() <= sqradius;
+    	
+        var candidates =  SEBlockFunctions.getAllBlocks(wom)
+                .stream()
+                .filter(e -> selector.test(e))
+                .collect(Collectors.toList());
+        console(Integer.toString(candidates.size()));
+        if(candidates.isEmpty()) return null ;
+        //System.out.println("candidates in find close block " + candidates.size());
+        //candidates.forEach(e -> System.out.println("candidate to move" + e));
+        if(candidates.size() == 1) return candidates.get(0) ;
+        // if there are more than one, sort the candidates to get the closest one:
+        candidates.sort((e1,e2) -> Float.compare(
+                 Vec3.sub(e1.position,position).lengthSq()
+                ,Vec3.sub(e2.position,position).lengthSq())) ;
 
         return candidates.get(0) ;
     }
@@ -224,6 +253,28 @@ public class SEBlockFunctions {
         }
         return f ;
     }
+    
+    public static Vec3 findClosestFace(WorldModel wom, Vec3 targetPosition) {
+                                    
+        WorldEntity block = SEBlockFunctions.findClosestBlockPosition(wom,targetPosition,3.0f);
+        Vec3 diff = Vec3.sub(block.position, targetPosition);
+        
+        var frontFace = getSideCenterPoint(block, BlockSides.FRONT, 0);
+        var backFace = getSideCenterPoint(block, BlockSides.BACK, 0);
+        var topFace = getSideCenterPoint(block, BlockSides.TOP, 0);
+        var botFace = getSideCenterPoint(block, BlockSides.BOTTOM, 0);
+        var rightFace = getSideCenterPoint(block, BlockSides.RIGHT, 0);
+        var leftFace = getSideCenterPoint(block, BlockSides.LEFT, 0);
+        
+        List<Vec3> faces = Arrays.asList(frontFace, backFace, topFace, botFace, rightFace, leftFace);
+        
+        faces.sort((v1, v2) -> Float.compare(
+        		Vec3.sub(v1, targetPosition).lengthSq(),
+        		Vec3.sub(v2, targetPosition).lengthSq()
+        		));
 
+        
+    	return faces.get(0);
+    }
 
 }
