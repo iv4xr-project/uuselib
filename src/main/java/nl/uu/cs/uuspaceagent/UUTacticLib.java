@@ -646,19 +646,22 @@ public class UUTacticLib {
     public static Tactic smartNavigateToTAC(Vec3 destination) {
     	return FIRSTof(
     			action("openDoors").do2((UUSeAgentState state)
-                        -> (Pair<DPos3, Boolean> queryResult) -> {
+                        -> (DoorBase queryResult) -> {
                       
-                	var doorPosition = queryResult.fst ; //
-                    var doorOpened = queryResult.snd ;    	
+                	DoorBase door = queryResult; 	
                         	
                     var target = new Vec3(15, 2.7f, 20);
                     
                     target = SEBlockFunctions.findClosestFace(state.worldmodel, target);
                     console("Target: " + target);
                     
-                    TurnTowardACT(state, target, 0.999f, 10);
+                    //TurnTowardACT(state, target, 0.999f, 10);
                     
                     // TODO: actually open the door
+                    if(!door.getOpen())
+                    {
+                    	state.env().getController().getCharacter().use();
+                    }
                     
                     CharacterObservation obs = state.env().getController().getObserver().observe();
                     return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
@@ -672,8 +675,9 @@ public class UUTacticLib {
     		        	// TODO: maybe improve the detection of doors? The ability to check if there's a 
     		        	// door on the next node of the path would be helpful.
     		            if (cobs.getTargetBlock().getDefinitionId().toString().toLowerCase().contains("door")) {
-    		            	// TODO: provide the position and state of the door
-    		            	return new Pair<>(null, null) ; 
+    		            	DoorBase door = (DoorBase) cobs.getTargetBlock();
+    		            	if(!door.getOpen())
+    		            		return door ; 
     		            }
     		        }
     				

@@ -84,7 +84,7 @@ public class Test_ComplexPathfinding {
     @Test
     public void test_navigate_through_doors() throws InterruptedException {
         // This is a position that is hidden behind three doors that should be opened along the way.
-    	Vec3 dest = new Vec3(2.8f, 2.5f, 20);
+    	Vec3 dest = new Vec3(43f, 1.25f, 6);
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;
