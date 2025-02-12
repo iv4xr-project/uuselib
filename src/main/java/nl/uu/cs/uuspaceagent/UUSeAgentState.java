@@ -94,8 +94,10 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
         agentWE.properties.put("health", obs.getHealth()) ;
         agentWE.properties.put("displayName", obs.getDisplayName()) ;
         agentWE.properties.put("targetBlock", targetBlock == null ? null : targetBlock.getId()) ;
+        agentWE.properties.put("targetBlockId", targetBlock == null ? null : targetBlock.getDefinitionId().getId()) ;
         agentWE.properties.put("previousTargetBlock", null) ;
         agentWE.properties.put("cameraOrientationForward", fromSEVec3(obs.getCamera().getOrientationForward())) ;
+        agentWE.properties.put("cameraOrientationUp", fromSEVec3(obs.getCamera().getOrientationUp())) ;
        //System.out.println(">>> constructing extra info for agent") ;
         return agentWE ;
     }
@@ -252,8 +254,16 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
         return (Vec3) worldmodel.elements.get(agentId).properties.get("orientationForward") ;
     }
     
+    public Vec3 orientationUp() {
+        return (Vec3) worldmodel.elements.get(agentId).properties.get("orientationUp") ;
+    }
+    
     public Vec3 cameraOrientationForward() {
     	return (Vec3) worldmodel.elements.get(agentId).properties.get("cameraOrientationForward") ;
+    }
+    
+    public Vec3 cameraOrientationUp() {
+    	return (Vec3) worldmodel.elements.get(agentId).properties.get("cameraOrientationUp") ;
     }
 
     public WorldEntity targetBlock() {
@@ -302,9 +312,8 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
     }
 
     public Vec3 getHeadPosition() {
-    	//TODO: This function is not yet properly implemented and is a temporary fix!!!
-    	worldmodel.extent = new Vec3(0, 2, 0); //Fix agentState extent
-    	var headPosition = Vec3.add(worldmodel.position, new Vec3(0, worldmodel.extent.y, 0));
+    	Vec3 toHead = Vec3.mul(orientationUp(), 1.8f);
+    	var headPosition = Vec3.add(worldmodel.position, toHead);
     	return headPosition;
     }
 

@@ -12,6 +12,7 @@ import nl.uu.cs.aplib.mainConcepts.*;
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 import nl.uu.cs.aplib.utils.Pair;
 import spaceEngineers.model.Block;
+import spaceEngineers.model.DefinitionId;
 import spaceEngineers.model.Observation;
 import spaceEngineers.model.ToolbarLocation;
 
@@ -375,18 +376,24 @@ public class UUGoalLib {
         }) ;
     }
 
-    public static Function<UUSeAgentState, GoalStructure> placedBlockAt(Vec3 blockLocation, String blockType){
+    public static Function<UUSeAgentState, GoalStructure> placedBlockAt(Vec3 blockLocation, DefinitionId itemId){
     	
     	return (UUSeAgentState state) -> {
     		
     		// lookTarget is the nearest face to the where the block should be placed
     		Vec3 lookTarget = SEBlockFunctions.findClosestFace(state.worldmodel, blockLocation);
     		
+    		//TODO: this approach to the location still isn't ideal as it cuts off abruptly and "hopes" that the player is in the right place.
     		Vec3 playerDestination = blockLocation;
     		
-    		//TODO: currently, the pathfinding doesn't work unless the player is at the exact same y-pos as the destination due
-    		// to the grid based navigation. As such, we lower the destination's y to align with the grid. A better solution is needed.
-    		playerDestination.y = 1.25f;
+    		state.navgrid.enableFlying = true;
+    		
+    		if (Math.abs(playerDestination.y - state.worldmodel.position.y) < 3)
+    		{
+    			state.navgrid.enableFlying = false;
+    			playerDestination.y = state.worldmodel.position.y;
+    		}
+
     		
     		// Goal to move within placement/view range of the target.
     		GoalStructure nearLookTarget = goal("move to near the target:" + blockLocation)
@@ -405,13 +412,9 @@ public class UUGoalLib {
             		.toSolve((Boolean e) -> {
             			return e;
             		})
-            		.withTactic(SEQ(
-            				// TODO: Using TacticLib tactics currently gives the following error:
-            				// java.lang.ClassCastException: class nl.uu.cs.uuspaceagent.UUSeAgentState cannot be cast to class environments.SeAgentState 
-            				// (nl.uu.cs.uuspaceagent.UUSeAgentState and environments.SeAgentState are in unnamed module of loader 'app'
-            				new TacticLib().equip(blockType),
-            				null //TODO: Replace this with actually placing the block.
-    				))
+            		.withTactic(
+            				UUTacticLib.equipAndPlace(itemId)
+    				)
             		.lift();
             
             // Execution sequence:

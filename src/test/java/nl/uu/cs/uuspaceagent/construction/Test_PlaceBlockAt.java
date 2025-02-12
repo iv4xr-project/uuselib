@@ -11,6 +11,7 @@ import nl.uu.cs.uuspaceagent.TestUtils;
 import nl.uu.cs.uuspaceagent.UUGoalLib;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
 import nl.uu.cs.uuspaceagent.UUTacticLib;
+import spaceEngineers.model.DefinitionId;
 
 import org.junit.jupiter.api.Test;
 import static nl.uu.cs.aplib.AplibEDSL.DEPLOY;
@@ -41,11 +42,9 @@ public class Test_PlaceBlockAt {
         var sqDestination = state.navgrid.gridProjectedLocation(destination) ;
         var centerOfSqDestination = state.navgrid.getSquareCenterLocation(sqDestination) ;
 
-        //float dth = 1.3f * Grid2DNav.SQUARE_SIZE ;
-        //final float distance_to_sq_threshold = dth*dth ;
 
-        GoalStructure G = DEPLOY(UUGoalLib.placedBlockAt(destination, "LargeHeavyBlockArmorBlock"));
-
+        GoalStructure G = DEPLOY(UUGoalLib.placedBlockAt(destination, DefinitionId.Companion.cubeBlock("LargeHeavyBlockArmorBlock")));
+        
         agent.setGoal(G) ;
 
         int turn= 0 ;
@@ -78,9 +77,23 @@ public class Test_PlaceBlockAt {
     }
 
     @Test
-    public void test_placeBlockAt() throws InterruptedException {
+    public void test_placeBlockAt1() throws InterruptedException {
         //TODO: finish writing this test
         Vec3 dest = new Vec3(2.8f, 2.5f, 20);
+        var agent_and_goal = deployAgent(dest);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    @Test
+    public void test_placeBlockAt2() throws InterruptedException {
+        //TODO: finish writing this test
+        Vec3 dest = new Vec3(14.75f, 4.25f, 17.5f);
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;

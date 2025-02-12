@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import eu.iv4xr.framework.mainConcepts.TestAgent;
+import eu.iv4xr.framework.mainConcepts.WorldEntity;
+import spaceEngineers.model.Block;
 import spaceEngineers.model.CharacterObservation;
 
 class Coba_Debug {
@@ -34,18 +36,27 @@ class Coba_Debug {
 //            	console("id: " + e);
 //            	if (state.worldmodel.elements.get(e).type == "grid")
 //            		console(state.worldmodel.elements.get(e).position.toString());//.entrySet().toString());
-//            }
-            
+//            }          
 //            if (true)
 //            	break;
+
             
-//            var val = state.worldmodel.elements.get(state.agentId);
-//            if (val != null)
-//            	console(val.getStringProperty ("targetBlock"));
-//          
-            CharacterObservation cobs = state.env().getController().getObserver().observe();
-			console(state.navgrid.gridProjectedLocation(state.worldmodel.position).toString());
-			
+            var val = state.worldmodel.elements.get(state.agentId);
+            if (val != null)
+            {
+            	var targetId = val.getStringProperty ("targetBlock");
+            	if (targetId != null)
+            	{
+                    WorldEntity e = state.worldmodel.getElement("135874907702158004").elements.get(targetId);
+                    console(e.toString());
+            	}
+            	
+                
+            }
+            	
+//            CharacterObservation cobs = state.env().getController().getObserver().observe();
+//			console(state.navgrid.gridProjectedLocation(state.worldmodel.position).toString());
+			//UUTacticLib.fixRoll(state);
                   
             
             

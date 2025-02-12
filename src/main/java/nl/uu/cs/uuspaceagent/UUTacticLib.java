@@ -2,6 +2,7 @@ package nl.uu.cs.uuspaceagent;
 
 import eu.iv4xr.framework.mainConcepts.WorldEntity;
 import eu.iv4xr.framework.spatial.Vec3;
+import nl.uu.cs.aplib.agents.PrologReasoner.QueryResult;
 import nl.uu.cs.aplib.mainConcepts.Action;
 import nl.uu.cs.aplib.mainConcepts.Tactic;
 import nl.uu.cs.aplib.utils.Pair;
@@ -9,7 +10,9 @@ import spaceEngineers.controller.useobject.UseObjectExtensions;
 import spaceEngineers.model.BasePose;
 import spaceEngineers.model.Block;
 import spaceEngineers.model.CharacterObservation;
+import spaceEngineers.model.DefinitionId;
 import spaceEngineers.model.DoorBase;
+import spaceEngineers.model.ToolbarLocation;
 import spaceEngineers.model.Vec2F;
 import spaceEngineers.model.Vec3F;
 
@@ -135,13 +138,14 @@ public class UUTacticLib {
         //    duration = 1 ;  // for walking, we will only maintain the move for one update
         //}
         // now move... sustain it for the given duration:
-        CharacterObservation obs = null ;
+        CharacterObservation obs = null; ;
         float threshold = THRESHOLD_SQUARED_DISTANCE_TO_POINT - 0.15f ;
         for(int k=0; k<duration; k++) {
             obs = agentState.env().getController().getCharacter().moveAndRotate(
                     SEBlockFunctions.toSEVec3(running ? seFixPolarityMoveVector(forwardRun) : seFixPolarityMoveVector(forwardWalk))
                     , ZEROV2,
                     0, 1) ; // "roll" and "tick" ... using default vals;
+            
             sqDistance = Vec3.sub(SEBlockFunctions.fromSEVec3(obs.getPosition()),destination).lengthSq() ;
             if(sqDistance <= threshold) {
                 break ;
@@ -149,6 +153,59 @@ public class UUTacticLib {
             if (running && sqDistance <= 1f) running = false ;
         }
         return obs ;
+    }
+    
+    /**
+     * Returns a roll value to use in the agent's moveAndRotate to try and return the agent's roll to 0.
+     */
+    public static float compensateRoll(Vec3 orientationForward, Vec3 orientationUp)
+    {
+    	Vec3 orientationSidewards = Vec3.cross(orientationForward, orientationUp);
+    	float rollSpeed = -1;
+    	
+    	if (Math.abs(orientationSidewards.y) < 0.1f)
+    		return 0;
+    	
+    	if (orientationSidewards.y > 0)
+    		rollSpeed = -rollSpeed;
+    	return rollSpeed;
+    }
+    
+    public static Tactic fixRoll(int duration) {
+    	return action("openDoors").do2((UUSeAgentState agentState)
+            -> (Float roll) -> {
+        	
+	        	CharacterObservation obs = null;
+		
+		        
+		    	for(int k=0; k<duration; k++) {
+		            obs = agentState.env().getController().getCharacter().moveAndRotate(
+		                    new Vec3F(0, 0, 0.1f), ZEROV2,
+		                    roll, 1) ; // "roll" and "tick" ... using default vals;
+		            
+		            roll = compensateRoll(
+		            		SEBlockFunctions.fromSEVec3(obs.getOrientationForward()), 
+		            		SEBlockFunctions.fromSEVec3(obs.getOrientationUp()));
+		            if(roll == 0) {
+		                break ;
+		            }
+		        }
+
+		        return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
+        })
+		.on((UUSeAgentState state)  -> {
+			
+			// If the player isn't flying then they will be leveled out by gravity.
+			if (!state.jetpackRunning())
+				return null;
+			
+			var roll = compensateRoll(state.orientationForward(), state.orientationUp());
+			if (roll != 0)
+				return roll;
+			
+			//Player is already level.
+			return null;
+		}).lift();
     }
 
     /**
@@ -358,29 +415,28 @@ public class UUTacticLib {
             duration /= 2 ;
         }
         Vec2F turningVector = new Vec2F(vTurningSpeed, hTurningSpeed) ;
-        System.out.println(agentVdir.y + ", " + vDirToGo.y);
-        System.out.println(vTurningSpeed);
-        System.out.println(vCos_alpha);
-        System.out.println(hCos_alpha);
-        System.out.println("Threshold: " + cosAlphaThreshold);
+        
         try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        //TODO: Maybe do something with setting a fake vertical angle where the horizontal angle is already finished???
 
         // now send the turning commands:
         CharacterObservation obs = null ;
+        var orientationForward = agentState.orientationForward();
+        var orientationUp = agentState.orientationUp();
         for (int k=0; k<duration; k++) {
             obs = agentState.env().getController().getCharacter().moveAndRotate(
                     SEBlockFunctions.toSEVec3(ZEROV3),
                     turningVector,
-                    0, 1) ; // "roll" and "tick" ... using default vals;
+                    compensateRoll(orientationForward, orientationUp), 1) ; // "roll" and "tick" ... using default vals;
             dirToGo = Vec3.sub(destination,SEBlockFunctions.fromSEVec3(obs.getPosition())) ;
             agentHdir = SEBlockFunctions.fromSEVec3(obs.getCamera().getOrientationForward()) ;
-           
+            orientationForward = SEBlockFunctions.fromSEVec3(obs.getOrientationForward());
+            orientationUp = SEBlockFunctions.fromSEVec3(obs.getOrientationUp());
+            
             if(dirToGo.lengthSq() < 1) {
                 // the destination is too close within the agent's y-cylinder;
                 // don't bother to rotate then
@@ -650,14 +706,6 @@ public class UUTacticLib {
                       
                 	DoorBase door = queryResult; 	
                         	
-                    var target = new Vec3(15, 2.7f, 20);
-                    
-                    target = SEBlockFunctions.findClosestFace(state.worldmodel, target);
-                    console("Target: " + target);
-                    
-                    //TurnTowardACT(state, target, 0.999f, 10);
-                    
-                    // TODO: actually open the door
                     if(!door.getOpen())
                     {
                     	state.env().getController().getCharacter().use();
@@ -667,24 +715,21 @@ public class UUTacticLib {
                     return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
                 })
     			.on((UUSeAgentState state)  -> {
-    				//if (true) return new Pair<>(null, null); // Temp;
+
     				CharacterObservation cobs = state.env().getController().getObserver().observe();
     				
-    		        if(cobs.getTargetBlock() != null) {
-    		        	
-    		        	// TODO: maybe improve the detection of doors? The ability to check if there's a 
-    		        	// door on the next node of the path would be helpful.
-    		            if (cobs.getTargetBlock().getDefinitionId().toString().toLowerCase().contains("door")) {
-    		            	DoorBase door = (DoorBase) cobs.getTargetBlock();
-    		            	if(!door.getOpen())
-    		            		return door ; 
-    		            }
+    		        if(cobs.getTargetBlock() != null && cobs.getTargetBlock().getDefinitionId().getId().contains(DefinitionId.DOOR)) {
+		            	DoorBase door = (DoorBase) cobs.getTargetBlock();
+		            	if(!door.getOpen())
+		            		return door ; 
+		            
     		        }
     				
     				//No door found.
     				return null;
     			})
     			.lift(),
+    			fixRoll(10),
     			navigateToTAC(destination)
     			);
     }
@@ -750,6 +795,43 @@ public class UUTacticLib {
         return "true".equals(isOpen) ;
         })
        .lift();
+    }
+    
+    public static Tactic equip(ToolbarLocation toolbarLocation) {
+    	return action("equip " + toolbarLocation).do1((UUSeAgentState state) -> {
+    		state.env().equip(toolbarLocation);
+    		return null;
+    	})
+    	.lift();
+    }
+    
+    /**
+     * Moves the specified item to the toolbar and equips it.
+     * @param itemId - the DefinitionId of the item to equip.
+     */
+    public static Tactic equip(DefinitionId itemId) {
+    	return action("equip " + itemId).do1((UUSeAgentState state) -> {
+    		var toolbarLocation = new ToolbarLocation(1,0);
+    		state.env().getController().getItems().setToolbarItem(itemId, toolbarLocation);
+    		state.env().equip(toolbarLocation);
+    		return null;
+    	})
+    	.lift();
+    }
+    
+    /**
+     * Equips the specified item and 'places' it. (Actual behavior depends on equipped item).
+     * @param itemId - the DefinitionId of the item to equip.
+     */
+    public static Tactic equipAndPlace(DefinitionId itemId) {
+    	return SEQ(
+    			equip(itemId),
+    			action("place " + itemId).do1((UUSeAgentState state) -> {
+    				state.env().getController().getBlocks().place();
+    				return true;
+    			}).lift()
+    			);
+    			
     }
    
 }
