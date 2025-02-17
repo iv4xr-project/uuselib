@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import static nl.uu.cs.uuspaceagent.TestUtils.console;
 import static nl.uu.cs.uuspaceagent.SEBlockFunctions.fromSEVec3;
 
 /**
@@ -312,9 +312,13 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
     }
 
     public Vec3 getHeadPosition() {
-    	Vec3 toHead = Vec3.mul(orientationUp(), 1.8f);
-    	var headPosition = Vec3.add(worldmodel.position, toHead);
+    	var headPosition = Vec3.add(worldmodel.position, getHeadOffset());
     	return headPosition;
+    }
+    
+    public Vec3 getHeadOffset() {
+    	Vec3 toHead = Vec3.mul(orientationUp(), 1.8f);
+    	return toHead;
     }
 
 

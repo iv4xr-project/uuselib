@@ -237,11 +237,12 @@ public class NavGrid implements Navigatable<DPos3>{
         if(allObstacleIDs.contains(block.id)) {
             return ;
         }
-
+        
         var obstructedCubes = getObstructedCubes(block) ;
         var obstacle = new SEObstacle<>(block.id) ;
         obstacle.isBlocking = true ;
         obstacle.isTraversable = block.properties.get("blockType").toString().toLowerCase().contains("door");
+        obstacle.blockPosition = block.position;
 
         boolean added = false ;
         for(var cube : obstructedCubes) {

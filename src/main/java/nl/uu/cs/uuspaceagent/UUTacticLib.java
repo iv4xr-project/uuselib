@@ -374,9 +374,15 @@ public class UUTacticLib {
         Vec3 vDirToGo = dirToGo.copy();
         Vec3 agentVdir = agentDir.copy();
         
-        double angleToGo = Math.atan2(vDirToGo.y, Math.sqrt(vDirToGo.x*vDirToGo.x + vDirToGo.y*vDirToGo.y));
-        double angleAgent = Math.atan2(agentVdir.y, Math.sqrt(agentVdir.x*agentVdir.x + agentVdir.y*agentVdir.y));
+        double angleToGo = Math.atan2(vDirToGo.y, Math.sqrt(vDirToGo.x*vDirToGo.x + vDirToGo.z*vDirToGo.z));
+        double angleAgent = Math.atan2(agentVdir.y, Math.sqrt(agentVdir.x*agentVdir.x + agentVdir.z*agentVdir.z));
         double vCos_alpha = Math.cos(angleToGo - angleAgent);
+        
+        console("angleToGo: " + angleToGo);
+        console("angleAgent: " + angleAgent);
+        console("vCos_alpha: " + vCos_alpha);
+        
+        //TODO: looking sharply down doesnt work when flying fsr
         
         //var vCos_alpha = Vec3.dot(agentVdir,vDirToGo) ;
         if(vCos_alpha >= THRESHOLD_ANGLE_TO_SLOW_TURNING) {

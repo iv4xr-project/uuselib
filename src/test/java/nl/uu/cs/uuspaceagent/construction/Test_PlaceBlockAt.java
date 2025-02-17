@@ -7,6 +7,7 @@ import nl.uu.cs.aplib.AplibEDSL;
 import nl.uu.cs.aplib.mainConcepts.Goal;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 import nl.uu.cs.aplib.utils.Pair;
+import nl.uu.cs.uuspaceagent.SEBlockFunctions;
 import nl.uu.cs.uuspaceagent.TestUtils;
 import nl.uu.cs.uuspaceagent.UUGoalLib;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
@@ -14,7 +15,7 @@ import nl.uu.cs.uuspaceagent.UUTacticLib;
 import spaceEngineers.model.DefinitionId;
 
 import org.junit.jupiter.api.Test;
-import static nl.uu.cs.aplib.AplibEDSL.DEPLOY;
+import static nl.uu.cs.aplib.AplibEDSL.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Method;
@@ -42,8 +43,38 @@ public class Test_PlaceBlockAt {
         var sqDestination = state.navgrid.gridProjectedLocation(destination) ;
         var centerOfSqDestination = state.navgrid.getSquareCenterLocation(sqDestination) ;
 
+        var itemId = DefinitionId.Companion.cubeBlock("LargeBlockArmorBlock");
 
-        GoalStructure G = DEPLOY(UUGoalLib.placedBlockAt(destination, DefinitionId.Companion.cubeBlock("LargeHeavyBlockArmorBlock")));
+        GoalStructure placeBlock = DEPLOY(UUGoalLib.placedBlockAt(destination, itemId));
+        
+        // Goal to check that placement was correct
+        GoalStructure checkCorrectness = goal("check succesful placement")
+        		.toSolve((Boolean e) -> {
+        			return e;
+        		})
+        		.withTactic(
+        				SEQ(
+        						UUTacticLib.equip(new DefinitionId(DefinitionId.PHYSICAL_GUN, "AngleGrinder4Item")),
+        						action("checkTargetBlock").on((UUSeAgentState state2) -> {
+        							var targetBlock = state2.targetBlock();
+        							var req1 = targetBlock.getProperty("blockType").toString().equals(itemId.getType());
+        							var req2 = SEBlockFunctions.pointInsideArea(
+        									Vec3.sub(targetBlock.position, Vec3.one()), 
+        									Vec3.add(targetBlock.position, Vec3.one()),
+        									destination);      			
+        							
+        							console(req1 + " and " + req2);
+        							return Boolean.valueOf(req1 && req2);
+        						}).do2((UUSeAgentState na) -> (Boolean queryResult) -> { 
+        							return queryResult; 
+    							})
+        						.lift(),
+        						ABORT()
+						)
+				).lift();
+        
+        
+        GoalStructure G = SEQ(placeBlock, UUGoalLib.faceToward(null, destination), checkCorrectness);
         
         agent.setGoal(G) ;
 
@@ -93,7 +124,7 @@ public class Test_PlaceBlockAt {
     @Test
     public void test_placeBlockAt2() throws InterruptedException {
         //TODO: finish writing this test
-        Vec3 dest = new Vec3(14.75f, 4.25f, 17.5f);
+        Vec3 dest = new Vec3(14.75f, 5f, 17.5f);
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;

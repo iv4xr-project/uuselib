@@ -9,6 +9,8 @@ import eu.iv4xr.framework.spatial.Vec3;
 import spaceEngineers.iv4xr.goal.GoalBuilder;
 import spaceEngineers.iv4xr.goal.TacticLib;
 import nl.uu.cs.aplib.mainConcepts.*;
+import nl.uu.cs.aplib.mainConcepts.GoalStructure.GoalsCombinator;
+
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 import nl.uu.cs.aplib.utils.Pair;
 import spaceEngineers.model.Block;
@@ -16,7 +18,7 @@ import spaceEngineers.model.DefinitionId;
 import spaceEngineers.model.Observation;
 import spaceEngineers.model.ToolbarLocation;
 
-
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -24,6 +26,22 @@ import java.util.stream.Collectors;
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
 
 public class UUGoalLib {
+	
+	/**
+     * REPEATwith(a,G,p) implements repeat-until. It will repeatedly try G, while p is true. 
+     * Unlike the standard REPEAT, we do not stops when G succeeds. The iteration
+     * stops when at the end of G, g is false on the resulting state.
+     */
+    public static <AgentState extends SimpleState> GoalStructure REPEATwith(Iterator<GoalStructure> gs) {
+    	if (!gs.hasNext()) return SUCCESS();
+    	
+    	var nextGoal = DEPLOY((AgentState state) -> {
+    		return REPEATwith(gs);
+    	});
+    	
+    	return SEQ(gs.next(), nextGoal);
+    	
+    }
 
     /**
      * A goal that is solved when the agent manage to be in some distance close to a
@@ -48,7 +66,7 @@ public class UUGoalLib {
                         return Vec3.sub(targetSquareCenter,agentPosition).lengthSq() <= UUTacticLib.THRESHOLD_SQUARED_DISTANCE_TO_SQUARE ;
                     })
                     .withTactic(
-                       FIRSTof(UUTacticLib.navigateToTAC(targetLocation), ABORT()) )
+                       FIRSTof(UUTacticLib.smartNavigateToTAC(targetLocation), ABORT()) )
                     .lift() ;
                  return G ;
 
@@ -177,7 +195,9 @@ public class UUGoalLib {
     public static GoalStructure grinderEquiped() {
         return lift("Grinder equiped",
                   action("equip grinder").do1((UUSeAgentState state) -> {
-                     state.env().equip(new ToolbarLocation(0,0));
+                     //state.env().equip(new ToolbarLocation(0,0));
+                	 var itemId = new DefinitionId(DefinitionId.PHYSICAL_GUN, "AngleGrinderItem");
+                	 state.env().getController().getItems().setToolbarItem(itemId, new ToolbarLocation(0,0));
                      return true ;
                   })
                 ) ;
@@ -383,12 +403,17 @@ public class UUGoalLib {
     		// lookTarget is the nearest face to the where the block should be placed
     		Vec3 lookTarget = SEBlockFunctions.findClosestFace(state.worldmodel, blockLocation);
     		
-    		//TODO: this approach to the location still isn't ideal as it cuts off abruptly and "hopes" that the player is in the right place.
-    		Vec3 playerDestination = blockLocation;
+    		// Find the best spot for the agent to stand when placing the block.
+    		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(state.navgrid, blockLocation);
+    		destinationCandidates.sort((v1, v2) -> Float.compare(
+            		Vec3.sub(v1, state.worldmodel.position).lengthSq(),
+            		Vec3.sub(v2, state.worldmodel.position).lengthSq()
+            		));
+    		Vec3 playerDestination = Vec3.sub(destinationCandidates.getFirst(), Vec3.div(state.getHeadOffset(), 2));;
     		
     		state.navgrid.enableFlying = true;
     		
-    		if (Math.abs(playerDestination.y - state.worldmodel.position.y) < 3)
+    		if (Math.abs(playerDestination.y - state.worldmodel.position.y) < 2)
     		{
     			state.navgrid.enableFlying = false;
     			playerDestination.y = state.worldmodel.position.y;
@@ -396,16 +421,7 @@ public class UUGoalLib {
 
     		
     		// Goal to move within placement/view range of the target.
-    		GoalStructure nearLookTarget = goal("move to near the target:" + blockLocation)
-                    .toSolve((Pair<Vec3,Vec3> posAndOrientation) -> {
-                        var agentPosition = posAndOrientation.fst;
-                        float dist = Vec3.sub(playerDestination,agentPosition).lengthSq();
-                        console("distance; " + String.valueOf(dist));
-                        return dist <= 4*4 ;
-                    })
-                    .withTactic(
-                       FIRSTof(UUTacticLib.smartNavigateToTAC(playerDestination), ABORT()) )
-                    .lift() ;
+    		GoalStructure nearLookTarget = DEPLOY(closeTo(playerDestination));
 
     		// Goal to actually place block from inventory.
             GoalStructure blockPlaced =  goal("place block at")
@@ -417,11 +433,14 @@ public class UUGoalLib {
     				)
             		.lift();
             
+            
+            		
             // Execution sequence:
             // 1. Move to the adjacent spot
         	// 2. Look at the face of a nearby block that is closest to the intended destination
         	// 3. Equip and use block from inventory
             return SEQ(
+            		//goal(null).withTactic(ABORT()).lift(),
             		nearLookTarget, 
             		faceToward(null, lookTarget),
             		blockPlaced);

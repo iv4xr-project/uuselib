@@ -11,6 +11,7 @@ import eu.iv4xr.framework.mainConcepts.TestAgent;
 import eu.iv4xr.framework.mainConcepts.WorldEntity;
 import spaceEngineers.model.Block;
 import spaceEngineers.model.CharacterObservation;
+import eu.iv4xr.framework.spatial.Vec3;
 
 class Coba_Debug {
 
@@ -41,6 +42,7 @@ class Coba_Debug {
 //            	break;
 
             
+            
             var val = state.worldmodel.elements.get(state.agentId);
             if (val != null)
             {
@@ -49,6 +51,7 @@ class Coba_Debug {
             	{
                     WorldEntity e = state.worldmodel.getElement("135874907702158004").elements.get(targetId);
                     console(e.toString());
+                    
             	}
             	
                 

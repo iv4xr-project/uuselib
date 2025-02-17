@@ -13,6 +13,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
+import nl.uu.cs.uuspaceagent.DPos3;
 
 /**
  * Utility functions related to SE blocks.
@@ -254,6 +255,10 @@ public class SEBlockFunctions {
         return f ;
     }
     
+    /**
+     * Given a worldmodel and a targetPosition, finds the nearest face of any adjacent block.
+     * @return The coordinates of the center of the nearest block face.
+     */
     public static Vec3 findClosestFace(WorldModel wom, Vec3 targetPosition) {
                                     
         WorldEntity block = SEBlockFunctions.findClosestBlockPosition(wom,targetPosition,3.0f);
@@ -276,5 +281,69 @@ public class SEBlockFunctions {
         
     	return faces.get(0);
     }
+    
+    
+    /**
+     * Given a navGrid and a targetPosition, finds a list of neighboring points that a character would be able to reach.
+     * Prioritises points on the same y-position as the target. If any are found, it will not consider other y-positions at all.
+     * @return A list of world coordinates that are empty and adjacent to the target.
+     */
+    public static List<Vec3> findEmptyNeighbor(NavGrid navGrid, Vec3 targetPosition) {
+    	var p = navGrid.gridProjectedLocation(targetPosition);
+    	 List<Vec3> candidates = new LinkedList<>() ;
+    	 
+    	 var distance = 6;
+    	 var diameter = distance * 2;
+    	 
+    	 class Local {
+    		 void checkNeighbor(DPos3 neighbourCube) {
+                 var obstacle = navGrid.knownObstacles.get(neighbourCube) ;
+                 
 
+                 if (obstacle != null)
+                 {
+                	 console(obstacle.toString());
+                	 obstacle.forEach(e -> System.out.println(e.blockPosition));
+                 }
+                	 
+                 
+                 if(obstacle!=null && obstacle.stream().anyMatch(o -> o.isBlocking)) return;
+                 //console("found empty spot at " + navGrid.getSquareCenterLocation(neighbourCube));
+                 candidates.add(navGrid.getSquareCenterLocation(neighbourCube)) ;  
+    		 }
+    	 }
+    	 
+    	 
+    	 // Individually check all three axis for a empty neighbor orthogonal to the targetPosition.
+         for (int x = p.x-distance ; x <= p.x+distance ; x+=diameter) {
+             new Local().checkNeighbor(new DPos3(x,p.y,p.z));          
+         }
+         
+         for (int z = p.z-distance ; z <= p.z+distance ; z+=diameter) {
+        	 new Local().checkNeighbor(new DPos3(p.x,p.y,z));
+         }
+         
+         if (!candidates.isEmpty()) return candidates;
+         
+         for (int y = p.y-distance; y <= p.y+distance; y+=diameter) {
+        	 new Local().checkNeighbor(new DPos3(p.x,y,p.z));
+    	 }
+
+         
+    	return candidates;
+    }
+
+    /**
+     * Given a axis-aligned set of bounds, compute whether a point lies within the area created by the bounds.
+     * @param minPos - The smallest corner of the area.
+     * @param maxPos - The largest corner of the area.
+     * @param p - the point to test.
+     */
+    public static boolean pointInsideArea(Vec3 minPos, Vec3 maxPos, Vec3 p) {
+    	
+    	var req1 = p.x > minPos.x && p.y > minPos.y && p.z > minPos.z;
+    	var req2 = p.x < maxPos.x && p.y < maxPos.y && p.z < maxPos.z;
+    	
+    	return req1 && req2;
+    }
 }
