@@ -62,7 +62,8 @@ public class UUTacticLib {
      * as the square of the distance (so that we don't have to keep calculating square-roots).
      */
     public static float THRESHOLD_SQUARED_DISTANCE_TO_SQUARE = NavGrid.CUBE_SIZE * NavGrid.CUBE_SIZE; //1.3f * Grid2DNav.SQUARE_SIZE * 1.3f * Grid2DNav.SQUARE_SIZE
-    public static float THRESHOLD_SQUARED_DISTANCE_TO_POINT= 1.7f ; // magic number ... :|
+    public static float THRESHOLD_SQUARED_DISTANCE_TO_POINT= 0.5f ; // magic number ... :|
+    public static float THRESHOLD_SQUARED_DISTANCE_TO_POINT_FLYING = 1.7f;
 
     /**
      * The unit move-vector that will cause the agent to move in the same direction as its
@@ -139,7 +140,7 @@ public class UUTacticLib {
         //}
         // now move... sustain it for the given duration:
         CharacterObservation obs = null; ;
-        float threshold = THRESHOLD_SQUARED_DISTANCE_TO_POINT - 0.15f ;
+        float threshold = (agentState.jetpackRunning() ? THRESHOLD_SQUARED_DISTANCE_TO_POINT_FLYING : THRESHOLD_SQUARED_DISTANCE_TO_POINT) - 0.15f ;
         for(int k=0; k<duration; k++) {
             obs = agentState.env().getController().getCharacter().moveAndRotate(
                     SEBlockFunctions.toSEVec3(running ? seFixPolarityMoveVector(forwardRun) : seFixPolarityMoveVector(forwardWalk))
@@ -148,6 +149,7 @@ public class UUTacticLib {
             
             sqDistance = Vec3.sub(SEBlockFunctions.fromSEVec3(obs.getPosition()),destination).lengthSq() ;
             if(sqDistance <= threshold) {
+            	console("break");
                 break ;
             }
             if (running && sqDistance <= 1f) running = false ;

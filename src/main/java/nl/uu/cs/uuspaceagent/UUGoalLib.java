@@ -28,9 +28,9 @@ import static nl.uu.cs.uuspaceagent.TestUtils.console;
 public class UUGoalLib {
 	
 	/**
-     * REPEATwith(a,G,p) implements repeat-until. It will repeatedly try G, while p is true. 
-     * Unlike the standard REPEAT, we do not stops when G succeeds. The iteration
-     * stops when at the end of G, g is false on the resulting state.
+     * REPEATwith(iter) implements a more generic sequencer. It takes the next goal in the iterator, 
+     * completes it, and then continues to the goal after that. This repeats until the iterator runs out
+     * items. This approach allows an external system to dynamically generate an unlimited amount of goals on demand.
      */
     public static <AgentState extends SimpleState> GoalStructure REPEATwith(Iterator<GoalStructure> gs) {
     	if (!gs.hasNext()) return SUCCESS();
