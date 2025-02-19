@@ -1,5 +1,6 @@
 package nl.uu.cs.uuspaceagent;
 
+import eu.iv4xr.framework.extensions.pathfinding.AStar;
 import eu.iv4xr.framework.mainConcepts.WorldEntity;
 import eu.iv4xr.framework.spatial.Vec3;
 import nl.uu.cs.aplib.agents.PrologReasoner.QueryResult;
@@ -163,9 +164,9 @@ public class UUTacticLib {
     public static float compensateRoll(Vec3 orientationForward, Vec3 orientationUp)
     {
     	Vec3 orientationSidewards = Vec3.cross(orientationForward, orientationUp);
-    	float rollSpeed = -1;
+    	int rollSpeed = -1;
     	
-    	if (Math.abs(orientationSidewards.y) < 0.1f)
+    	if (Math.abs(orientationSidewards.y) < 0.02f)
     		return 0;
     	
     	if (orientationSidewards.y > 0)
@@ -179,7 +180,7 @@ public class UUTacticLib {
         	
 	        	CharacterObservation obs = null;
 		
-		        
+		        console(">>>Rolling: " + roll);
 		    	for(int k=0; k<duration; k++) {
 		            obs = agentState.env().getController().getCharacter().moveAndRotate(
 		                    new Vec3F(0, 0, 0.1f), ZEROV2,
@@ -192,8 +193,8 @@ public class UUTacticLib {
 		                break ;
 		            }
 		        }
-
-		        return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
+		    	return null;
+		        //return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
         })
 		.on((UUSeAgentState state)  -> {
 			
@@ -201,7 +202,7 @@ public class UUTacticLib {
 			if (!state.jetpackRunning())
 				return null;
 			
-			var roll = compensateRoll(state.orientationForward(), state.orientationUp());
+			float roll = compensateRoll(state.orientationForward(), state.orientationUp());
 			if (roll != 0)
 				return roll;
 			
@@ -539,17 +540,17 @@ public class UUTacticLib {
      */
     public static Action TurnTowardACT(Vec3 destination) {
 
-        double cosAlphaThreshold  = 0.9995f ;
-        double cosAlphaThreshold_ = 0.9995f ;
+        float cosAlphaThreshold  = 0.9995f ;
+        float cosAlphaThreshold_ = 0.9995f ;
 
         return action("turning towards " + destination)
                 .on((UUSeAgentState state) ->{
                 	
                     Vec3 dirToGo = Vec3.sub(destination,state.getHeadPosition()) ;
-                    Vec3 forwardOrientation = state.orientationForward() ;
+                    Vec3 forwardOrientation = state.cameraOrientationForward() ;
                     dirToGo = dirToGo.normalized() ;
                     forwardOrientation = forwardOrientation.normalized() ;
-                    var cos_alpha = Vec3.dot(forwardOrientation,dirToGo) ;
+                    float cos_alpha = Vec3.dot(forwardOrientation,dirToGo) ;
                     
                     if(cos_alpha >= cosAlphaThreshold) { // the angle is quite aligned, the action is disabled
                         //return null ;
@@ -563,9 +564,11 @@ public class UUTacticLib {
                         return cos_alpha ;
                     }
                     Vec3 dirToGo = Vec3.sub(destination,state.getHeadPosition()) ;
-                    Vec3 forwardOrientation = SEBlockFunctions.fromSEVec3(obs.getOrientationForward()) ;
+                    Vec3 forwardOrientation = SEBlockFunctions.fromSEVec3(obs.getCamera().getOrientationForward()) ;
                     dirToGo = dirToGo.normalized() ;
                     forwardOrientation = forwardOrientation.normalized() ;
+                    console("dirToGo: " + dirToGo);
+                    console("forwardOrientation: " + forwardOrientation);
                     cos_alpha = Vec3.dot(forwardOrientation,dirToGo) ;
                     return cos_alpha ;
                 }) ;
@@ -677,6 +680,7 @@ public class UUTacticLib {
                     if (currentPathLength == 0
                             || ! destinationSq.equals(state.currentPathToFollow.get(currentPathLength - 1)))
                     {  // there is no path planned, or there is an ongoing path, but it goes to a different target
+                    	console(">>> Searching for path");
                         List<DPos3> path = state.pathfinder.findPath(state.navgrid, agentSq, destinationSq)  ;
                         if (path == null) {
                             // the pathfinder cannot find a path. The tactic is then not enabled:

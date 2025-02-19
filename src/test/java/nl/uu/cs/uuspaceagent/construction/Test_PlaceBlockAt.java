@@ -31,7 +31,7 @@ public class Test_PlaceBlockAt {
      */
     public Pair<TestAgent,GoalStructure> deployAgent(Vec3 destination) throws InterruptedException {
         console("*** start test...") ;
-        var agentAndState = loadSE("islanddswithdoors") ;
+        var agentAndState = loadSE("blockPlacementTests") ;
         TestAgent agent = agentAndState.fst ;
         UUSeAgentState state = agentAndState.snd ;
         Thread.sleep(1000);
@@ -43,7 +43,7 @@ public class Test_PlaceBlockAt {
         var sqDestination = state.navgrid.gridProjectedLocation(destination) ;
         var centerOfSqDestination = state.navgrid.getSquareCenterLocation(sqDestination) ;
 
-        var itemId = DefinitionId.Companion.cubeBlock("LargeBlockArmorBlock");
+        var itemId = DefinitionId.Companion.cubeBlock("LargeHeavyBlockArmorBlock");
 
         GoalStructure placeBlock = DEPLOY(UUGoalLib.placedBlockAt(destination, itemId));
         
@@ -74,7 +74,7 @@ public class Test_PlaceBlockAt {
 				).lift();
         
         
-        GoalStructure G = SEQ(placeBlock, UUGoalLib.faceToward(null, destination), checkCorrectness);
+        GoalStructure G = SEQ(placeBlock, UUGoalLib.faceToward("face towards new block", destination), checkCorrectness);
         
         agent.setGoal(G) ;
 
@@ -110,7 +110,7 @@ public class Test_PlaceBlockAt {
     @Test
     public void test_placeBlockAt1() throws InterruptedException {
         //TODO: finish writing this test
-        Vec3 dest = new Vec3(2.8f, 2.5f, 20);
+        Vec3 dest = new Vec3(8.75f, -3.75f, 40);
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;
@@ -124,7 +124,50 @@ public class Test_PlaceBlockAt {
     @Test
     public void test_placeBlockAt2() throws InterruptedException {
         //TODO: finish writing this test
-        Vec3 dest = new Vec3(14.75f, 5f, 17.5f);
+        Vec3 dest = new Vec3(13.75f, -1.25f, 42.5f);
+        var agent_and_goal = deployAgent(dest);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    
+    @Test
+    public void test_placeBlockAt3() throws InterruptedException {
+        //TODO: finish writing this test
+        Vec3 dest = new Vec3(18.75f, 1.25f, 42.5f);
+        var agent_and_goal = deployAgent(dest);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    @Test
+    public void test_placeBlockAt4() throws InterruptedException {
+        //TODO: finish writing this test
+        Vec3 dest = new Vec3(8.75f, -1.25f, 40f);
+        var agent_and_goal = deployAgent(dest);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    @Test
+    public void test_placeBlockAt5() throws InterruptedException {
+        //TODO: finish writing this test
+        Vec3 dest = new Vec3(8.75f, 1.25f, 42.5f);
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;

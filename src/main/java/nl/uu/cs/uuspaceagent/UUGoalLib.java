@@ -13,6 +13,7 @@ import nl.uu.cs.aplib.mainConcepts.GoalStructure.GoalsCombinator;
 
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 import nl.uu.cs.aplib.utils.Pair;
+import nl.uu.cs.uuspaceagent.SEBlockFunctions.BlockSides;
 import spaceEngineers.model.Block;
 import spaceEngineers.model.DefinitionId;
 import spaceEngineers.model.Observation;
@@ -335,9 +336,9 @@ public class UUGoalLib {
         return goal(goalname)
                 .toSolve((Float cos_alpha) -> {
                 	console("cos alpha =" + String.valueOf(cos_alpha));
-                	return 1 - cos_alpha <= 0.03;
+                	return 1 - cos_alpha <= 0.005f;
                 })
-                .withTactic(FIRSTof(UUTacticLib.TurnTowardACT(p).lift() , ABORT()))
+                .withTactic(FIRSTof(UUTacticLib.TurnTowardACT(p).lift(), ABORT()))
                 .lift() ;
     }
 
@@ -401,10 +402,11 @@ public class UUGoalLib {
     	return (UUSeAgentState state) -> {
     		
     		// lookTarget is the nearest face to the where the block should be placed
-    		Vec3 lookTarget = SEBlockFunctions.findClosestFace(state.worldmodel, blockLocation);
+    		Pair<BlockSides, Vec3> lookTarget = SEBlockFunctions.findClosestFace(state.worldmodel, blockLocation);
+    		console("Face center: " + lookTarget.snd);
     		
     		// Find the best spot for the agent to stand when placing the block.
-    		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(state.navgrid, blockLocation);
+    		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(state.navgrid, blockLocation, lookTarget.fst);
     		destinationCandidates.sort((v1, v2) -> Float.compare(
             		Vec3.sub(v1, state.worldmodel.position).lengthSq(),
             		Vec3.sub(v2, state.worldmodel.position).lengthSq()
@@ -442,7 +444,7 @@ public class UUGoalLib {
             return SEQ(
             		//goal(null).withTactic(ABORT()).lift(),
             		nearLookTarget, 
-            		faceToward(null, lookTarget),
+            		faceToward("look towards neighbor side", lookTarget.snd),
             		blockPlaced);
         } ;		
     }

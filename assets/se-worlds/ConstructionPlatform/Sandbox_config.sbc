@@ -8,19 +8,19 @@
     <AssemblerEfficiencyMultiplier>3</AssemblerEfficiencyMultiplier>
     <RefinerySpeedMultiplier>3</RefinerySpeedMultiplier>
     <OnlineMode>OFFLINE</OnlineMode>
-    <MaxPlayers>4</MaxPlayers>
+    <MaxPlayers>1</MaxPlayers>
     <MaxFloatingObjects>56</MaxFloatingObjects>
     <TotalBotLimit>32</TotalBotLimit>
     <MaxBackupSaves>5</MaxBackupSaves>
     <MaxGridSize>0</MaxGridSize>
     <MaxBlocksPerPlayer>0</MaxBlocksPerPlayer>
     <TotalPCU>100000</TotalPCU>
-    <PiratePCU>50000</PiratePCU>
+    <PiratePCU>25000</PiratePCU>
     <GlobalEncounterPCU>25000</GlobalEncounterPCU>
     <MaxFactionsCount>0</MaxFactionsCount>
     <BlockLimitsEnabled>GLOBALLY</BlockLimitsEnabled>
     <EnableRemoteBlockRemoval>true</EnableRemoteBlockRemoval>
-    <EnvironmentHostility>SAFE</EnvironmentHostility>
+    <EnvironmentHostility>NORMAL</EnvironmentHostility>
     <AutoHealing>true</AutoHealing>
     <EnableCopyPaste>true</EnableCopyPaste>
     <WeaponsEnabled>true</WeaponsEnabled>
@@ -36,15 +36,15 @@
     <RealisticSound>false</RealisticSound>
     <HackSpeedMultiplier>0.33</HackSpeedMultiplier>
     <PermanentDeath>false</PermanentDeath>
-    <AutoSaveInMinutes>5</AutoSaveInMinutes>
-    <EnableSaving>true</EnableSaving>
+    <AutoSaveInMinutes>1</AutoSaveInMinutes>
+    <EnableSaving>false</EnableSaving>
     <InfiniteAmmo>false</InfiniteAmmo>
     <EnableContainerDrops>true</EnableContainerDrops>
     <SpawnShipTimeMultiplier>0</SpawnShipTimeMultiplier>
     <ProceduralDensity>0.35</ProceduralDensity>
-    <ProceduralSeed>0</ProceduralSeed>
+    <ProceduralSeed>1041586795</ProceduralSeed>
     <DestructibleBlocks>true</DestructibleBlocks>
-    <EnableIngameScripts>true</EnableIngameScripts>
+    <EnableIngameScripts>false</EnableIngameScripts>
     <ViewDistance>15000</ViewDistance>
     <EnableToolShake>true</EnableToolShake>
     <VoxelGeneratorVersion>4</VoxelGeneratorVersion>
@@ -113,10 +113,10 @@
     <WeatherSystem>true</WeatherSystem>
     <WeatherLightingDamage>false</WeatherLightingDamage>
     <HarvestRatioMultiplier>1</HarvestRatioMultiplier>
-    <TradeFactionsCount>15</TradeFactionsCount>
-    <StationsDistanceInnerRadius>10000000</StationsDistanceInnerRadius>
-    <StationsDistanceOuterRadiusStart>10000000</StationsDistanceOuterRadiusStart>
-    <StationsDistanceOuterRadiusEnd>30000000</StationsDistanceOuterRadiusEnd>
+    <TradeFactionsCount>10</TradeFactionsCount>
+    <StationsDistanceInnerRadius>5000000</StationsDistanceInnerRadius>
+    <StationsDistanceOuterRadiusStart>5000000</StationsDistanceOuterRadiusStart>
+    <StationsDistanceOuterRadiusEnd>10000000</StationsDistanceOuterRadiusEnd>
     <EconomyTickInSeconds>1200</EconomyTickInSeconds>
     <NPCGridClaimTimeLimit>120</NPCGridClaimTimeLimit>
     <SimplifiedSimulation>false</SimplifiedSimulation>
@@ -175,6 +175,6 @@
     <MaxHudChatMessageCount>100</MaxHudChatMessageCount>
   </Settings>
   <Mods />
-  <SessionName>islanddswithdoors</SessionName>
-  <LastSaveTime>2025-02-18T17:15:16.8269753+01:00</LastSaveTime>
+  <SessionName>ConstructionPlatform</SessionName>
+  <LastSaveTime>2025-02-18T16:47:10.9458553+01:00</LastSaveTime>
 </MyObjectBuilder_WorldConfiguration>
