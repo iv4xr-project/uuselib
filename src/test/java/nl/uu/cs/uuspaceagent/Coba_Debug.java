@@ -18,7 +18,7 @@ class Coba_Debug {
 	@Test
 	void test() throws InterruptedException {
 		console("*** start coba...") ;
-		var agentAndState = loadSE("islanddswithdoors") ;
+		var agentAndState = loadSE("ConstructionPlatform") ;
         TestAgent agent = agentAndState.fst ;
         UUSeAgentState state = agentAndState.snd ;
         Thread.sleep(1000);
@@ -31,13 +31,17 @@ class Coba_Debug {
             agent.update();
             state.updateState(state.agentId);
                      
-//            for (var e : state.worldmodel.elements.keySet())
-//            {
-//            	console("---");
-//            	console("id: " + e);
-//            	if (state.worldmodel.elements.get(e).type == "grid")
-//            		console(state.worldmodel.elements.get(e).position.toString());//.entrySet().toString());
-//            }          
+            WorldEntity grid = null;
+            for (var e : state.worldmodel.elements.keySet())
+            {
+            	console("---");
+            	console("id: " + e);
+            	if (state.worldmodel.elements.get(e).type == "grid")
+            	{
+            		grid = state.worldmodel.elements.get(e);
+            		console(state.worldmodel.elements.get(e).position.toString());
+            	}
+            }          
 //            if (true)
 //            	break;
 
@@ -49,8 +53,9 @@ class Coba_Debug {
             	var targetId = val.getStringProperty ("targetBlock");
             	if (targetId != null)
             	{
-                    WorldEntity e = state.worldmodel.getElement("135874907702158004").elements.get(targetId);
+                    WorldEntity e = grid.elements.get(targetId);
                     console(e.toString());
+                    console(e.getClass().toString());
                     
             	}
             	

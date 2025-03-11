@@ -50,4 +50,18 @@ public class DPos3 implements Serializable {
     public Vec3 toVec3() {
         return new Vec3(x,y,z) ;
     }
+    
+    /**
+     * @return A + B
+     */
+    public static DPos3 add(DPos3 a, DPos3 b) {
+        return new DPos3(a.x + b.x, a.y + b.y, a.z + b.z);
+    }
+
+    /**
+     * @return A - B
+     */
+    public static DPos3 sub(DPos3 a, DPos3 b) {
+        return new DPos3(a.x - b.x, a.y - b.y, a.z - b.z);
+    }
 }

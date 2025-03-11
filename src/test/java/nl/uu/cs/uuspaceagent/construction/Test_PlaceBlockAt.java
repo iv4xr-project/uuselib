@@ -109,7 +109,6 @@ public class Test_PlaceBlockAt {
 
     @Test
     public void test_placeBlockAt1() throws InterruptedException {
-        //TODO: finish writing this test
         Vec3 dest = new Vec3(8.75f, -3.75f, 40);
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;
@@ -123,7 +122,6 @@ public class Test_PlaceBlockAt {
     
     @Test
     public void test_placeBlockAt2() throws InterruptedException {
-        //TODO: finish writing this test
         Vec3 dest = new Vec3(13.75f, -1.25f, 42.5f);
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;
@@ -138,7 +136,6 @@ public class Test_PlaceBlockAt {
     
     @Test
     public void test_placeBlockAt3() throws InterruptedException {
-        //TODO: finish writing this test
         Vec3 dest = new Vec3(18.75f, 1.25f, 42.5f);
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;
@@ -152,7 +149,6 @@ public class Test_PlaceBlockAt {
     
     @Test
     public void test_placeBlockAt4() throws InterruptedException {
-        //TODO: finish writing this test
         Vec3 dest = new Vec3(8.75f, -1.25f, 40f);
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;
@@ -166,7 +162,6 @@ public class Test_PlaceBlockAt {
     
     @Test
     public void test_placeBlockAt5() throws InterruptedException {
-        //TODO: finish writing this test
         Vec3 dest = new Vec3(8.75f, 1.25f, 42.5f);
         var agent_and_goal = deployAgent(dest);
         TestAgent agent = agent_and_goal.fst ;

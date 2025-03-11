@@ -10,6 +10,7 @@ import nl.uu.cs.uuspaceagent.TestUtils;
 import nl.uu.cs.uuspaceagent.UUGoalLib;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
 import nl.uu.cs.uuspaceagent.UUTacticLib;
+import nl.uu.cs.uuspaceagent.ConstructionPlanner;
 
 import org.junit.jupiter.api.Test;
 import static nl.uu.cs.aplib.AplibEDSL.* ;
@@ -39,7 +40,7 @@ public class Test_REPEATwith {
 
         //float dth = 1.3f * Grid2DNav.SQUARE_SIZE ;
         //final float distance_to_sq_threshold = dth*dth ;
-
+        
         agent.setGoal(G) ;
 
         int turn= 0 ;
