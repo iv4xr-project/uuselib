@@ -51,7 +51,7 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 	}
 	
 	public Vec3 getWorldLocationFromCell(DPos3 cellPosition) {
-		// TODO Implement conversion from cell position in grid to real world coordinates.
+		
 		var offsetToCell = DPos3.sub(cellPosition, blueprint.originCell);
 		console(offsetToCell.toString());
 		var cellLocation = new Vec3(
@@ -126,7 +126,7 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 					console("*** Block was not succesfully placed at " + cellPosition.toString());
 					return false;
 				}
-				
+				console("adding " + newBlock.id + " to " + cellPosition.toString());
 				blueprint.addEntity(cellPosition, newBlock);
 			}
 		}
@@ -145,6 +145,9 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		
 		// For each unplaced cell, check whether it can be placed.
 		var placeableCells = unplacedCells.stream().filter((DPos3 pos) -> {
+			
+			if (pos.equals(blueprint.originCell)) return true;
+			
 			var neighborEntities = blueprint.getNeighbourEntities(pos);
 			
 			// A block can't be placed if it has no placed neighbors or is completely surrounded on all sides.
@@ -183,13 +186,17 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		
 		// Get possible blocks to place
 		var placeableCells = placeableCells();
-		if (placeableCells.size() == 0) return null;
+		
+		// If we run out of placeableblocks before the blueprint is finished then something went wrong
+		if (placeableCells.size() == 0 && blueprint.getProgress() < 1) return FAIL();
 		
 		//TODO sort the placeable cells for BFS or DFS
 		
 		// Get the goal for the next block
 		DPos3 cellPosition = placeableCells.get(0);
 		GoalStructure G = getConstructionGoal(cellPosition);
+		
+		console("*** next goal is at " + cellPosition.toString());
 		
 		// Add goal to pending list
 		pendingBlocks.add(new Pair<>(cellPosition,G));

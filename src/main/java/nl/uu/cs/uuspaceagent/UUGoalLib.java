@@ -403,24 +403,27 @@ public class UUGoalLib {
     		
     		// lookTarget is the nearest face to the where the block should be placed
     		Pair<BlockSides, Vec3> lookTarget = SEBlockFunctions.findClosestFace(state.worldmodel, blockLocation);
-    		console("Face center: " + lookTarget.snd);
+    		//console("Face center: " + lookTarget.snd);
     		
     		// Find the best spot for the agent to stand when placing the block.
+    		console("looking for empty neighbor");
     		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(state.navgrid, blockLocation, lookTarget.fst);
+    		
     		destinationCandidates.sort((v1, v2) -> Float.compare(
             		Vec3.sub(v1, state.worldmodel.position).lengthSq(),
             		Vec3.sub(v2, state.worldmodel.position).lengthSq()
             		));
-    		Vec3 playerDestination = Vec3.sub(destinationCandidates.getFirst(), Vec3.div(state.getHeadOffset(), 2));;
+    		Vec3 playerDestination = Vec3.sub(destinationCandidates.getFirst(), Vec3.div(state.getHeadOffset(), 2));
     		
     		state.navgrid.enableFlying = true;
     		
     		if (Math.abs(playerDestination.y - state.worldmodel.position.y) < 2)
     		{
     			state.navgrid.enableFlying = false;
-    			playerDestination.y = state.worldmodel.position.y;
+    			playerDestination.y = state.worldmodel.position.y + 0.1f;
     		}
 
+    		console("player destination: " + playerDestination.toString());
     		
     		// Goal to move within placement/view range of the target.
     		GoalStructure nearLookTarget = DEPLOY(closeTo(playerDestination));
@@ -441,11 +444,12 @@ public class UUGoalLib {
             // 1. Move to the adjacent spot
         	// 2. Look at the face of a nearby block that is closest to the intended destination
         	// 3. Equip and use block from inventory
+            // 4. Equip empty hand.
             return SEQ(
-            		//goal(null).withTactic(ABORT()).lift(),
             		nearLookTarget, 
             		faceToward("look towards neighbor side", lookTarget.snd),
-            		blockPlaced);
+            		blockPlaced,
+            		lift("unequiped block", UUTacticLib.unequip()));
         } ;		
     }
 }

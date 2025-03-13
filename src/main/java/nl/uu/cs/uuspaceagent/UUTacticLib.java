@@ -383,9 +383,6 @@ public class UUTacticLib {
         
         console("angleToGo: " + angleToGo);
         console("angleAgent: " + angleAgent);
-        console("vCos_alpha: " + vCos_alpha);
-        
-        //TODO: looking sharply down doesnt work when flying fsr
         
         //var vCos_alpha = Vec3.dot(agentVdir,vDirToGo) ;
         if(vCos_alpha >= THRESHOLD_ANGLE_TO_SLOW_TURNING) {
@@ -567,8 +564,6 @@ public class UUTacticLib {
                     Vec3 forwardOrientation = SEBlockFunctions.fromSEVec3(obs.getCamera().getOrientationForward()) ;
                     dirToGo = dirToGo.normalized() ;
                     forwardOrientation = forwardOrientation.normalized() ;
-                    console("dirToGo: " + dirToGo);
-                    console("forwardOrientation: " + forwardOrientation);
                     cos_alpha = Vec3.dot(forwardOrientation,dirToGo) ;
                     return cos_alpha ;
                 }) ;
@@ -844,6 +839,14 @@ public class UUTacticLib {
     			}).lift()
     			);
     			
+    }
+    
+    public static Action unequip() {
+    	return action("unequip").do1((UUSeAgentState) -> {
+    		equip(new ToolbarLocation(0,0));
+    		return true;
+    	});
+ 
     }
    
 }

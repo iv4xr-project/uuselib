@@ -29,7 +29,7 @@ class Coba_ConstructionPlanner {
         Thread.sleep(1000);
         state.updateState(state.agentId);
         
-      //Find grid
+        //Find grid
         WorldEntity grid = null;
         for (var e : state.worldmodel.elements.keySet())
         {

@@ -79,15 +79,13 @@ public class Blueprint {
 	public List<DPos3> getNeighborPositions(DPos3 cellPosition){
 		ArrayList<DPos3> neighbors = new ArrayList<DPos3>();
 		var p = cellPosition;
-		
 		for (int x = p.x-1 ; x <= p.x+1 ; x++) 
 			for (int y = p.y-1 ; y <= p.y+1 ; y++) 
-				for (int z = p.z-1 ; z < p.z+1 ; z++) {
+				for (int z = p.z-1 ; z <= p.z+1 ; z++) {
 					if(x==p.x && y==p.y && z==p.z) continue;
 					DPos3 neighbor = new DPos3(x, y, z);
 					if(isWithinBounds(neighbor)) neighbors.add(neighbor);
 		        }
-		
 		return neighbors;
 	}
 	
@@ -216,7 +214,6 @@ public class Blueprint {
 			reader.close();
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return blueprint;	

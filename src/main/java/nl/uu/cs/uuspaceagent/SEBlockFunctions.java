@@ -217,7 +217,7 @@ public class SEBlockFunctions {
                 .stream()
                 .filter(e -> selector.test(e))
                 .collect(Collectors.toList());
-        console(Integer.toString(candidates.size()));
+        //console(Integer.toString(candidates.size()));
         if(candidates.isEmpty()) return null ;
         //System.out.println("candidates in find close block " + candidates.size());
         //candidates.forEach(e -> System.out.println("candidate to move" + e));
@@ -301,14 +301,6 @@ public class SEBlockFunctions {
     	 class Local {
     		 void checkNeighbor(DPos3 neighbourCube) {
                  var obstacle = navGrid.knownObstacles.get(neighbourCube) ;
-                 
-
-                 if (obstacle != null)
-                 {
-                	 console(obstacle.toString());
-                	 obstacle.forEach(e -> System.out.println(e.blockPosition));
-                 }
-                	 
                  
                  if(obstacle!=null && obstacle.stream().anyMatch(o -> o.isBlocking)) return;
                  //console("found empty spot at " + navGrid.getSquareCenterLocation(neighbourCube));

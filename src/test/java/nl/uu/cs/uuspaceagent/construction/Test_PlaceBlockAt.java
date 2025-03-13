@@ -89,23 +89,9 @@ public class Test_PlaceBlockAt {
 
         //SocketReaderWriterKt.closeIfCloseable(state.env().getController());
         TestUtils.closeConnectionToSE(state);
-        test_Goal(agent, state, G) ;
         return new Pair<>(agent,G) ;
     }
 
-    public void test_Goal(TestAgent agent, UUSeAgentState state, GoalStructure G) throws InterruptedException {
-        agent.setGoal(G) ;
-        int turn= 0 ;
-        while(G.getStatus().inProgress()) {
-            //console(">> [" + turn + "] " + showWOMAgent(state.wom));
-            agent.update();
-            //Thread.sleep(50);
-            turn++ ;
-            if (turn >= 1400) break ;
-        }
-        //closeIfCloseable(state.env().getController());f
-        TestUtils.closeConnectionToSE(state);
-    }
 
     @Test
     public void test_placeBlockAt1() throws InterruptedException {

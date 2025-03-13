@@ -69,6 +69,7 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
 
     public UUSeAgentState(String agentId) {
         this.agentId = agentId ;
+        //((AStar<DPos3>) (this.pathfinder)).maximumNumberOfIterations = 200;
     }
 
     @Override
