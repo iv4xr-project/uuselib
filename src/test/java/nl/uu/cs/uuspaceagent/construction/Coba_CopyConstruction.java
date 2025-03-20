@@ -24,13 +24,13 @@ import nl.uu.cs.uuspaceagent.ConstructionPlanner;
 import nl.uu.cs.uuspaceagent.DPos3;
 import nl.uu.cs.uuspaceagent.SEBlockFunctions;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
-import spaceEngineers.model.typing.DefinitionIds;
-import spaceEngineers.model.typing.DefinitionIds.CubeBlock;
 
 class Coba_CopyConstruction {
 
 	@Test
 	void test() throws InterruptedException {
+		
+		
 		console("*** start coba...") ;
 		var agentAndState = loadSE("ConstructionPlatform") ;
         TestAgent agent = agentAndState.fst ;
@@ -49,6 +49,8 @@ class Coba_CopyConstruction {
         			
         			// If dampeners are turned off, copy the construction. (We use dampener state as an arbitrary trigger).
         			if (dampenersOn) return false;
+        			
+        			console("*** Parsing construction");
         			
         			//Find grid
         	        WorldEntity grid = null;
@@ -74,14 +76,13 @@ class Coba_CopyConstruction {
         			
         			for (var block : blocksInArea) {
         				var cellPosition = planner.getCellLocationFromWorld(block.position);
-        				console(block.properties.keySet().toString());
         				DefinitionId definition = DefinitionId.Companion.cubeBlock(block.getProperty("blockType").toString());
         				blueprint.addDefinition(cellPosition, definition);
         			}
         			
+        			console("*** Saving construction");
         			
-        			
-        			String filePath = "assets/se-worlds/ConstructionPlatform/";
+        			String filePath = "assets/blueprints/";
         			try {
 						PrintWriter out = new PrintWriter(filePath + "newConstruction.cons");
 						out.println(blueprint.getSize());

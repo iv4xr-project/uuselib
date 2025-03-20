@@ -194,14 +194,14 @@ public class NavGrid implements Navigatable<DPos3>{
         // Without this offset, blocks that are just below the grid surface, and touching it to form
         // the grid's solid floor will appear as obstructing.
         float correction_offset = 0.1f ;
-        if(maxCorner.y <= origin.y + correction_offset) {
-            // the block is UNDER the ground-surface. So, it won't obstruct either.
+        if(maxCorner.y <= origin.y + correction_offset - (CUBE_SIZE*6)) {
+            // the block is FAR UNDER the ground-surface. So, it won't obstruct either.
             return obstructed ;
         }
 
         // TODO: a more general approach.
         // add some padding due to agent's body width:
-        Vec3 hpadding = Vec3.mul(new Vec3(AGENT_WIDTH,0,AGENT_WIDTH), 0.6f) ;
+        Vec3 hpadding = Vec3.mul(new Vec3(AGENT_WIDTH,-0.1f,AGENT_WIDTH), 0.6f) ;
         Vec3 vpadding = new Vec3(0, AGENT_HEIGHT, 0) ;
         minCorner = Vec3.sub(minCorner,hpadding) ;
         minCorner = Vec3.sub(minCorner, vpadding) ;
@@ -210,7 +210,7 @@ public class NavGrid implements Navigatable<DPos3>{
         var corner2 = gridProjectedLocation(maxCorner) ;
         // all squares between these two corners are blocked:
         for(int x = corner1.x; x<=corner2.x; x++) {
-            for (int y = Math.max(0, corner1.y); y <= corner2.y; y++) {
+            for (int y = corner1.y; y <= corner2.y; y++) {
                 // PS: cubes below y=0 are below the ground surface and hence won't obstruct
                 // navigation on and above the surface.
                 for (int z = corner1.z; z<=corner2.z; z++) {

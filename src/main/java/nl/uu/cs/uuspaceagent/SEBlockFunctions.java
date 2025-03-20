@@ -6,6 +6,7 @@ import eu.iv4xr.framework.spatial.Vec3;
 import spaceEngineers.model.CubeSize;
 
 import java.io.Console;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
 import nl.uu.cs.uuspaceagent.DPos3;
 import nl.uu.cs.aplib.utils.Pair;
+import spaceEngineers.model.typing.DefinitionIds;
 
 /**
  * Utility functions related to SE blocks.
@@ -262,7 +264,9 @@ public class SEBlockFunctions {
      */
     public static Pair<BlockSides, Vec3> findClosestFace(WorldModel wom, Vec3 targetPosition) {
                                     
+    	//TODO: this block isn't always valid.
         WorldEntity block = SEBlockFunctions.findClosestBlockPosition(wom,targetPosition,3.0f);
+
         Vec3 diff = Vec3.sub(block.position, targetPosition);
         
         Pair<BlockSides, Vec3> x = new Pair<>(BlockSides.BACK, null);
@@ -293,24 +297,23 @@ public class SEBlockFunctions {
      */
     public static List<Vec3> findEmptyNeighbor(NavGrid navGrid, Vec3 targetPosition, BlockSides side) {
     	var p = navGrid.gridProjectedLocation(targetPosition);
-    	 List<Vec3> candidates = new LinkedList<>() ;
+    	List<Vec3> candidates = new LinkedList<>() ;
     	 
-    	 var distance = 6;
-    	 var diameter = distance * 2;
+		var distance = 6;
+		var diameter = distance * 2;
     	 
-    	 class Local {
-    		 void checkNeighbor(DPos3 neighbourCube) {
-                 var obstacle = navGrid.knownObstacles.get(neighbourCube) ;
-                 
-                 if(obstacle!=null && obstacle.stream().anyMatch(o -> o.isBlocking)) return;
-                 //console("found empty spot at " + navGrid.getSquareCenterLocation(neighbourCube));
-                 candidates.add(navGrid.getSquareCenterLocation(neighbourCube)) ;  
-    		 }
+		class Local {
+			void checkNeighbor(DPos3 neighbourCube) {
+				var obstacle = navGrid.knownObstacles.get(neighbourCube) ;
+				if(obstacle!=null && obstacle.stream().anyMatch(o -> o.isBlocking)) return;
+				//console("found empty spot at " + navGrid.getSquareCenterLocation(neighbourCube));
+				candidates.add(navGrid.getSquareCenterLocation(neighbourCube)) ;  
+			}
     	 }
     	 
     	 // Prioritise standing below when the side is bottom.
     	 if (side == BlockSides.BOTTOM) {
-    		 new Local().checkNeighbor(new DPos3(p.x,p.y-distance,p.z));
+    		 new Local().checkNeighbor(new DPos3(p.x,p.y-distance+1,p.z));
     		 if (!candidates.isEmpty()) return candidates;
     	 }
     	 
@@ -318,7 +321,7 @@ public class SEBlockFunctions {
          for (int x = p.x-distance ; x <= p.x+distance ; x+=diameter) {
              new Local().checkNeighbor(new DPos3(x,p.y,p.z));          
          }
-         
+         //(-1,-3,19
          for (int z = p.z-distance ; z <= p.z+distance ; z+=diameter) {
         	 new Local().checkNeighbor(new DPos3(p.x,p.y,z));
          }
@@ -346,4 +349,5 @@ public class SEBlockFunctions {
     	
     	return req1 && req2;
     }
+    
 }

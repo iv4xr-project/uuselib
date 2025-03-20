@@ -28,6 +28,7 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 	
 	UUSeAgentState agentState;
 	
+	boolean validLocation;
 	
 	List<Pair<DPos3, GoalStructure>> pendingBlocks;
 	
@@ -48,17 +49,18 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		
 		this.blueprint = blueprint;
 		pendingBlocks = new ArrayList<Pair<DPos3, GoalStructure>>();
+		
+		this.validLocation = isValidConstructionArea();
 	}
 	
 	public Vec3 getWorldLocationFromCell(DPos3 cellPosition) {
 		
 		var offsetToCell = DPos3.sub(cellPosition, blueprint.originCell);
-		console(offsetToCell.toString());
 		var cellLocation = new Vec3(
 				location.x + offsetToCell.x*cellSize,
 				location.y + offsetToCell.y*cellSize,
 				location.z + offsetToCell.z*cellSize);
-		
+
 		return cellLocation;
 	}
 	
@@ -126,7 +128,7 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 					console("*** Block was not succesfully placed at " + cellPosition.toString());
 					return false;
 				}
-				console("adding " + newBlock.id + " to " + cellPosition.toString());
+				console("Construction Planner: Adding block " + newBlock.id + " to " + cellPosition.toString());
 				blueprint.addEntity(cellPosition, newBlock);
 			}
 		}
@@ -143,37 +145,77 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 	List<DPos3> placeableCells(){
 		var unplacedCells = blueprint.getUnplacedCells();
 		
+		/**
+		 * Priority cells mainly include cells that will be obstructed by others in the future
+		 * and should be placed as soon as possible to avoid stuck states.
+		 */
+		List<DPos3> priorityCells = new ArrayList<DPos3>();
+		
 		// For each unplaced cell, check whether it can be placed.
 		var placeableCells = unplacedCells.stream().filter((DPos3 pos) -> {
 			
-			if (pos.equals(blueprint.originCell)) return true;
+			//if (pos.equals(blueprint.originCell)) return true;
 			
 			var neighborEntities = blueprint.getNeighbourEntities(pos);
+
+			// If the candidate is at y=0, try to find a block underneath the candidate that isn't part of the structure.
+			boolean onGround = false;
+			if (pos.y == 0) {
+				var groundBlock = SEBlockFunctions.findClosestBlockPosition(
+						agentState.worldmodel, 
+						getWorldLocationFromCell(DPos3.sub(pos, new DPos3(0,1,0))), 
+						0.2f);
+				onGround = groundBlock != null;
+			}
 			
 			// A block can't be placed if it has no placed neighbors or is completely surrounded on all sides.
-			if (neighborEntities.size() == 0 || neighborEntities.size() == 6) return false;
+			if ((neighborEntities.size() == 0 && !onGround)|| neighborEntities.size() == 6) return false;
+			// NOTE: the check above may not be 100% safe;
 			
-			// TODO: add a check that removes blocks that would make construction of other blocks impossible. 
+			// Find priority cells
+			int openFaces = 6 - (neighborEntities.size() + (onGround ? 1 : 0));
+			var neighborDefinitions = blueprint.getNeighbourDefinitions(pos);
+			
+			// Check if there is exactly 1 exposed face left that will be covered later
+			if (openFaces == 1 && neighborDefinitions.size() > neighborEntities.size())
+			{
+				priorityCells.add(pos);
+			}
+			
+			//TODO: Check whether the above priority cell logic works.
+			//NOTE: This has proven to be much harder than expected due to how complicated it is to create such a situation.
+			
 			
 			return true;
 		}).toList();
 		
+		
+		// If there are priority cells, place those before anything else.
+		if (priorityCells.size() > 0) {
+			console("Number of priority cells: " + priorityCells.size());
+			return priorityCells;
+		}
+		
+		console("Number of candidate blocks: " + placeableCells.size());
 		return placeableCells;
 	}
 	
 	@Override
 	public boolean hasNext() {
+		
 		boolean succesfulUpdate = updatePendingGoals();
-		if (!succesfulUpdate) return false;
+		//if (!succesfulUpdate) return false;
 		
 		var placeableCells = placeableCells();
 		
-		// TODO check if their is a next step possible
 		return placeableCells.size() > 0;
 	}
 
 	@Override
 	public GoalStructure next() {
+		
+		// If construction site contains any pre-existing obstructions, abort process.
+		if (!validLocation) return FAIL();
 		
 		// If updating currently active goals fails, 
 		// then a fatal error has occurred and we cancel construction.
@@ -196,12 +238,38 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		DPos3 cellPosition = placeableCells.get(0);
 		GoalStructure G = getConstructionGoal(cellPosition);
 		
-		console("*** next goal is at " + cellPosition.toString());
+		console("*** next goal is at DPos3" + cellPosition.toString() + "or Vec3" + getWorldLocationFromCell(cellPosition));
 		
 		// Add goal to pending list
 		pendingBlocks.add(new Pair<>(cellPosition,G));
 		
 		return G;
+	}
+	
+	/**
+	 * @return Whether there are any pre-existing obstructions in the construction area.
+	 */
+	boolean isValidConstructionArea() {
+		var size = blueprint.getSize();
+		
+		for (int x = 0 ; x < size.x ; x++) 
+			for (int y = 0 ; y < size.y ; y++) 
+				for (int z = 0 ; z < size.z ; z++) {
+					DPos3 cellPosition = new DPos3(x, y, z);
+					if (blueprint.getDefinitionAtCell(cellPosition) == null) continue;
+
+					var obstruction = SEBlockFunctions.findClosestBlockPosition(
+							agentState.worldmodel, 
+							getWorldLocationFromCell(cellPosition), 
+							0.2f);
+					
+					if (obstruction != null) {
+						console("*** Can't perform construction:");
+						console(obstruction.getProperty("blockType").toString() + " obstructing cell " + cellPosition.toString());
+						return false;
+					}		
+		}
+		return true;
 	}
 	
 }

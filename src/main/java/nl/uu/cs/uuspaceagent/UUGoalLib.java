@@ -336,14 +336,14 @@ public class UUGoalLib {
         return goal(goalname)
                 .toSolve((Float cos_alpha) -> {
                 	console("cos alpha =" + String.valueOf(cos_alpha));
-                	return 1 - cos_alpha <= 0.005f;
+                	return 1 - cos_alpha <= 0.001f;
                 })
                 .withTactic(FIRSTof(UUTacticLib.TurnTowardACT(p).lift(), ABORT()))
                 .lift() ;
     }
 
 
-    public static boolean  findItemPredicate(UUSeAgentState st, String blockType){
+    public static boolean findItemPredicate(UUSeAgentState st, String blockType){
             List<WorldEntity> blocks =  SEBlockFunctions.getAllBlocks(st.worldmodel).stream().filter(e -> blockType.equals(e.getStringProperty("blockType"))).collect(Collectors.toList());
             System.out.println("number of blocks" + blocks.size()  );
             for(var block : blocks) {
@@ -406,9 +406,9 @@ public class UUGoalLib {
     		//console("Face center: " + lookTarget.snd);
     		
     		// Find the best spot for the agent to stand when placing the block.
-    		console("looking for empty neighbor");
+    		console("looking for empty neighbor near " + lookTarget.fst);
     		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(state.navgrid, blockLocation, lookTarget.fst);
-    		
+    		console("destinationCandidates: " + destinationCandidates.toString());
     		destinationCandidates.sort((v1, v2) -> Float.compare(
             		Vec3.sub(v1, state.worldmodel.position).lengthSq(),
             		Vec3.sub(v2, state.worldmodel.position).lengthSq()
@@ -417,13 +417,19 @@ public class UUGoalLib {
     		
     		state.navgrid.enableFlying = true;
     		
-    		if (Math.abs(playerDestination.y - state.worldmodel.position.y) < 2)
+    		console("dest.y: " +playerDestination.y + ", origin.y: " + state.navgrid.origin.y);
+    		console("test:  " + Math.abs(playerDestination.y - state.navgrid.origin.y));
+    		
+    		//TODO: change the origin.y to player.y and allow walking on blocks that are above origin.y
+    		if (Math.abs(playerDestination.y - state.navgrid.origin.y) < 2)
     		{
     			state.navgrid.enableFlying = false;
-    			playerDestination.y = state.worldmodel.position.y + 0.1f;
+    			playerDestination.y = state.navgrid.origin.y + 0.1f;
     		}
 
     		console("player destination: " + playerDestination.toString());
+    		console("flying: " + state.navgrid.enableFlying);
+    		
     		
     		// Goal to move within placement/view range of the target.
     		GoalStructure nearLookTarget = DEPLOY(closeTo(playerDestination));

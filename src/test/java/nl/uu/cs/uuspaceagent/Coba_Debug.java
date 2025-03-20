@@ -4,6 +4,7 @@ import static nl.uu.cs.uuspaceagent.PrintInfos.showWOMAgent;
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
 import static nl.uu.cs.uuspaceagent.TestUtils.loadSE;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import nl.uu.cs.uuspaceagent.SEBlockFunctions;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,42 +32,27 @@ class Coba_Debug {
             agent.update();
             state.updateState(state.agentId);
                      
-            WorldEntity grid = null;
-            for (var e : state.worldmodel.elements.keySet())
-            {
-            	console("---");
-            	console("id: " + e);
-            	if (state.worldmodel.elements.get(e).type == "grid")
-            	{
-            		grid = state.worldmodel.elements.get(e);
-            		console(state.worldmodel.elements.get(e).position.toString());
-            	}
-            }          
-//            if (true)
-//            	break;
-
+//            var p = state.navgrid.gridProjectedLocation(state.worldmodel.position);
+//        	
+//            int distance = 2;
+//            
+//            var x = new DPos3(p.x,p.y-distance,p.z);
+//
+//            var obstacle = state.navgrid.knownObstacles.get(x) ;
+//			console("obstacle: "+ obstacle);
             
+            WorldEntity block = SEBlockFunctions.findClosestBlockPosition(
+            		state.worldmodel, Vec3.sub(state.worldmodel.position, new Vec3(0,2.5f,0)), 1.25f);
             
-            var val = state.worldmodel.elements.get(state.agentId);
-            if (val != null)
-            {
-            	var targetId = val.getStringProperty ("targetBlock");
-            	if (targetId != null)
-            	{
-                    WorldEntity e = grid.elements.get(targetId);
-                    console(e.toString());
-                    console(e.getClass().toString());
-                    
-            	}
-            	
-                
+            if (block != null)
+            	console(block.toString());
+            
+            for (DPos3 p : state.navgrid.knownObstacles.keySet()) {
+            	if (p.y < 0) console(p.toString()); 
             }
-            	
-//            CharacterObservation cobs = state.env().getController().getObserver().observe();
-//			console(state.navgrid.gridProjectedLocation(state.worldmodel.position).toString());
-			//UUTacticLib.fixRoll(state);
-                  
             
+            if (true)
+            	break;
             
             Thread.sleep(500);
             turn++ ;

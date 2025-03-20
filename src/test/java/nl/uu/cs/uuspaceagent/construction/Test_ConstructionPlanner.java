@@ -70,7 +70,7 @@ public class Test_ConstructionPlanner {
             agent.update();
             Thread.sleep(50);
             turn++ ;
-            if (turn >= 1400) break ;
+            //if (turn >= 1400) break ;
         }
 
         TestUtils.closeConnectionToSE(state);
@@ -82,7 +82,7 @@ public class Test_ConstructionPlanner {
     	
     	
     	//TODO fix bug where pathfinding to the playerDestination of the second block gets stuck for unknown reasons.
-    	Blueprint blueprint = Blueprint.loadFromFile("assets/se-worlds/ConstructionPlatform/newConstruction.cons");
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/simpleHouse.cons");
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         

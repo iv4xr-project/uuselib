@@ -78,12 +78,14 @@ public class Blueprint {
 	
 	public List<DPos3> getNeighborPositions(DPos3 cellPosition){
 		ArrayList<DPos3> neighbors = new ArrayList<DPos3>();
-		var p = cellPosition;
-		for (int x = p.x-1 ; x <= p.x+1 ; x++) 
-			for (int y = p.y-1 ; y <= p.y+1 ; y++) 
-				for (int z = p.z-1 ; z <= p.z+1 ; z++) {
-					if(x==p.x && y==p.y && z==p.z) continue;
-					DPos3 neighbor = new DPos3(x, y, z);
+		
+		DPos3[] offsets = { 
+				new DPos3(0,0,1), new DPos3(0, 0, -1), 
+				new DPos3(1, 0, 0), new DPos3(-1, 0, 0), 
+				new DPos3(0, 1, 0), new DPos3(0, -1, 0)};
+		
+		for (DPos3 offset : offsets) { 
+					DPos3 neighbor = DPos3.add(offset, cellPosition);
 					if(isWithinBounds(neighbor)) neighbors.add(neighbor);
 		        }
 		return neighbors;
@@ -107,9 +109,10 @@ public class Blueprint {
 		var size = getSize();
 		var unplacedCells = new ArrayList<DPos3>();
 		
-		for (int x = 0 ; x < size.x ; x++) 
-			for (int y = 0 ; y < size.y ; y++) 
-				for (int z = 0 ; z < size.z ; z++) {
+		for (int y = 0 ; y < size.y ; y++) 
+			for (int x = 0 ; x < size.x ; x++) 
+				for (int z = 0 ; z < size.z ; z++)	
+	 	{
 					DPos3 cellPosition = new DPos3(x, y, z);
 					if (getDefinitionAtCell(cellPosition) == null) continue;
 					if (getEntityAtCell(cellPosition) != null) continue;

@@ -373,6 +373,12 @@ public class UUTacticLib {
         	}
         }
         
+        // If the rotation is very far off, turn faster.
+        if (hCos_alpha < 0.6f) {
+        	hTurningSpeed *= 2.5f;
+        	console("extra fast horizontal turning");
+        }
+        
      // for calculating pitch rotation we ignore take the dirToGo as yaw
         Vec3 vDirToGo = dirToGo.copy();
         Vec3 agentVdir = agentDir.copy();

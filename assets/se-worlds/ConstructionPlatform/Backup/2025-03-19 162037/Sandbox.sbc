@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <MyObjectBuilder_Checkpoint xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <CurrentSector x="0" y="0" z="0" />
-  <ElapsedGameTime>27793280000</ElapsedGameTime>
+  <ElapsedGameTime>21857920000</ElapsedGameTime>
   <SessionName>ConstructionPlatform</SessionName>
   <SpectatorPosition>
     <Position x="5.3743765662761174" y="-5.0150046348571786" z="24.958199155320177" />
@@ -21,7 +21,7 @@
   <ControlledObject>88034022095450917</ControlledObject>
   <Password />
   <Description />
-  <LastSaveTime>2025-03-20T15:06:53.8836634+01:00</LastSaveTime>
+  <LastSaveTime>2025-03-19T16:20:37.3080052+01:00</LastSaveTime>
   <SpectatorDistance>4.420889</SpectatorDistance>
   <WorkshopId xsi:nil="true" />
   <WorkshopId1 xsi:nil="true" />
@@ -53,15 +53,15 @@
       <Slot>
         <Index>3</Index>
         <Item />
-        <Data xsi:type="MyObjectBuilder_ToolbarItemWeapon">
-          <DefinitionId Type="MyObjectBuilder_PhysicalGunObject" Subtype="HandDrill4Item" />
+        <Data xsi:type="MyObjectBuilder_ToolbarItemCubeBlock">
+          <DefinitionId Type="MyObjectBuilder_Reactor" Subtype="LargeBlockSmallGenerator" />
         </Data>
       </Slot>
       <Slot>
         <Index>4</Index>
         <Item />
         <Data xsi:type="MyObjectBuilder_ToolbarItemCubeBlock">
-          <DefinitionId Type="MyObjectBuilder_ReflectorLight" Subtype="LargeBlockFrontLight" />
+          <DefinitionId Type="MyObjectBuilder_Thrust" Subtype="LargeBlockSmallThrust" />
         </Data>
       </Slot>
       <Slot>
@@ -2359,11 +2359,6 @@
             <IsLeader>true</IsLeader>
             <IsFounder>true</IsFounder>
           </MyObjectBuilder_FactionMember>
-          <MyObjectBuilder_FactionMember>
-            <PlayerId>144115188075855899</PlayerId>
-            <IsLeader>false</IsLeader>
-            <IsFounder>false</IsFounder>
-          </MyObjectBuilder_FactionMember>
         </Members>
         <JoinRequests />
         <AutoAcceptMember>false</AutoAcceptMember>
@@ -2772,7 +2767,7 @@
           <MyObjectBuilder_Station>
             <Id>916256670940469620</Id>
             <Position x="-96298.43624991618" y="-1004568.5972905695" z="3530811.287151298" />
-            <Up x="-0.177386031" y="0.0118234251" z="0.9840703" />
+            <Up x="-0.177386031" y="0.0118234223" z="0.9840703" />
             <Forward x="-0.9697083" y="-0.172721952" z="-0.172721952" />
             <StationType>SpaceStation</StationType>
             <IsDeepSpaceStation>false</IsDeepSpaceStation>
@@ -29239,10 +29234,6 @@
           <Key>144115188075855898</Key>
           <Value>286943364877691631</Value>
         </item>
-        <item>
-          <Key>144115188075855899</Key>
-          <Value>232714593662623326</Value>
-        </item>
       </dictionary>
     </Players>
     <Relations>
@@ -30393,11 +30384,11 @@
       <Model>Default_Astronaut</Model>
       <ColorMask x="0.575" y="0.167133212" z="0.18923834" />
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters>
         <long>88034022095450917</long>
       </SavedCharacters>
-      <LastLogoutTime>2025-03-20T15:06:53.8886859+01:00</LastLogoutTime>
+      <LastLogoutTime>2025-03-19T16:20:37.3080052+01:00</LastLogoutTime>
       <RespawnShips />
       <LastDeathPosition xsi:nil="true" />
       <ActiveContracts />
@@ -30409,7 +30400,7 @@
       <DisplayName>Space Pirates</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.6792523+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.2006732+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>0001-01-01T00:00:00</LastLogoutTime>
       <RespawnShips />
@@ -30423,7 +30414,7 @@
       <DisplayName>The Factorum</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:33.9076288+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30437,7 +30428,7 @@
       <DisplayName>Unknown</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.1116321+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30451,7 +30442,7 @@
       <DisplayName>Divine Drilling Consortium CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.1794937+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30465,7 +30456,7 @@
       <DisplayName>Divine Drilling Consortium CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.1794937+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30479,7 +30470,7 @@
       <DisplayName>United Drillers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30493,7 +30484,7 @@
       <DisplayName>United Drillers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30507,7 +30498,7 @@
       <DisplayName>Galactic Minerals CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30521,7 +30512,7 @@
       <DisplayName>Galactic Minerals CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30535,7 +30526,7 @@
       <DisplayName>Unyielding Settlers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30549,7 +30540,7 @@
       <DisplayName>Unyielding Settlers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30563,7 +30554,7 @@
       <DisplayName>Merciless Alliance CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30577,7 +30568,7 @@
       <DisplayName>Merciless Alliance CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30591,7 +30582,7 @@
       <DisplayName>Rogue Merchants CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30605,7 +30596,7 @@
       <DisplayName>Rogue Merchants CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30619,7 +30610,7 @@
       <DisplayName>Rogue Inventors CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30633,7 +30624,7 @@
       <DisplayName>Rogue Inventors CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30647,7 +30638,7 @@
       <DisplayName>Clang Manufacturers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30661,7 +30652,7 @@
       <DisplayName>Clang Manufacturers CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30675,7 +30666,7 @@
       <DisplayName>Clang Battalion CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30689,7 +30680,7 @@
       <DisplayName>Clang Battalion CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30703,7 +30694,7 @@
       <DisplayName>Enlightened Tactical CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
       <RespawnShips />
@@ -30717,23 +30708,9 @@
       <DisplayName>Enlightened Tactical CEO</DisplayName>
       <CharacterEntityId>0</CharacterEntityId>
       <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
+      <LastLoginTime>2025-03-19T16:20:30.0435726+01:00</LastLoginTime>
       <SavedCharacters />
       <LastLogoutTime>2025-02-18T16:45:34.2024858+01:00</LastLogoutTime>
-      <RespawnShips />
-      <LastDeathPosition xsi:nil="true" />
-      <ActiveContracts />
-      <TransferedPCUDelta>0</TransferedPCUDelta>
-      <IsGlobalEncounterSpawner>true</IsGlobalEncounterSpawner>
-    </MyObjectBuilder_Identity>
-    <MyObjectBuilder_Identity>
-      <IdentityId>144115188075855899</IdentityId>
-      <DisplayName>The Factorum</DisplayName>
-      <CharacterEntityId>0</CharacterEntityId>
-      <BlockLimitModifier>0</BlockLimitModifier>
-      <LastLoginTime>2025-03-20T15:00:45.1161726+01:00</LastLoginTime>
-      <SavedCharacters />
-      <LastLogoutTime>2025-03-19T17:36:19.1741615+01:00</LastLogoutTime>
       <RespawnShips />
       <LastDeathPosition xsi:nil="true" />
       <ActiveContracts />
@@ -30783,15 +30760,15 @@
               <Slot>
                 <Index>3</Index>
                 <Item />
-                <Data xsi:type="MyObjectBuilder_ToolbarItemWeapon">
-                  <DefinitionId Type="MyObjectBuilder_PhysicalGunObject" Subtype="HandDrill4Item" />
+                <Data xsi:type="MyObjectBuilder_ToolbarItemCubeBlock">
+                  <DefinitionId Type="MyObjectBuilder_Reactor" Subtype="LargeBlockSmallGenerator" />
                 </Data>
               </Slot>
               <Slot>
                 <Index>4</Index>
                 <Item />
                 <Data xsi:type="MyObjectBuilder_ToolbarItemCubeBlock">
-                  <DefinitionId Type="MyObjectBuilder_ReflectorLight" Subtype="LargeBlockFrontLight" />
+                  <DefinitionId Type="MyObjectBuilder_Thrust" Subtype="LargeBlockSmallThrust" />
                 </Data>
               </Slot>
               <Slot>
@@ -30829,7 +30806,7 @@
             <CameraControllerSettings EntityId="88034022095450917">
               <IsFirstPerson>false</IsFirstPerson>
               <Distance>4.4208887605476992</Distance>
-              <HeadAngle x="1.12097406" y="0" />
+              <HeadAngle x="1.27044368" y="0" />
             </CameraControllerSettings>
           </EntityCameraData>
           <BuildColorSlots>
@@ -30940,7 +30917,6 @@
     <long>144115188075855896</long>
     <long>144115188075855897</long>
     <long>144115188075855898</long>
-    <long>144115188075855899</long>
   </NonPlayerIdentities>
   <Gps>
     <dictionary>
@@ -31028,33 +31004,6 @@
               <contractId>0</contractId>
               <IsGlobalEncounterGPS>false</IsGlobalEncounterGPS>
               <DisplayName />
-            </Entry>
-            <Entry>
-              <name>Unidentified Signal</name>
-              <description />
-              <coords>
-                <X>-196239.74362990627</X>
-                <Y>-895514.02346057782</Y>
-                <Z>152370.74180449237</Z>
-              </coords>
-              <isFinal>true</isFinal>
-              <showOnHud>true</showOnHud>
-              <alwaysVisible>true</alwaysVisible>
-              <color>
-                <PackedValue>4281903853</PackedValue>
-                <X>237</X>
-                <Y>170</Y>
-                <Z>56</Z>
-                <R>237</R>
-                <G>170</G>
-                <B>56</B>
-                <A>255</A>
-              </color>
-              <entityId>131818923334126475</entityId>
-              <isObjective>false</isObjective>
-              <contractId>0</contractId>
-              <IsGlobalEncounterGPS>true</IsGlobalEncounterGPS>
-              <DisplayName>Unidentified Signal</DisplayName>
             </Entry>
           </Entries>
         </Value>
@@ -31166,27 +31115,14 @@
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_GlobalEncounters">
       <Definition Type="MyObjectbuilder_GlobalEncountersGeneratorDefinition" Subtype="Default" />
       <Timers>
-        <dictionary>
-          <item>
-            <Key>1199122642912970044</Key>
-            <Value>111</Value>
-          </item>
-        </dictionary>
+        <dictionary />
       </Timers>
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_SessionComponentNPCGridClaim">
       <NPCGrids>
         <dictionary>
           <item>
-            <Key>131818923334126475</Key>
-            <Value xsi:nil="true" />
-          </item>
-          <item>
-            <Key>94196386070723302</Key>
-            <Value xsi:nil="true" />
-          </item>
-          <item>
-            <Key>125809605457764129</Key>
+            <Key>138379136913966905</Key>
             <Value xsi:nil="true" />
           </item>
         </dictionary>
@@ -31209,7 +31145,7 @@
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_SectorWeatherComponent">
       <BaseSunDirection x="0.339467347" y="0.709795356" z="-0.617213368" />
-      <SunDirectionNormalized x="-0.8313055" y="-0.5354165" z="0.149199367" />
+      <SunDirectionNormalized x="-0.9391667" y="-0.234476238" z="-0.2509717" />
       <WeatherPlanetData />
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_SessionComponentAntiCheat">
@@ -56163,12 +56099,12 @@
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_AntennaSessionComponent" />
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_EnvironmentBotSpawningSystem">
-      <TimeSinceLastEventInMs>67550</TimeSinceLastEventInMs>
+      <TimeSinceLastEventInMs>49398</TimeSinceLastEventInMs>
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_TradingManager" />
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_CoordinateSystem">
       <Definition Type="MyObjectBuilder_CoordinateSystemDefinition" Subtype="CoordinateSystem" />
-      <LastCoordSysId>6</LastCoordSysId>
+      <LastCoordSysId>5</LastCoordSysId>
       <CoordSystems />
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_BankingSystem">
@@ -56470,19 +56406,18 @@
             <Log />
           </Account>
         </MyObjectBuilder_AccountEntry>
-        <MyObjectBuilder_AccountEntry>
-          <OwnerIdentifier>144115188075855899</OwnerIdentifier>
-          <Account>
-            <OwnerIdentifier>144115188075855899</OwnerIdentifier>
-            <Balance>10000</Balance>
-            <Log />
-          </Account>
-        </MyObjectBuilder_AccountEntry>
       </Accounts>
-      <OverallBalance>1100250000</OverallBalance>
+      <OverallBalance>1100240000</OverallBalance>
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_NeutralShipSpawner">
-      <ShipsInProgress />
+      <ShipsInProgress>
+        <ShipTimePair>
+          <EntityIds>
+            <long>138379136913966905</long>
+          </EntityIds>
+          <TimeTicks>35237760000</TimeTicks>
+        </ShipTimePair>
+      </ShipsInProgress>
     </MyObjectBuilder_SessionComponent>
     <MyObjectBuilder_SessionComponent xsi:type="MyObjectBuilder_PirateAntennas">
       <PiratesIdentity>144115188075855876</PiratesIdentity>
@@ -56519,18 +56454,16 @@
     <string>Models\Cubes\Large\OxygenGenerator.mwm</string>
     <string>Models\Cubes\Large\ConveyorTubeCurved.mwm</string>
     <string>Models\Cubes\Large\CargoContainerSmall.mwm</string>
-    <string>Models\Cubes\Large\light.mwm</string>
-    <string>Models\Cubes\Large\InteriorLight.mwm</string>
   </VicinityModelsCache>
   <VicinityArmorModelsCache>
     <string>Models\Characters\Astronaut\SE_astronaut.mwm</string>
     <string>Models\Cubes\Large\Armor\SquarePlate.mwm</string>
-    <string>Models\Cubes\Large\Armor\CornerTriangleLeftPlate.mwm</string>
     <string>Models\Cubes\Large\Armor\SlopePlate.mwm</string>
+    <string>Models\Cubes\Large\Armor\CornerTriangleLeftPlate.mwm</string>
     <string>Models\Cubes\Large\Armor\CornerTriangleRightPlate.mwm</string>
     <string>Models\Cubes\Large\Armor\FaceTrianglePlate.mwm</string>
-    <string>Models\Cubes\Large\InteriorWallSide.mwm</string>
     <string>Models\Cubes\Large\InteriorWallTop.mwm</string>
+    <string>Models\Cubes\Large\InteriorWallSide.mwm</string>
   </VicinityArmorModelsCache>
   <VicinityVoxelCache>
     <string>Iron_02</string>
