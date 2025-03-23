@@ -80,9 +80,25 @@ public class Test_ConstructionPlanner {
     @Test
     public void test_construction1() throws InterruptedException {
     	
-    	
-    	//TODO fix bug where pathfinding to the playerDestination of the second block gets stuck for unknown reasons.
     	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/simpleHouse.cons");
+    
+    	Vec3 dest = new Vec3(21.25f, -5f, 60);
+        
+        var agent_and_goal = deployAgent(blueprint, dest);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    @Test
+    public void test_construction2() throws InterruptedException {
+    	
+    	
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/newConstruction.cons");
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         

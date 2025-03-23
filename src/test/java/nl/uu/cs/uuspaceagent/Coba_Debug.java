@@ -31,25 +31,7 @@ class Coba_Debug {
             console(">> [" + turn + "] " + showWOMAgent(state.worldmodel));
             agent.update();
             state.updateState(state.agentId);
-                     
-//            var p = state.navgrid.gridProjectedLocation(state.worldmodel.position);
-//        	
-//            int distance = 2;
-//            
-//            var x = new DPos3(p.x,p.y-distance,p.z);
-//
-//            var obstacle = state.navgrid.knownObstacles.get(x) ;
-//			console("obstacle: "+ obstacle);
             
-            WorldEntity block = SEBlockFunctions.findClosestBlockPosition(
-            		state.worldmodel, Vec3.sub(state.worldmodel.position, new Vec3(0,2.5f,0)), 1.25f);
-            
-            if (block != null)
-            	console(block.toString());
-            
-            for (DPos3 p : state.navgrid.knownObstacles.keySet()) {
-            	if (p.y < 0) console(p.toString()); 
-            }
             
             if (true)
             	break;

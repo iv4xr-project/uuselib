@@ -148,6 +148,7 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		/**
 		 * Priority cells mainly include cells that will be obstructed by others in the future
 		 * and should be placed as soon as possible to avoid stuck states.
+		 * TODO: consider other approach.
 		 */
 		List<DPos3> priorityCells = new ArrayList<DPos3>();
 		

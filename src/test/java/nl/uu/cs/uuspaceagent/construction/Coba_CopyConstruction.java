@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -53,30 +55,34 @@ class Coba_CopyConstruction {
         			console("*** Parsing construction");
         			
         			//Find grid
-        	        WorldEntity grid = null;
+        	        WorldEntity gridEntity = null;
         	        for (var e : agentState.worldmodel.elements.keySet())
         	        {
         	        	if (agentState.worldmodel.elements.get(e).type == "grid")
         	        	{
-        	        		grid = agentState.worldmodel.elements.get(e);
+        	        		gridEntity = agentState.worldmodel.elements.get(e);
         	        	}
         	        } 
         			
         	        Blueprint blueprint = new Blueprint(new DefinitionId[13][13][13], new DPos3(6,0,6));
-        			ConstructionPlanner planner = new ConstructionPlanner(blueprint, origin, grid, agentState);
+        			ConstructionPlanner planner = new ConstructionPlanner(blueprint, origin, gridEntity, agentState);
         			
-        			// Find all blocks inside the construction area
-        			var blocksInArea = SEBlockFunctions.getAllBlocks(agentState.worldmodel).stream().filter((WorldEntity we) -> {
-        				
-        				// Check if block is in construction area.
-        				var inArea = SEBlockFunctions.pointInsideArea(corner1, corner2, we.position);
-        				return inArea;
-        				
-        			}).toList();
+        			List<Block> blocksInArea = new ArrayList<Block>();
+        			for (var g : state.env().getController().getObserver().observeBlocks().getGrids())
+        			{
+        				for (var b : g.getBlocks()) {
+        					if (SEBlockFunctions.pointInsideArea(
+        							corner1, 
+        							corner2, 
+        							SEBlockFunctions.fromSEVec3(b.getPosition())))
+        						blocksInArea.add(b);
+        				}
+        			}
+        			
         			
         			for (var block : blocksInArea) {
-        				var cellPosition = planner.getCellLocationFromWorld(block.position);
-        				DefinitionId definition = DefinitionId.Companion.cubeBlock(block.getProperty("blockType").toString());
+        				var cellPosition = planner.getCellLocationFromWorld(SEBlockFunctions.fromSEVec3(block.getPosition()));
+        				DefinitionId definition = block.getDefinitionId();
         				blueprint.addDefinition(cellPosition, definition);
         			}
         			
