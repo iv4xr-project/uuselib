@@ -267,10 +267,6 @@ public class SEBlockFunctions {
     	//TODO: this block isn't always valid.
         WorldEntity block = SEBlockFunctions.findClosestBlockPosition(wom,targetPosition,3.0f);
 
-        Vec3 diff = Vec3.sub(block.position, targetPosition);
-        
-        Pair<BlockSides, Vec3> x = new Pair<>(BlockSides.BACK, null);
-        
         Pair<BlockSides, Vec3> frontFace = new Pair<>(BlockSides.FRONT, getSideCenterPoint(block, BlockSides.FRONT, 0));
         Pair<BlockSides, Vec3> backFace = new Pair<>(BlockSides.BACK, getSideCenterPoint(block, BlockSides.BACK, 0));
         Pair<BlockSides, Vec3> topFace = new Pair<>(BlockSides.TOP, getSideCenterPoint(block, BlockSides.TOP, 0));

@@ -21,8 +21,6 @@ import eu.iv4xr.framework.spatial.Vec3;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 
-import nl.uu.cs.uuspaceagent.Blueprint;
-import nl.uu.cs.uuspaceagent.ConstructionPlanner;
 import nl.uu.cs.uuspaceagent.DPos3;
 import nl.uu.cs.uuspaceagent.SEBlockFunctions;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
@@ -34,7 +32,7 @@ class Coba_CopyConstruction {
 		
 		
 		console("*** start coba...") ;
-		var agentAndState = loadSE("ConstructionPlatform") ;
+		var agentAndState = loadSE("ConstructionPlatform2") ;
         TestAgent agent = agentAndState.fst ;
         UUSeAgentState state = agentAndState.snd ;
         Thread.sleep(1000);
@@ -65,7 +63,7 @@ class Coba_CopyConstruction {
         	        } 
         			
         	        Blueprint blueprint = new Blueprint(new DefinitionId[13][13][13], new DPos3(6,0,6));
-        			ConstructionPlanner planner = new ConstructionPlanner(blueprint, origin, gridEntity, agentState);
+        			ConstructionPlanner planner = new ConstructionPlanner(blueprint, origin, gridEntity, agentState, null);
         			
         			List<Block> blocksInArea = new ArrayList<Block>();
         			for (var g : state.env().getController().getObserver().observeBlocks().getGrids())

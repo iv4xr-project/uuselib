@@ -1,4 +1,4 @@
-package nl.uu.cs.uuspaceagent;
+package nl.uu.cs.uuspaceagent.construction;
 
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
 
@@ -12,6 +12,7 @@ import java.util.List;
 
 import eu.iv4xr.framework.mainConcepts.WorldEntity;
 import nl.uu.cs.aplib.utils.Pair;
+import nl.uu.cs.uuspaceagent.DPos3;
 import spaceEngineers.model.DefinitionId;
 
 public class Blueprint {

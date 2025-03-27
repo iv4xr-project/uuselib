@@ -21,8 +21,6 @@ import spaceEngineers.model.DefinitionId;
 import eu.iv4xr.framework.spatial.Vec3;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 import nl.uu.cs.aplib.utils.Pair;
-import nl.uu.cs.uuspaceagent.Blueprint;
-import nl.uu.cs.uuspaceagent.ConstructionPlanner;
 import nl.uu.cs.uuspaceagent.DPos3;
 import nl.uu.cs.uuspaceagent.SEBlockFunctions;
 import nl.uu.cs.uuspaceagent.TestUtils;
@@ -56,7 +54,7 @@ public class Test_ConstructionPlanner {
         	}
         }  
         
-        ConstructionPlanner planner = new ConstructionPlanner(blueprint, location, grid, state);
+        ConstructionPlanner planner = new ConstructionPlanner(blueprint, location, grid, state, ConstructionOptimizer.DFS2(state));
 
         GoalStructure buildStructure = UUGoalLib.REPEATwith(planner);
         
@@ -66,7 +64,9 @@ public class Test_ConstructionPlanner {
 
         int turn= 0 ;
         while(G.getStatus().inProgress()) {
-            console(">> [" + turn + "] " + showWOMAgent(state.worldmodel));
+            console(">> [" + turn + "] (" + 
+            		Math.floor(planner.blueprint.getProgress()*100) + "%) " + 
+            		showWOMAgent(state.worldmodel));
             agent.update();
             Thread.sleep(50);
             turn++ ;
@@ -79,6 +79,7 @@ public class Test_ConstructionPlanner {
     
     @Test
     public void test_construction1() throws InterruptedException {
+    	// Builds a simple box house out of armor blocks.
     	
     	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/simpleHouse.cons");
     
@@ -96,9 +97,27 @@ public class Test_ConstructionPlanner {
     
     @Test
     public void test_construction2() throws InterruptedException {
+    	// Builds a chain of armor blocks that snakes in the air.
     	
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/snake3D.cons");
+    
+    	Vec3 dest = new Vec3(21.25f, -5f, 60);
+        
+        var agent_and_goal = deployAgent(blueprint, dest);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    @Test
+    public void test_construction3() throws InterruptedException {
+    	// Builds a number of unique blocks such as doors and cargo containers.
     	
-    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/newConstruction.cons");
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/blockTypes.cons");
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         

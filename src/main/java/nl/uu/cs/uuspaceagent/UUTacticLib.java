@@ -175,7 +175,7 @@ public class UUTacticLib {
     }
     
     public static Tactic fixRoll(int duration) {
-    	return action("openDoors").do2((UUSeAgentState agentState)
+    	return action("fixRoll").do2((UUSeAgentState agentState)
             -> (Float roll) -> {
         	
 	        	CharacterObservation obs = null;
@@ -264,6 +264,13 @@ public class UUTacticLib {
             turningSpeed = TURNING_SPEED*0.25f ;
             fastturning = false ;
         }
+     // If the rotation is very far off, turn faster.
+        if (cos_alpha < 0.6f) {
+        	turningSpeed *= 2.5f;
+        	console("extra fast horizontal turning");
+        }
+        
+        
         // check if we have to turn clockwise or counter-clockwise
         if (normalVector.y > 0) {
             // The agent should then turn clock-wise; for SE this means giving
@@ -740,9 +747,32 @@ public class UUTacticLib {
     				
     				//No door found.
     				return null;
-    			})
-    			.lift(),
+    			}).lift(),
     			fixRoll(10),
+    			action("lookStraight").do2((UUSeAgentState state)
+                    -> (Float queryResult) -> {
+                	CharacterObservation obs = null;
+                    for (int i = 0; i < 10; i++) {
+                    	obs = state.env().getController().getCharacter().moveAndRotate(
+                        		SEBlockFunctions.toSEVec3(ZEROV3), 
+                        		new Vec2F(queryResult,0), 
+                        		0, 1);
+                    }
+                    
+                    return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
+                })
+    			.on((UUSeAgentState state)  -> {
+    				
+    				
+    				// Check whether the player is looking straight ahead (no pitch).
+    				Vec3 forward = state.orientationForward();
+    				if (Math.abs(forward.y) < 0.1f) return null;
+    				
+    				if (Math.abs(forward.y) < 0.3f) return Math.signum(forward.y)*5;
+    				
+    				return Math.signum(forward.y)*15;
+
+    			}).lift(),
     			navigateToTAC(destination)
     			);
     }

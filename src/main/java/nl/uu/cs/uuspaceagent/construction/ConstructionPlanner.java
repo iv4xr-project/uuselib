@@ -1,4 +1,4 @@
-package nl.uu.cs.uuspaceagent;
+package nl.uu.cs.uuspaceagent.construction;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,6 +10,10 @@ import eu.iv4xr.framework.spatial.Vec3;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 import nl.uu.cs.aplib.mainConcepts.ProgressStatus;
 import nl.uu.cs.aplib.utils.Pair;
+import nl.uu.cs.uuspaceagent.DPos3;
+import nl.uu.cs.uuspaceagent.SEBlockFunctions;
+import nl.uu.cs.uuspaceagent.UUGoalLib;
+import nl.uu.cs.uuspaceagent.UUSeAgentState;
 import spaceEngineers.model.DefinitionId;
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 
@@ -27,13 +31,23 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 	Vec3 gridOffset;
 	
 	UUSeAgentState agentState;
+	ConstructionOptimizer optimizer;
 	
+	// Whether the current location is considered a valid construction site
 	boolean validLocation;
+	
+	// The most recently placed block. At the start this is set to the origin.
+	public DPos3 latestBlock;
+	
+	// Number of times a priority situation arises during the construction.
+	int priorityCases = 0;
 	
 	List<Pair<DPos3, GoalStructure>> pendingBlocks;
 	
-	public ConstructionPlanner(Blueprint blueprint, Vec3 originLocation, WorldEntity grid, UUSeAgentState agentState) {
+	public ConstructionPlanner(Blueprint blueprint, Vec3 originLocation, WorldEntity grid, UUSeAgentState agentState, ConstructionOptimizer optimizer) {
 		this.agentState = agentState;
+		this.optimizer = optimizer;
+		optimizer.planner = this;
 		
 		var gridOrigin = grid.position;
 		gridOffset = new Vec3(
@@ -48,6 +62,7 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		this.location = snappedLocation;
 		
 		this.blueprint = blueprint;
+		latestBlock = blueprint.originCell;
 		pendingBlocks = new ArrayList<Pair<DPos3, GoalStructure>>();
 		
 		this.validLocation = isValidConstructionArea();
@@ -130,6 +145,7 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 				}
 				console("Construction Planner: Adding block " + newBlock.id + " to " + cellPosition.toString());
 				blueprint.addEntity(cellPosition, newBlock);
+				latestBlock = cellPosition;
 			}
 		}
 		
@@ -194,6 +210,7 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		// If there are priority cells, place those before anything else.
 		if (priorityCells.size() > 0) {
 			console("Number of priority cells: " + priorityCells.size());
+			priorityCases += 1;
 			return priorityCells;
 		}
 		
@@ -233,7 +250,9 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		// If we run out of placeableblocks before the blueprint is finished then something went wrong
 		if (placeableCells.size() == 0 && blueprint.getProgress() < 1) return FAIL();
 		
-		//TODO sort the placeable cells for BFS or DFS
+		if (optimizer != null) {
+			placeableCells = optimizer.SortCells(placeableCells);
+		}
 		
 		// Get the goal for the next block
 		DPos3 cellPosition = placeableCells.get(0);

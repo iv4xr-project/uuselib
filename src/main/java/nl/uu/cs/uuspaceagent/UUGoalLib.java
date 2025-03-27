@@ -407,18 +407,25 @@ public class UUGoalLib {
     		
     		// Find the best spot for the agent to stand when placing the block.
     		console("looking for empty neighbor near " + lookTarget.fst);
-    		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(state.navgrid, blockLocation, lookTarget.fst);
+    		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(
+    				state.navgrid,
+    				Vec3.sub(blockLocation, Vec3.div(state.getHeadOffset(), 2)), 
+    				lookTarget.fst);
     		console("destinationCandidates: " + destinationCandidates.toString());
     		destinationCandidates.sort((v1, v2) -> Float.compare(
             		Vec3.sub(v1, state.worldmodel.position).lengthSq(),
             		Vec3.sub(v2, state.worldmodel.position).lengthSq()
             		));
-    		Vec3 playerDestination = Vec3.sub(destinationCandidates.getFirst(), Vec3.div(state.getHeadOffset(), 2));
+    		Vec3 playerDestination = destinationCandidates.getFirst();
+    		
+    		var obstacles = state.navgrid.knownObstacles.get(state.navgrid.gridProjectedLocation(playerDestination));
+    		if (obstacles != null)
+    			console(obstacles.toString());
     		
     		state.navgrid.enableFlying = true;
     		
-    		console("dest.y: " +playerDestination.y + ", origin.y: " + state.navgrid.origin.y);
-    		console("test:  " + Math.abs(playerDestination.y - state.navgrid.origin.y));
+    		console("dest.y: " +playerDestination.y + ", origin.y: " + state.navgrid.origin.y + 
+    				" (diff: " + Math.abs(playerDestination.y - state.navgrid.origin.y));
     		
     		//TODO: change the origin.y to player.y and allow walking on blocks that are above origin.y
     		if (Math.abs(playerDestination.y - state.navgrid.origin.y) < 2)

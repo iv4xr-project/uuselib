@@ -64,4 +64,26 @@ public class DPos3 implements Serializable {
     public static DPos3 sub(DPos3 a, DPos3 b) {
         return new DPos3(a.x - b.x, a.y - b.y, a.z - b.z);
     }
+    
+    /**
+     * If d is the length of the vector a - b (so, the distance between them), this method
+     * returns d*d. This is cheaper to compute that d itself.
+     */
+    public static int distSq(DPos3 a, DPos3 b) {
+        return DPos3.sub(a, b).lengthSq();
+    }
+    
+    /**
+     * @return The squared distance of this vector.
+     */
+    public int lengthSq() {
+        return dot(this, this);
+    }
+    
+    /**
+     * @return A.x * B.x + A.y * B.y + A.z * B.z
+     */
+    public static int dot(DPos3 a, DPos3 b) {
+        return (a.x * b.x + a.y * b.y + a.z * b.z);
+    }
 }

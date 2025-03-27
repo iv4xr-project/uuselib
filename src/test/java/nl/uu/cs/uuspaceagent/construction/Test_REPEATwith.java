@@ -10,7 +10,6 @@ import nl.uu.cs.uuspaceagent.TestUtils;
 import nl.uu.cs.uuspaceagent.UUGoalLib;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
 import nl.uu.cs.uuspaceagent.UUTacticLib;
-import nl.uu.cs.uuspaceagent.ConstructionPlanner;
 
 import org.junit.jupiter.api.Test;
 import static nl.uu.cs.aplib.AplibEDSL.* ;
@@ -28,14 +27,14 @@ public class Test_REPEATwith {
     /**
      * Auto-navigate to a given point, opening closed doors along the way.
      */
-    public Pair<TestAgent,GoalStructure> deployAgent(GoalStructure G) throws InterruptedException {
+    public Pair<TestAgent,GoalStructure> deployAgent(String worldName, GoalStructure G) throws InterruptedException {
         console("*** start test...") ;
-        var agentAndState = loadSE("islanddswithdoors") ;
+        var agentAndState = loadSE(worldName) ;
         TestAgent agent = agentAndState.fst ;
         UUSeAgentState state = agentAndState.snd ;
         Thread.sleep(1000);
         state.updateState(state.agentId);
-
+        
         console(showWOMAgent(state.worldmodel));
 
         //float dth = 1.3f * Grid2DNav.SQUARE_SIZE ;
@@ -85,7 +84,7 @@ public class Test_REPEATwith {
     	
     	GoalStructure G = UUGoalLib.REPEATwith(goals.iterator());
     	
-        var agent_and_goal = deployAgent(G);
+        var agent_and_goal = deployAgent("islanddswithdoors", G);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;
         G.printGoalStructureStatus();
@@ -93,4 +92,5 @@ public class Test_REPEATwith {
         console("*** test succesful!") ;
         //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
+    
 }

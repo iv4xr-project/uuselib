@@ -13,8 +13,6 @@ import spaceEngineers.model.Block;
 import spaceEngineers.model.CharacterObservation;
 import spaceEngineers.model.DefinitionId;
 import eu.iv4xr.framework.spatial.Vec3;
-import nl.uu.cs.uuspaceagent.Blueprint;
-import nl.uu.cs.uuspaceagent.ConstructionPlanner;
 import nl.uu.cs.uuspaceagent.DPos3;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
 
@@ -43,7 +41,7 @@ class Coba_ConstructionPlanner {
         
         //TODO Test random ConstructionPlanner stuff      
         var origin = new Vec3(21.25f, -5f, 60);
-		ConstructionPlanner planner = new ConstructionPlanner(blueprint, origin, grid, state);
+		ConstructionPlanner planner = new ConstructionPlanner(blueprint, origin, grid, state, null);
         
         var G = planner.getConstructionGoal(new DPos3(4,0,8));
         agent.setGoal(G);
