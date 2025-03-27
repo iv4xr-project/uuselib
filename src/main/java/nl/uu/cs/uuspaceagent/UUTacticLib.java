@@ -394,8 +394,8 @@ public class UUTacticLib {
         double angleAgent = Math.atan2(agentVdir.y, Math.sqrt(agentVdir.x*agentVdir.x + agentVdir.z*agentVdir.z));
         double vCos_alpha = Math.cos(angleToGo - angleAgent);
         
-        console("angleToGo: " + angleToGo);
-        console("angleAgent: " + angleAgent);
+        //console("angleToGo: " + angleToGo);
+        //console("angleAgent: " + angleAgent);
         
         //var vCos_alpha = Vec3.dot(agentVdir,vDirToGo) ;
         if(vCos_alpha >= THRESHOLD_ANGLE_TO_SLOW_TURNING) {

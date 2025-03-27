@@ -21,6 +21,8 @@ public class Blueprint {
 	WorldEntity[][][] entities;
 	public DPos3 originCell;
 	
+	String name;
+	
 	public Blueprint(DefinitionId[][][] definitionIds, DPos3 originCell) {
 		this.definitionIds = definitionIds;
 		this.originCell = originCell;
@@ -204,6 +206,7 @@ public class Blueprint {
 			DPos3 origin = local.parseCoordinateLine(line);
 			
 			blueprint = new Blueprint(new DefinitionId[size.x][size.y][size.z], origin);
+			blueprint.name = fileName.substring(0, fileName.lastIndexOf('.'));
 			
 			// Read first line of blocks
 			line = reader.readLine();

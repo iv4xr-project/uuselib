@@ -47,8 +47,11 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 	public ConstructionPlanner(Blueprint blueprint, Vec3 originLocation, WorldEntity grid, UUSeAgentState agentState, ConstructionOptimizer optimizer) {
 		this.agentState = agentState;
 		this.optimizer = optimizer;
-		optimizer.planner = this;
-		
+		if (optimizer != null) {
+			this.optimizer.planner = this;
+			this.optimizer.agentState = agentState;
+		}
+				
 		var gridOrigin = grid.position;
 		gridOffset = new Vec3(
 				gridOrigin.x % cellSize, 

@@ -10,7 +10,16 @@ import static nl.uu.cs.uuspaceagent.TestUtils.console;
 import static nl.uu.cs.uuspaceagent.TestUtils.loadSE;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 import org.junit.jupiter.api.Test;
+
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
+import org.json.*;
 
 import eu.iv4xr.framework.mainConcepts.TestAgent;
 import eu.iv4xr.framework.mainConcepts.TestDataCollector;
@@ -33,16 +42,13 @@ public class Test_ConstructionPlanner {
     /**
      * Auto-navigate to a given point and then place a block there.
      */
-    public Pair<TestAgent,GoalStructure> deployAgent(Blueprint blueprint, Vec3 location) throws InterruptedException {
+    public Pair<TestAgent,GoalStructure> deployAgent(Blueprint blueprint, Vec3 location, ConstructionOptimizer optimizer) throws InterruptedException {
         console("*** start test...") ;
         var agentAndState = loadSE("ConstructionPlatform") ;
         TestAgent agent = agentAndState.fst ;
         UUSeAgentState state = agentAndState.snd ;
         Thread.sleep(1000);
         state.updateState(state.agentId);
-
-        console(showWOMAgent(state.worldmodel));
-
 
         //Find grid
         WorldEntity grid = null;
@@ -53,8 +59,7 @@ public class Test_ConstructionPlanner {
         		grid = state.worldmodel.elements.get(e);
         	}
         }  
-        
-        ConstructionPlanner planner = new ConstructionPlanner(blueprint, location, grid, state, ConstructionOptimizer.DFS2(state));
+        ConstructionPlanner planner = new ConstructionPlanner(blueprint, location, grid, state, optimizer);
 
         GoalStructure buildStructure = UUGoalLib.REPEATwith(planner);
         
@@ -63,6 +68,7 @@ public class Test_ConstructionPlanner {
         agent.setGoal(G) ;
 
         int turn= 0 ;
+        long start = System.currentTimeMillis();
         while(G.getStatus().inProgress()) {
             console(">> [" + turn + "] (" + 
             		Math.floor(planner.blueprint.getProgress()*100) + "%) " + 
@@ -72,7 +78,12 @@ public class Test_ConstructionPlanner {
             turn++ ;
             //if (turn >= 1400) break ;
         }
-
+        long end = System.currentTimeMillis();
+        float runtime = (end - start)/1000;
+        System.out.println("Test took " + runtime + " seconds");
+        
+        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn);
+        
         TestUtils.closeConnectionToSE(state);
         return new Pair<>(agent,G) ;
     }
@@ -85,11 +96,13 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-        var agent_and_goal = deployAgent(blueprint, dest);
+    	var optimizer = ConstructionOptimizer.DFS(1);
+    	
+        var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;
         GoalStructure G = agent_and_goal.snd;
-        G.printGoalStructureStatus();
+        //G.printGoalStructureStatus();
         assertTrue(G.getStatus().success());
         console("*** test succesful!") ;
         //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
@@ -103,7 +116,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-        var agent_and_goal = deployAgent(blueprint, dest);
+        var agent_and_goal = deployAgent(blueprint, dest, null);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;
         GoalStructure G = agent_and_goal.snd;
@@ -121,7 +134,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-        var agent_and_goal = deployAgent(blueprint, dest);
+        var agent_and_goal = deployAgent(blueprint, dest, null);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;
         GoalStructure G = agent_and_goal.snd;

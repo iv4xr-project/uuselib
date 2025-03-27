@@ -5,15 +5,13 @@ import java.util.List;
 
 import nl.uu.cs.uuspaceagent.DPos3;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
-import static nl.uu.cs.uuspaceagent.TestUtils.console;
 
 public abstract class ConstructionOptimizer {
 	
 	UUSeAgentState agentState;
 	ConstructionPlanner planner;
 	
-	public ConstructionOptimizer(UUSeAgentState agentState) {
-		this.agentState = agentState;
+	public ConstructionOptimizer() {
 	}
 	
 	public List<DPos3> SortCells(List<DPos3> cells) {
@@ -22,20 +20,25 @@ public abstract class ConstructionOptimizer {
 	}
 	
 	
-	public static ConstructionOptimizer DFS(UUSeAgentState agentState) {
-		return new DFS(agentState);
-	}
-	
-	public static ConstructionOptimizer DFS2(UUSeAgentState agentState) {
-		return new DFS2(agentState);
+	public static ConstructionOptimizer DFS( int version) {
+		switch (version) {
+			case 1:
+				return new DFS1();
+				
+			case 2:
+				return new DFS2();
+		}
+		return null;
 	}
 }
 
-class DFS extends ConstructionOptimizer {
+/**
+ * Basic DFS optimizer that sorts cells based on their distance to the previously placed block.
+ */
+class DFS1 extends ConstructionOptimizer {
 	
 
-	public DFS(UUSeAgentState agentState) {
-		super(agentState);
+	public DFS1() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -50,11 +53,13 @@ class DFS extends ConstructionOptimizer {
 	}
 }
 
-class DFS2 extends DFS {
+/**
+ * Adaptation of DFS1 that prioritizes building layer by layer.
+ */
+class DFS2 extends DFS1 {
 	
 
-	public DFS2(UUSeAgentState agentState) {
-		super(agentState);
+	public DFS2() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -62,6 +67,7 @@ class DFS2 extends DFS {
 	public List<DPos3> SortCells(List<DPos3> cells) {
 		cells = super.SortCells(cells);
 
+		// TODO: tweak this so that there is more nuance to the prioritization
 		cells.sort((pos1, pos2) -> Integer.compare(
 				pos1.y, 
 				pos2.y));
