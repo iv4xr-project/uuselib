@@ -74,10 +74,25 @@ public class DPos3 implements Serializable {
     }
     
     /**
+     * @return The distance between two vectors a and b. This is the length of the vector
+     * a - b.
+     */
+    public static float dist(DPos3 a, DPos3 b) {
+        return DPos3.sub(a, b).length();
+    }
+    
+    /**
      * @return The squared distance of this vector.
      */
     public int lengthSq() {
         return dot(this, this);
+    }
+    
+    /**
+     * @return The length of this vector.
+     */
+    public float length() {
+        return (float) Math.sqrt(this.lengthSq());
     }
     
     /**

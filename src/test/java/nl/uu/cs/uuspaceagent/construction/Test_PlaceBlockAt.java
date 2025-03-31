@@ -158,4 +158,17 @@ public class Test_PlaceBlockAt {
         console("*** test succesful!") ;
         //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
+    
+    @Test
+    public void test_placeBlockAt6() throws InterruptedException {
+        Vec3 dest = new Vec3(13.75f, -3.75f, 62.5f);
+        var agent_and_goal = deployAgent(dest);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
 }

@@ -21,7 +21,7 @@
   <ControlledObject>88034022095450917</ControlledObject>
   <Password />
   <Description>Alone in the void. Choose your destiny.</Description>
-  <LastSaveTime>2025-03-31T16:31:20.6490679+02:00</LastSaveTime>
+  <LastSaveTime>2025-03-31T16:31:18.8618617+02:00</LastSaveTime>
   <SpectatorDistance>4.420889</SpectatorDistance>
   <WorkshopId xsi:nil="true" />
   <WorkshopId1 xsi:nil="true" />
@@ -32218,7 +32218,7 @@
       <SavedCharacters>
         <long>88034022095450917</long>
       </SavedCharacters>
-      <LastLogoutTime>2025-03-31T16:31:20.6490679+02:00</LastLogoutTime>
+      <LastLogoutTime>2025-03-31T16:31:18.8638655+02:00</LastLogoutTime>
       <RespawnShips />
       <LastDeathPosition xsi:nil="true" />
       <ActiveContracts />

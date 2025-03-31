@@ -81,7 +81,7 @@ public class Test_ConstructionPlanner {
         long end = System.currentTimeMillis();
         float runtime = (end - start)/1000;
         System.out.println("Test took " + runtime + " seconds");
-        
+
         JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn);
         
         TestUtils.closeConnectionToSE(state);
@@ -96,7 +96,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-    	var optimizer = ConstructionOptimizer.DFS(1);
+    	var optimizer = ConstructionOptimizer.DFS(3);
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
@@ -133,6 +133,26 @@ public class Test_ConstructionPlanner {
     	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/blockTypes.cons");
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
+    	
+    	var optimizer = ConstructionOptimizer.DFS(3);
+        
+        var agent_and_goal = deployAgent(blueprint, dest, optimizer);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    @Test
+    public void test_construction4() throws InterruptedException {
+    	// Builds a 4 pillars of 3 armor blocks high.
+    	
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/pillars.cons");
+    
+    	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
         var agent_and_goal = deployAgent(blueprint, dest, null);
         TestAgent agent = agent_and_goal.fst ;
@@ -144,4 +164,43 @@ public class Test_ConstructionPlanner {
         //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
     
+    @Test
+    public void test_construction5() throws InterruptedException {
+    	// Try to force a priority block situation
+    	
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/3x2x3.cons");
+    
+    	Vec3 dest = new Vec3(21.25f, -5f, 60);
+        
+    	var optimizer = ConstructionOptimizer.DFS(3);
+    	
+        var agent_and_goal = deployAgent(blueprint, dest, optimizer);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    @Test
+    public void test_construction6() throws InterruptedException {
+    	// Try to force a priority block situation
+    	
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/flatStar.cons");
+    
+    	Vec3 dest = new Vec3(21.25f, -5f, 60);
+        
+    	var optimizer = ConstructionOptimizer.BFS(2);
+    	
+        var agent_and_goal = deployAgent(blueprint, dest, optimizer);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
 }

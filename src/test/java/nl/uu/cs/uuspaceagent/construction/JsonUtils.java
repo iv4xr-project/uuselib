@@ -67,7 +67,7 @@ public class JsonUtils {
 		String optimizerName = "Default";
 		if (optimizer != null)
 		{
-			optimizer.getClass().getName();
+			optimizerName = optimizer.getClass().getName();
 			optimizerName = optimizerName.substring(optimizerName.lastIndexOf('.')+1, optimizerName.length());
 		}
 				

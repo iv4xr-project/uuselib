@@ -406,6 +406,7 @@ public class UUGoalLib {
     		//console("Face center: " + lookTarget.snd);
     		
     		// Find the best spot for the agent to stand when placing the block.
+    		//TODO: find better spots when placing directly below
     		console("looking for empty neighbor near " + lookTarget.fst);
     		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(
     				state.navgrid,

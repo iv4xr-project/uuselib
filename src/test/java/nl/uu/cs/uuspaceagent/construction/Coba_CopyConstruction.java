@@ -32,7 +32,7 @@ class Coba_CopyConstruction {
 		
 		
 		console("*** start coba...") ;
-		var agentAndState = loadSE("ConstructionPlatform2") ;
+		var agentAndState = loadSE("ConstructionPlatform") ;
         TestAgent agent = agentAndState.fst ;
         UUSeAgentState state = agentAndState.snd ;
         Thread.sleep(1000);

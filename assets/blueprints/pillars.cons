@@ -1,0 +1,14 @@
+(13,13,13)
+(6,0,6)
+(4,0,4);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
+(4,1,4);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
+(4,2,4);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
+(4,0,10);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
+(4,1,10);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
+(4,2,10);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
+(10,0,4);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
+(10,0,10);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
+(10,1,4);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
+(10,1,10);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
+(10,2,4);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
+(10,2,10);LargeBlockArmorBlock;MyObjectBuilder_CubeBlock
