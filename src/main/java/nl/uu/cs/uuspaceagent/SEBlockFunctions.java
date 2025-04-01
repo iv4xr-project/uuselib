@@ -317,19 +317,21 @@ public class SEBlockFunctions {
          for (int x = p.x-distance ; x <= p.x+distance ; x+=diameter) {
              new Local().checkNeighbor(new DPos3(x,p.y,p.z));          
          }
-         //(-1,-3,19
+
          for (int z = p.z-distance ; z <= p.z+distance ; z+=diameter) {
         	 new Local().checkNeighbor(new DPos3(p.x,p.y,z));
          }
          
          if (!candidates.isEmpty()) return candidates;
          
-         for (int y = p.y-distance; y <= p.y+distance; y+=diameter) {
-        	 new Local().checkNeighbor(new DPos3(p.x,y,p.z));
-    	 }
+         // Try to approach from bottom if possible
+         new Local().checkNeighbor(new DPos3(p.x,p.y-distance+1,p.z));
+		 if (!candidates.isEmpty()) return candidates;
+		 
+		 // Last resort is to approach from top (can be inconsistent due to mid-air alignment issues.
+		 new Local().checkNeighbor(new DPos3(p.x,p.y+distance,p.z));
+		 return candidates;
 
-         
-    	return candidates;
     }
 
     /**

@@ -108,6 +108,13 @@ public class Blueprint {
 		return neighbours;
 	}
 	
+public List<DPos3> getOpenHorizontalNeighborPositions(DPos3 cellPosition){
+		
+		var neighbours = getNeighborPositions(cellPosition).stream().filter((DPos3 pos) -> (pos.y == cellPosition.y))
+				.filter((DPos3 pos) -> getEntityAtCell(pos) == null).toList();
+		return neighbours;
+	}
+	
 	public List<DPos3> getUnplacedCells(){
 		var size = getSize();
 		var unplacedCells = new ArrayList<DPos3>();

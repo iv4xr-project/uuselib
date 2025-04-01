@@ -96,7 +96,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-    	var optimizer = ConstructionOptimizer.DFS(3);
+    	var optimizer = ConstructionOptimizer.SuperOptimizer();
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;

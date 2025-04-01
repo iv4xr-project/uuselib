@@ -436,7 +436,7 @@ public class UUTacticLib {
         Vec2F turningVector = new Vec2F(vTurningSpeed, hTurningSpeed) ;
         
         try {
-			Thread.sleep(500);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -450,7 +450,7 @@ public class UUTacticLib {
             obs = agentState.env().getController().getCharacter().moveAndRotate(
                     SEBlockFunctions.toSEVec3(ZEROV3),
                     turningVector,
-                    compensateRoll(orientationForward, orientationUp), 1) ; // "roll" and "tick" ... using default vals;
+                    compensateRoll(orientationForward, orientationUp), 1) ; // "tick" ... using default vals;
             dirToGo = Vec3.sub(destination,SEBlockFunctions.fromSEVec3(obs.getPosition())) ;
             agentHdir = SEBlockFunctions.fromSEVec3(obs.getCamera().getOrientationForward()) ;
             orientationForward = SEBlockFunctions.fromSEVec3(obs.getOrientationForward());

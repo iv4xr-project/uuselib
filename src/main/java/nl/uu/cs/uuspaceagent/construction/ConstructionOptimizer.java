@@ -44,6 +44,10 @@ public abstract class ConstructionOptimizer {
 		}
 		return null;
 	}
+	
+	public static ConstructionOptimizer SuperOptimizer() {
+		return new SuperOptimizer();
+	}
 }
 
 /**
@@ -147,3 +151,36 @@ class BFS2 extends BFS1 {
 	}
 }
 
+class SuperOptimizer extends ConstructionOptimizer {
+	
+	public SuperOptimizer() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public List<DPos3> SortCells(List<DPos3> cells) {
+		cells = super.SortCells(cells);
+		
+		cells.sort((pos1, pos2) -> Float.compare(
+				getScore(pos1), 
+				getScore(pos2)));
+		return cells;
+	}
+	
+	
+	float getScore(DPos3 pos) {
+		var distToLatest = DPos3.distSq(pos, planner.latestBlock);
+		var elevation = pos.y;
+		var distToPlayer = Vec3.dist(planner.getWorldLocationFromCell(pos), agentState.worldmodel.position)/planner.cellSize;
+		var neighborDefs = planner.blueprint.getNeighbourDefinitions(pos).size();
+		var neighborEnts = planner.blueprint.getNeighbourEntities(pos).size();
+		
+		var missingNeighbors = neighborDefs - neighborEnts;
+		
+		var openNeighbors = planner.blueprint.getOpenHorizontalNeighborPositions(pos).size();
+		
+		//TODO: tweak the missingneighbors factor
+		return distToLatest + elevation + distToPlayer + (6-neighborDefs)/3 + openNeighbors + (missingNeighbors*2);
+	}
+	
+}
