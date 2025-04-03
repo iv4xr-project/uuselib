@@ -659,7 +659,8 @@ public class UUTacticLib {
                         // as reached (so, we remove it from the plan):
                         state.currentPathToFollow.remove(0) ;
                         return new Pair<>(state.worldmodel.position, state.orientationForward()) ;
-                    }
+                    }                
+                    
                     CharacterObservation obs = null ;
                     // disabling rotation for now
                     obs = yTurnTowardACT(state,nextNodePos, 0.8f,10) ;

@@ -21,6 +21,16 @@ public abstract class ConstructionOptimizer {
 		return sortedCells;
 	}
 	
+	public String getName() {
+		// Format optimizerName
+		String optimizerName = "Default";
+
+		optimizerName = this.getClass().getName();
+		optimizerName = optimizerName.substring(optimizerName.lastIndexOf('.')+1, optimizerName.length());
+		
+		return optimizerName;
+	}
+	
 	
 	public static ConstructionOptimizer DFS( int version) {
 		switch (version) {
@@ -180,7 +190,7 @@ class SuperOptimizer extends ConstructionOptimizer {
 		var openNeighbors = planner.blueprint.getOpenHorizontalNeighborPositions(pos).size();
 		
 		//TODO: tweak the missingneighbors factor
-		return distToLatest + elevation + distToPlayer + (6-neighborDefs)/3 + openNeighbors + (missingNeighbors*2);
+		return distToLatest + elevation + distToPlayer + (6-neighborDefs)/3 + openNeighbors + (missingNeighbors);
 	}
 	
 }

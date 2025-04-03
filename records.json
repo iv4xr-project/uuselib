@@ -1,1 +1,1 @@
-{"simpleHouse":{"SuperOptimizer":{"time":340,"turns":1446}}}
+{"pillars":{"BFS2":{"time":118,"turns":470},"Default":{"time":134,"turns":515},"DFS3":{"time":120,"turns":531},"BFS1":{"time":115,"turns":438},"DFS2":{"time":103,"turns":440},"SuperOptimizer":{"time":114,"turns":501},"DFS1":{"time":103,"turns":444}},"simpleHouse":{"SuperOptimizer":{"time":345,"turns":1485}},"3x2x3":{"Default":{"time":135,"turns":564}}}

@@ -12,8 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Arrays;
+import java.util.Collection;
 
+import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonParser;
@@ -134,7 +138,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
     	
-    	var optimizer = ConstructionOptimizer.DFS(3);
+    	ConstructionOptimizer optimizer = null;
         
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
@@ -154,7 +158,9 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-        var agent_and_goal = deployAgent(blueprint, dest, null);
+    	ConstructionOptimizer optimizer = null;
+    	
+        var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;
         GoalStructure G = agent_and_goal.snd;
@@ -172,7 +178,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-    	var optimizer = ConstructionOptimizer.DFS(3);
+    	ConstructionOptimizer optimizer = null;
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
@@ -192,7 +198,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-    	var optimizer = ConstructionOptimizer.BFS(2);
+    	ConstructionOptimizer optimizer = null;
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
@@ -203,4 +209,5 @@ public class Test_ConstructionPlanner {
         console("*** test succesful!") ;
         //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
+    
 }

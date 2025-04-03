@@ -67,8 +67,7 @@ public class JsonUtils {
 		String optimizerName = "Default";
 		if (optimizer != null)
 		{
-			optimizerName = optimizer.getClass().getName();
-			optimizerName = optimizerName.substring(optimizerName.lastIndexOf('.')+1, optimizerName.length());
+			optimizerName = optimizer.getName();
 		}
 				
 		// Create structureObject if specified structure doesn't have any records yet.
