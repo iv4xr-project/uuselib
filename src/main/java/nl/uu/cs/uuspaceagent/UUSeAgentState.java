@@ -67,6 +67,11 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
      */
     public boolean useSystemTimeForTimeStamping = false ;
 
+    /**
+     * Whether the agent is currently performing a construction task.
+     */
+    public boolean inConstruction = false;
+    
     public UUSeAgentState(String agentId) {
         this.agentId = agentId ;
         //((AStar<DPos3>) (this.pathfinder)).maximumNumberOfIterations = 200;

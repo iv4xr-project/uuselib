@@ -654,7 +654,8 @@ public class UUTacticLib {
                     var nextNodePos = state.navgrid.getSquareCenterLocation(nextNode) ;
                     var agentSq = state.navgrid.gridProjectedLocation(state.worldmodel.position) ;
                     //if(agentSq.equals(nextNode)) {
-                    if(Vec3.sub(nextNodePos,state.worldmodel.position).lengthSq() <= THRESHOLD_SQUARED_DISTANCE_TO_SQUARE) {
+                    var sqDistToNextNode = Vec3.sub(nextNodePos,state.worldmodel.position).lengthSq();
+                    if(sqDistToNextNode <= THRESHOLD_SQUARED_DISTANCE_TO_SQUARE) {
                         // agent is already in the same square as the next-node destination-square. Mark the node
                         // as reached (so, we remove it from the plan):
                         state.currentPathToFollow.remove(0) ;
@@ -662,12 +663,21 @@ public class UUTacticLib {
                     }                
                     
                     CharacterObservation obs = null ;
-                    // disabling rotation for now
-                    obs = yTurnTowardACT(state,nextNodePos, 0.8f,10) ;
-                    if (obs != null) {
-                        // we did turning, we won't move.
-                        return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward())) ;
+                    
+                    // Check whether to strafe
+                    if (state.inConstruction && state.currentPathToFollow.size() == 1 && sqDistToNextNode < 25) {
+                    	//Skip rotation so that the agent strafes to the last node.
+                    } else {
+                    	
+                    	// disabling rotation for now
+                        obs = yTurnTowardACT(state,nextNodePos, 0.8f,10) ;
+                        if (obs != null) {
+                            // we did turning, we won't move.
+                            return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward())) ;
+                        }
                     }
+                    
+                    
                     obs = moveToward(state,nextNodePos,20) ;
                     return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
                 } )
@@ -871,7 +881,9 @@ public class UUTacticLib {
     	return SEQ(
     			equip(itemId),
     			action("place " + itemId).do1((UUSeAgentState state) -> {
+    	    		state.inConstruction = true;
     				state.env().getController().getBlocks().place();
+    	    		state.inConstruction = false;
     				return true;
     			}).lift()
     			);

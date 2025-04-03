@@ -401,6 +401,8 @@ public class UUGoalLib {
     	
     	return (UUSeAgentState state) -> {
     		
+    		state.inConstruction = true;
+    		
     		// lookTarget is the nearest face to the where the block should be placed
     		Pair<BlockSides, Vec3> lookTarget = SEBlockFunctions.findClosestFace(state.worldmodel, blockLocation);
     		//console("Face center: " + lookTarget.snd);
@@ -460,7 +462,7 @@ public class UUGoalLib {
         	// 3. Equip and use block from inventory
             // 4. Equip empty hand.
             return SEQ(
-            		nearLookTarget, 
+            		nearLookTarget,
             		faceToward("look towards neighbor side", lookTarget.snd),
             		blockPlaced,
             		lift("unequiped block", UUTacticLib.unequip()));
