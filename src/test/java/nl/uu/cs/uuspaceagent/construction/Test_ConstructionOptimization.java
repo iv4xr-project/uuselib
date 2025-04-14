@@ -126,7 +126,8 @@ public class Test_ConstructionOptimization {
     			ConstructionOptimizer.DFS(3),
     			ConstructionOptimizer.BFS(1),
     			ConstructionOptimizer.BFS(2),
-    			ConstructionOptimizer.SuperOptimizer()
+    			ConstructionOptimizer.CustomOptimizer(1),
+    			ConstructionOptimizer.CustomOptimizer(2)
     			);
     	
     	List<DynamicTest> tests = new LinkedList<>();

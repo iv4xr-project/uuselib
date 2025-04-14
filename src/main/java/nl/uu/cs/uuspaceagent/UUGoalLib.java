@@ -421,10 +421,6 @@ public class UUGoalLib {
             		));
     		Vec3 playerDestination = destinationCandidates.getFirst();
     		
-    		var obstacles = state.navgrid.knownObstacles.get(state.navgrid.gridProjectedLocation(playerDestination));
-    		if (obstacles != null)
-    			console(obstacles.toString());
-    		
     		state.navgrid.enableFlying = true;
     		
     		console("dest.y: " +playerDestination.y + ", origin.y: " + state.navgrid.origin.y + 
@@ -468,4 +464,46 @@ public class UUGoalLib {
             		lift("unequiped block", UUTacticLib.unequip()));
         } ;		
     }
+    
+    public static Function<UUSeAgentState, GoalStructure> accessedBlockInventory(WorldEntity entity){
+    	return (UUSeAgentState state) -> {
+    		
+    		console("looking for empty neighbor near " + entity.position);
+    		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(
+    				state.navgrid,
+    				Vec3.sub(entity.position, Vec3.div(state.getHeadOffset(), 2)), 
+    				null);
+    		console("destinationCandidates: " + destinationCandidates.toString());
+    		destinationCandidates.sort((v1, v2) -> Float.compare(
+            		Vec3.sub(v1, state.worldmodel.position).lengthSq(),
+            		Vec3.sub(v2, state.worldmodel.position).lengthSq()
+            		));
+    		Vec3 playerDestination = destinationCandidates.getFirst();
+    		
+    		
+    		state.navgrid.enableFlying = true;
+    		if (Math.abs(playerDestination.y - state.navgrid.origin.y) < 2)
+    		{
+    			state.navgrid.enableFlying = false;
+    			playerDestination.y = state.navgrid.origin.y + 0.1f;
+    		}
+    		
+    		GoalStructure nearLookTarget = DEPLOY(closeTo(playerDestination));
+    		
+    		GoalStructure facingBlock = faceToward("look at center of object", entity.position);
+    		
+    		GoalStructure openedInventory = goal("openedInventory")
+    				.toSolve((Boolean e) -> {
+    					return e;
+    				})
+    				.withTactic(UUTacticLib.openBlockInventory())
+    				.lift();
+    		
+    		return SEQ(
+    				nearLookTarget,
+    				facingBlock,
+    				openedInventory
+    				);
+		};
+	}
 }

@@ -4,7 +4,11 @@ import static nl.uu.cs.uuspaceagent.PrintInfos.showWOMAgent;
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
 import static nl.uu.cs.uuspaceagent.TestUtils.loadSE;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import nl.uu.cs.aplib.mainConcepts.GoalStructure;
 import nl.uu.cs.uuspaceagent.SEBlockFunctions;
+import nl.uu.cs.aplib.mainConcepts.*;
+import static nl.uu.cs.aplib.AplibEDSL.* ;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,18 +29,28 @@ class Coba_Debug {
         Thread.sleep(1000);
         state.updateState(state.agentId);
         
+        var block = SEBlockFunctions.findClosestBlock(state.worldmodel, (WorldEntity we) -> {
+        	return we.getProperty("blockType").toString().contains("Container");
+        });
+       
+        
+        GoalStructure G = DEPLOY(UUGoalLib.accessedBlockInventory(block));
+        
+        agent.setGoal(G);
         
         int turn= 0 ;
-        while(true) {
+        while(G.getStatus().inProgress()) {
             console(">> [" + turn + "] " + showWOMAgent(state.worldmodel));
             agent.update();
             state.updateState(state.agentId);
             
             
-            if (true)
-            	break;
             
-            Thread.sleep(500);
+            
+//            if (true)
+//            	break;
+            
+            Thread.sleep(50);
             turn++ ;
             if (turn >= 1400) break ;
         }

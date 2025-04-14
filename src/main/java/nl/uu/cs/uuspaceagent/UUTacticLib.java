@@ -13,6 +13,7 @@ import spaceEngineers.model.Block;
 import spaceEngineers.model.CharacterObservation;
 import spaceEngineers.model.DefinitionId;
 import spaceEngineers.model.DoorBase;
+import spaceEngineers.model.TerminalBlock;
 import spaceEngineers.model.ToolbarLocation;
 import spaceEngineers.model.Vec2F;
 import spaceEngineers.model.Vec3F;
@@ -20,6 +21,7 @@ import spaceEngineers.model.Vec3F;
 import static nl.uu.cs.aplib.AplibEDSL.*;
 import eu.iv4xr.framework.spatial.Vec3;
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.function.Function;
@@ -127,12 +129,18 @@ public class UUTacticLib {
             forwardWalk = Rotation.rotate(forwardWalk, agentState.orientationForward(), destinationRelativeLocation) ;
             // applly correction on the y-component, taking advantage that we know
             // the agent's forward orientation has its y-component 0.
-            forwardRun.y = Math.abs(forwardRun.y) ;
-            forwardWalk.y = Math.abs(forwardWalk.y) ;
-            if (destinationRelativeLocation.y < 0) {
-                forwardRun.y = - forwardRun.y ;
-                forwardWalk.y = - forwardWalk.y ;
-            }
+            //forwardRun.y = Math.abs(forwardRun.y) ;
+            //forwardWalk.y = Math.abs(forwardWalk.y) ;
+            //if (destinationRelativeLocation.y < 0) {
+            //    forwardRun.y = - forwardRun.y ;
+            //    forwardWalk.y = - forwardWalk.y ;
+            //}
+            
+            // yScale indicates how much of the destinationRelativeLocation is in the y-axis.
+            var yScale = Math.abs(destinationRelativeLocation.normalized().y);
+            
+            forwardRun.y = Math.signum(destinationRelativeLocation.y) * Math.min(Math.abs(destinationRelativeLocation.y), RUN_SPEED*yScale);
+            forwardWalk.y = Math.signum(destinationRelativeLocation.y) * Math.min(Math.abs(destinationRelativeLocation.y), WALK_SPEED*yScale);
             System.out.println(">>> FLY forwardRun: " + forwardRun);
         }
 
@@ -732,6 +740,33 @@ public class UUTacticLib {
      */
     public static Tactic smartNavigateToTAC(Vec3 destination) {
     	return FIRSTof(
+    			action("cleanPathToFollow").do2((UUSeAgentState state)
+                        -> (Vec3 queryResult) -> {
+                      
+                    CharacterObservation obs = moveToward(state,queryResult,10) ;
+                    return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
+                })
+    			.on((UUSeAgentState state)  -> {
+
+    				if (state.currentPathToFollow.size() <= 1)
+    					return null;
+    				
+                    var currentNodePos = state.navgrid.getSquareCenterLocation(state.currentPathToFollow.get(0)) ;
+                    var nextNodePos = state.navgrid.getSquareCenterLocation(state.currentPathToFollow.get(1)) ;
+                    
+                    var sqDistToNextNode = Vec3.sub(nextNodePos,state.worldmodel.position).lengthSq();
+                    var sqDistBetweenNodes = Vec3.sub(currentNodePos,nextNodePos).lengthSq();
+                    
+                    if (sqDistToNextNode < sqDistBetweenNodes)
+                    {
+                    	state.currentPathToFollow.remove(0) ;
+                    	console("*** REMOVED 1 UNNECESSARY NODE FROM PATH");
+                    	return nextNodePos;
+                    }
+    				
+    				//No door found.
+    				return null;
+    			}).lift(),
     			action("openDoors").do2((UUSeAgentState state)
                         -> (DoorBase queryResult) -> {
                       
@@ -786,6 +821,31 @@ public class UUTacticLib {
     			}).lift(),
     			navigateToTAC(destination)
     			);
+    }
+    
+    public static Tactic openBlockInventory() {
+    	return action("Open inventory of block").do2((UUSeAgentState state)
+	                -> (TerminalBlock queryResult) -> {
+	            	
+	                	
+	                	state.env().getController().getCharacter().showInventory();
+	                
+	                return true;
+	            }).on((UUSeAgentState state)  -> {
+	            	
+	            	CharacterObservation cobs = state.env().getController().getObserver().observe();
+	            	
+	            	if(cobs.getTargetBlock() != null && cobs.getTargetBlock().getDefinitionId().getId().contains("Container")) {
+		            	TerminalBlock container = (TerminalBlock) cobs.getTargetBlock();
+		            	return container;
+		            
+			        }
+	            	
+					return null;
+	
+				}).lift();
+    			
+    			
     }
 
     /**

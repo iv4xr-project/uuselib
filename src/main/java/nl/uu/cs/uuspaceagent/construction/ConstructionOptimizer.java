@@ -55,8 +55,14 @@ public abstract class ConstructionOptimizer {
 		return null;
 	}
 	
-	public static ConstructionOptimizer SuperOptimizer() {
-		return new SuperOptimizer();
+	public static ConstructionOptimizer CustomOptimizer(int version) {
+		switch (version) {
+		case 1:
+			return new CustomOptimizer();
+		case 2:
+			return new CustomOptimizer2();
+	}
+	return null;
 	}
 }
 
@@ -161,9 +167,9 @@ class BFS2 extends BFS1 {
 	}
 }
 
-class SuperOptimizer extends ConstructionOptimizer {
+class CustomOptimizer extends ConstructionOptimizer {
 	
-	public SuperOptimizer() {
+	public CustomOptimizer() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -190,7 +196,30 @@ class SuperOptimizer extends ConstructionOptimizer {
 		var openNeighbors = planner.blueprint.getOpenHorizontalNeighborPositions(pos).size();
 		
 		//TODO: tweak the missingneighbors factor
-		return distToLatest + elevation + distToPlayer + (6-neighborDefs)/3 + openNeighbors + (missingNeighbors);
+		return distToLatest + elevation + distToPlayer + (6-neighborDefs)/3 + openNeighbors + missingNeighbors;
+	}
+	
+}
+
+class CustomOptimizer2 extends CustomOptimizer {
+	
+	public CustomOptimizer2() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	float getScore(DPos3 pos) {
+		var distToLatest = DPos3.distSq(pos, planner.latestBlock);
+		var elevation = pos.y;
+		var distToPlayer = Vec3.dist(planner.getWorldLocationFromCell(pos), agentState.worldmodel.position)/planner.cellSize;
+		var neighborDefs = planner.blueprint.getNeighbourDefinitions(pos).size();
+		var neighborEnts = planner.blueprint.getNeighbourEntities(pos).size();
+		
+		var missingNeighbors = neighborDefs - neighborEnts;
+		
+		var openNeighbors = planner.blueprint.getOpenHorizontalNeighborPositions(pos).size();
+		
+		//TODO: tweak the missingneighbors factor
+		return distToLatest + elevation + distToPlayer + (6-neighborDefs)/2 + openNeighbors*2 + missingNeighbors;
 	}
 	
 }

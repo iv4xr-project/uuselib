@@ -100,7 +100,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-    	var optimizer = ConstructionOptimizer.SuperOptimizer();
+    	var optimizer = ConstructionOptimizer.CustomOptimizer(2);
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
@@ -158,7 +158,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-    	ConstructionOptimizer optimizer = null;
+    	ConstructionOptimizer optimizer = ConstructionOptimizer.DFS(3);
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
