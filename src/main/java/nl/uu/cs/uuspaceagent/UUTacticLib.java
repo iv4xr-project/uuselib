@@ -7,12 +7,14 @@ import nl.uu.cs.aplib.agents.PrologReasoner.QueryResult;
 import nl.uu.cs.aplib.mainConcepts.Action;
 import nl.uu.cs.aplib.mainConcepts.Tactic;
 import nl.uu.cs.aplib.utils.Pair;
+import spaceEngineers.controller.InventoryTab;
 import spaceEngineers.controller.useobject.UseObjectExtensions;
 import spaceEngineers.model.BasePose;
 import spaceEngineers.model.Block;
 import spaceEngineers.model.CharacterObservation;
 import spaceEngineers.model.DefinitionId;
 import spaceEngineers.model.DoorBase;
+import spaceEngineers.model.PhysicalObject;
 import spaceEngineers.model.TerminalBlock;
 import spaceEngineers.model.ToolbarLocation;
 import spaceEngineers.model.Vec2F;
@@ -846,6 +848,77 @@ public class UUTacticLib {
 				}).lift();
     			
     			
+    }
+    
+    
+    public static Action depositItemToContainer(DefinitionId id) {
+    	return action("Deposit item to container").do2((UUSeAgentState state) -> (PhysicalObject object) -> {
+    		
+    		try {
+    			InventoryTab inventory = state.env().getController().getScreens().getTerminal().getInventory();
+        		inventory.transferInventoryItemToRight(0, 0, object.getItemId());
+        		
+        		return object.getAmount();
+        		
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+    		return 0;
+    	}).on((UUSeAgentState state) -> {
+    		InventoryTab inventory = state.env().getController().getScreens().getTerminal().getInventory();
+    		var firstPocketLeft = inventory.data().getLeftInventories().getFirst().getItems();
+
+    		
+    		for (int i = 0; i < firstPocketLeft.size(); i++) {
+    			PhysicalObject object = firstPocketLeft.get(i);
+    			
+    			
+    			// Skip all items that don't have the matching id
+    			if (!object.getId().getType().equals(id.getType()))
+    				continue;
+    			
+    			return object;
+    		
+    		}
+    		
+    		return null;
+    	});
+    }
+    
+    public static Action withdrawItemToPlayer(DefinitionId id) {
+    	return action("Withdraw item to player").do2((UUSeAgentState state) -> (PhysicalObject object) -> {
+    		
+    		try {
+    			InventoryTab inventory = state.env().getController().getScreens().getTerminal().getInventory();
+        		inventory.transferInventoryItemToLeft(0, 0, object.getItemId());
+        		
+        		return object.getAmount();
+        		
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+    		return 0;
+    		
+
+    	}).on((UUSeAgentState state) -> {
+    		InventoryTab inventory = state.env().getController().getScreens().getTerminal().getInventory();
+    		var firstPocketRight = inventory.data().getRightInventories().getFirst().getItems();
+
+    		
+    		for (int i = 0; i < firstPocketRight.size(); i++) {
+    			PhysicalObject object = firstPocketRight.get(i);
+    			
+    			
+    			// Skip all items that don't have the matching id
+    			if (!object.getId().getType().equals(id.getType()))
+    				continue;
+    			
+    			return object;
+    		
+    		}
+    		
+    		return null;
+    	});
     }
 
     /**

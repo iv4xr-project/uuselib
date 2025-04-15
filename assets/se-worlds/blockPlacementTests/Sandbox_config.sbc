@@ -36,7 +36,7 @@
     <RealisticSound>false</RealisticSound>
     <HackSpeedMultiplier>0.33</HackSpeedMultiplier>
     <PermanentDeath>false</PermanentDeath>
-    <AutoSaveInMinutes>5</AutoSaveInMinutes>
+    <AutoSaveInMinutes>0</AutoSaveInMinutes>
     <EnableSaving>true</EnableSaving>
     <InfiniteAmmo>false</InfiniteAmmo>
     <EnableContainerDrops>true</EnableContainerDrops>
@@ -176,5 +176,5 @@
   </Settings>
   <Mods />
   <SessionName>blockPlacementTests</SessionName>
-  <LastSaveTime>2025-03-31T16:31:20.6490679+02:00</LastSaveTime>
+  <LastSaveTime>2025-04-15T13:33:20.4774129+02:00</LastSaveTime>
 </MyObjectBuilder_WorldConfiguration>

@@ -16,6 +16,7 @@ import eu.iv4xr.framework.mainConcepts.TestAgent;
 import eu.iv4xr.framework.mainConcepts.WorldEntity;
 import spaceEngineers.model.Block;
 import spaceEngineers.model.CharacterObservation;
+import spaceEngineers.model.DefinitionId;
 import eu.iv4xr.framework.spatial.Vec3;
 
 class Coba_Debug {
@@ -34,7 +35,10 @@ class Coba_Debug {
         });
        
         
-        GoalStructure G = DEPLOY(UUGoalLib.accessedBlockInventory(block));
+        GoalStructure G = SEQ( 
+        		DEPLOY(UUGoalLib.accessedBlockInventory(block)),
+        		lift("deposit item", UUTacticLib.depositItemToContainer(new DefinitionId("AmmoMagazine", "NATO_5p56x45mm")))
+        		);
         
         agent.setGoal(G);
         
