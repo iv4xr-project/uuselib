@@ -127,22 +127,28 @@ public class UUTacticLib {
             System.out.println(">>> no-fly forwardRun: " + forwardRun);
         }
         else {
-            forwardRun = Rotation.rotate(forwardRun, agentState.orientationForward(), destinationRelativeLocation) ;
-            forwardWalk = Rotation.rotate(forwardWalk, agentState.orientationForward(), destinationRelativeLocation) ;
-            // applly correction on the y-component, taking advantage that we know
-            // the agent's forward orientation has its y-component 0.
-            //forwardRun.y = Math.abs(forwardRun.y) ;
-            //forwardWalk.y = Math.abs(forwardWalk.y) ;
-            //if (destinationRelativeLocation.y < 0) {
-            //    forwardRun.y = - forwardRun.y ;
-            //    forwardWalk.y = - forwardWalk.y ;
-            //}
-            
-            // yScale indicates how much of the destinationRelativeLocation is in the y-axis.
-            var yScale = Math.abs(destinationRelativeLocation.normalized().y);
-            
-            forwardRun.y = Math.signum(destinationRelativeLocation.y) * Math.min(Math.abs(destinationRelativeLocation.y), RUN_SPEED*yScale);
-            forwardWalk.y = Math.signum(destinationRelativeLocation.y) * Math.min(Math.abs(destinationRelativeLocation.y), WALK_SPEED*yScale);
+        	var forwardVector = agentState.orientationForward().copy();
+        	var relDirection = destinationRelativeLocation.copy();
+        	
+        	forwardRun = Rotation.rotate(relDirection, forwardVector, forwardWalk);
+        	forwardRun = forwardRun.normalized();
+        	
+        	forwardWalk = Vec3.mul(forwardRun, WALK_SPEED);
+        	forwardRun = Vec3.mul(forwardRun, RUN_SPEED);
+        	
+        	
+        	/* Code below is a more hardcoded version of the flying code that has been replaced with a rework of the original as seen above.*/
+//        	forwardVector.y = 0;
+//        	relDirection.y = 0;
+//        	
+//            forwardRun = Rotation.rotate(forwardRun, forwardVector, relDirection) ;
+//            forwardWalk = Rotation.rotate(forwardWalk, forwardVector, relDirection) ;
+//            
+//            // yScale indicates how much of the destinationRelativeLocation is in the y-axis.
+//            var yScale = Math.abs(destinationRelativeLocation.normalized().y);
+//            
+//            forwardRun.y = Math.signum(destinationRelativeLocation.y) * Math.min(Math.abs(destinationRelativeLocation.y), RUN_SPEED*yScale);
+//            forwardWalk.y = Math.signum(destinationRelativeLocation.y) * Math.min(Math.abs(destinationRelativeLocation.y), WALK_SPEED*yScale);
             System.out.println(">>> FLY forwardRun: " + forwardRun);
         }
 
@@ -710,6 +716,8 @@ public class UUTacticLib {
                             || ! destinationSq.equals(state.currentPathToFollow.get(currentPathLength - 1)))
                     {  // there is no path planned, or there is an ongoing path, but it goes to a different target
                     	console(">>> Searching for path");
+                    	if (state.navgrid.knownObstacles.get(agentSq) != null)
+                    		console("### PLAYER FEET ARE IN AN OBSTACLE");
                         List<DPos3> path = state.pathfinder.findPath(state.navgrid, agentSq, destinationSq)  ;
                         if (path == null) {
                             // the pathfinder cannot find a path. The tactic is then not enabled:

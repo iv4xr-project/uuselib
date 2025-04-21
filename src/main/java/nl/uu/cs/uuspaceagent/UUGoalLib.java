@@ -427,7 +427,7 @@ public class UUGoalLib {
     				" (diff: " + Math.abs(playerDestination.y - state.navgrid.origin.y));
     		
     		//TODO: change the origin.y to player.y and allow walking on blocks that are above origin.y
-    		if (Math.abs(playerDestination.y - state.navgrid.origin.y) < 2)
+    		if (Math.abs(playerDestination.y - state.navgrid.origin.y) < 2 && Math.abs(state.worldmodel.position.y - state.navgrid.origin.y) < 2)
     		{
     			state.navgrid.enableFlying = false;
     			playerDestination.y = state.navgrid.origin.y + 0.1f;

@@ -75,7 +75,7 @@ public class Rotation {
         // the same or opposite directgion), because the cross product would then be
         // (0,0,0), with length 0.
         // In that case we either do not rotate t, or reverse it.
-        System.out.println(">>> cross:" + cross + ", len=" + sinalpha) ;
+        //System.out.println(">>> cross:" + cross + ", len=" + sinalpha) ;
         Vec3 k = null ;
         try {
             // System.out.println(">>> cross:" + cross + ", len=" + sinalpha) ;

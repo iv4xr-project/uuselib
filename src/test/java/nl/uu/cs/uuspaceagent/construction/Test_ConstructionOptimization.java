@@ -116,7 +116,9 @@ public class Test_ConstructionOptimization {
     	var structures = Arrays.asList(
     			"pillars",
     			"3x2x3",
-    			"flatStar",
+    			"flatDisk",
+    			"flatCross",
+    			"mushroom",
     			"simpleHouse"
     			);
     	var optimizers = Arrays.asList(

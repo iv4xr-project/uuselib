@@ -43,11 +43,26 @@ public class Coba_Etc {
         r = Rotation.rotate(v1, v2, v3);
         console("result rounded: " + r.toString()); // result of rotation is (0,0,-1)
         
-        v1 = new Vec3(0,0,1);
-        v2 = new Vec3(0, 0 , -1);
-        v3 = new Vec3(0, 1, 0);
+        v1 = new Vec3(0,0,0.4f);
+        v2 = new Vec3(0.9969539f, 0 , -0.030992508f);
+        v3 = new Vec3(-3.854126f, 0, 0.047367096f);
         
         r = Rotation.rotate(v1, v2, v3);
         console("result y case: " + r.toString()); // result of rotation is (0,-1,0)
+        
+        v1 = new Vec3(0,0,0.4f);
+        v2 = new Vec3(1, 0 , 0);
+        v3 = new Vec3(-3.854126f, 0f, 0.047367096f);
+        
+        r = Rotation.rotate(v3, v2, v1);
+        console("*** result for y=0:             " + r.toString()); // result of rotation is ~(0, 0 ,-0.4)
+        
+        v1 = new Vec3(0,0,0.4f);
+        v2 = new Vec3(1, 0 , 0);
+        v3 = new Vec3(-3.854126f, 0.1f, 0.047367096f);
+        
+        r = Rotation.rotate(v3, v2, v1);
+        console("*** result for y=0.1 \\/ y=-0.1:	" + r.toString()); // result of rotation is ~(0,-0.3,0.25)
+        
     }
 }

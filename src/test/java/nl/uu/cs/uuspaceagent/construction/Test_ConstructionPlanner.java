@@ -194,11 +194,71 @@ public class Test_ConstructionPlanner {
     public void test_construction6() throws InterruptedException {
     	// Try to force a priority block situation
     	
-    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/flatStar.cons");
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/flatDisk.cons");
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
     	ConstructionOptimizer optimizer = null;
+    	
+        var agent_and_goal = deployAgent(blueprint, dest, optimizer);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    @Test
+    public void test_construction7() throws InterruptedException {
+    	// Try to force a priority block situation
+    	
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/flatCross.cons");
+    
+    	Vec3 dest = new Vec3(21.25f, -5f, 60);
+        
+    	ConstructionOptimizer optimizer = null;
+    	
+        var agent_and_goal = deployAgent(blueprint, dest, optimizer);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    @Test
+    public void test_construction8() throws InterruptedException {
+    	// Try to force a priority block situation
+    	
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/mushroom.cons");
+    
+    	Vec3 dest = new Vec3(21.25f, -5f, 60);
+        
+    	ConstructionOptimizer optimizer = ConstructionOptimizer.CustomOptimizer(2);
+    	
+        var agent_and_goal = deployAgent(blueprint, dest, optimizer);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    @Test
+    public void test_construction9() throws InterruptedException {
+    	// Try to force a priority block situation
+    	
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/enclosedDot.cons");
+    
+    	Vec3 dest = new Vec3(21.25f, -5f, 60);
+        
+    	ConstructionOptimizer optimizer = ConstructionOptimizer.CustomOptimizer(2);
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
