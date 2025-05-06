@@ -15,6 +15,8 @@ import nl.uu.cs.uuspaceagent.SEBlockFunctions;
 import nl.uu.cs.uuspaceagent.UUGoalLib;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
 import spaceEngineers.model.DefinitionId;
+import spaceEngineers.model.PhysicalObject;
+
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 
 
@@ -104,6 +106,18 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		WorldEntity entity = blueprint.getEntityAtCell(cellPosition);
 		if (entity != null) {
 			console("*** entity " + entity.type + " already built at cell " + cellPosition.toString()); 
+			return FAIL();
+		}
+		
+		// Check if path is possible
+		var agentSq = agentState.navgrid.gridProjectedLocation(agentState.getHeadPosition());
+		var blockSq = agentState.navgrid.gridProjectedLocation(blockLocation);
+		agentState.navgrid.enableFlying = true;
+		var path = agentState.pathfinder.findPath(agentState.navgrid, blockSq, agentSq);
+		agentState.navgrid.enableFlying = false;
+		if (path == null) {
+			console("*** block is not accessible by agent.");
+			return FAIL();
 		}
 		
 		var G = DEPLOY(UUGoalLib.placedBlockAt(blockLocation, blockDefinition));
@@ -243,8 +257,17 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		if (!succesfulUpdate)
 			return FAIL();
 		
-		//TODO: add a inventory check in the case of survival mode
-		
+		// Check agent's vitals and inventory.
+		if (agentState.inSurvival) {
+			if (agentState.oxygen() < 0.2f || agentState.hydrogen() < 0.2f|| agentState.energy() < 0.2f) {
+				return DEPLOY(UUGoalLib.rechargedPlayer());
+			}
+			
+			
+			if (agentState.getItemCount(new DefinitionId("Component", "SteelPlate")) < 25) {
+				return DEPLOY(UUGoalLib.restockedPlayer());
+			}
+		}
 		
 		// Get possible blocks to place
 		var placeableCells = placeableCells();
@@ -258,10 +281,9 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		
 		// Get the goal for the next block
 		DPos3 cellPosition = placeableCells.get(0);
-		GoalStructure G = getConstructionGoal(cellPosition);
-		
 		console("*** next goal is at DPos3" + cellPosition.toString() + "or Vec3" + getWorldLocationFromCell(cellPosition));
-		
+		GoalStructure G = getConstructionGoal(cellPosition);
+
 		// Add goal to pending list
 		pendingBlocks.add(new Pair<>(cellPosition,G));
 		

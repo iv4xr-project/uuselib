@@ -210,6 +210,25 @@ public class SEBlockFunctions {
     /**
      * Return the closest block with the specified property (the selector).
      */
+    public static List<WorldEntity> findBlocks(WorldModel wom, Predicate<WorldEntity> selector) {
+        var candidates =  SEBlockFunctions.getAllBlocks(wom)
+                .stream()
+                .filter(e -> selector.test(e))
+                .collect(Collectors.toList());
+        if(candidates.isEmpty()) return null ;
+        //System.out.println("candidates in find close block " + candidates.size());
+        //candidates.forEach(e -> System.out.println("candidate to move" + e));
+        // if there are more than one, sort the candidates to get the closest one:
+        candidates.sort((e1,e2) -> Float.compare(
+                 Vec3.sub(e1.position,wom.position).lengthSq()
+                ,Vec3.sub(e2.position,wom.position).lengthSq())) ;
+
+        return candidates;
+    }
+    
+    /**
+     * Return the closest block with the specified property (the selector).
+     */
     public static WorldEntity findClosestBlockPosition(WorldModel wom, Vec3 position, Float radius) {
     	var sqradius = radius*radius;
     	Predicate<WorldEntity> selector = (WorldEntity e)

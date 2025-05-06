@@ -14,8 +14,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
@@ -43,22 +41,19 @@ import nl.uu.cs.uuspaceagent.UUGoalLib;
 import nl.uu.cs.uuspaceagent.UUSeAgentState;
 import nl.uu.cs.uuspaceagent.UUTacticLib;
 
-public class Test_ConstructionOptimization {
+public class Test_SurvivalConstruction {
 
     /**
      * Auto-navigate to a given point and then place a block there.
      */
-    public Pair<TestAgent,GoalStructure> deployAgent(Blueprint blueprint, Vec3 location, ConstructionOptimizer optimizer, boolean isSurvival) throws InterruptedException {
+    public Pair<TestAgent,GoalStructure> deployAgent(Blueprint blueprint, Vec3 location, ConstructionOptimizer optimizer) throws InterruptedException {
         console("*** start test...") ;
-        
-        String worldName = isSurvival ? "ConstructionPlatformSurvival" : "ConstructionPlatform";
-        
-        var agentAndState = loadSE(worldName) ;
+        var agentAndState = loadSE("ConstructionPlatformSurvival") ;
         TestAgent agent = agentAndState.fst ;
         UUSeAgentState state = agentAndState.snd ;
         Thread.sleep(1000);
         state.updateState(state.agentId);
-        state.inSurvival = isSurvival;
+        state.inSurvival = true;
 
         //Find grid
         WorldEntity grid = null;
@@ -92,20 +87,23 @@ public class Test_ConstructionOptimization {
         float runtime = (end - start)/1000;
         System.out.println("Test took " + runtime + " seconds");
 
-        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, isSurvival);
+        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, true);
         
         TestUtils.closeConnectionToSE(state);
         return new Pair<>(agent,G) ;
     }
     
-    public void test_construction(String structureName, ConstructionOptimizer optimizer, boolean isSurvival) throws InterruptedException {
+    @Test
+    public void test_construction1() throws InterruptedException {
     	// Builds a simple box house out of armor blocks.
     	
-    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/" + structureName + ".cons");
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/simpleHouse.cons");
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
+        
+    	var optimizer = ConstructionOptimizer.CustomOptimizer(2);
     	
-        var agent_and_goal = deployAgent(blueprint, dest, optimizer, isSurvival);
+        var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;
         GoalStructure G = agent_and_goal.snd;
@@ -115,60 +113,42 @@ public class Test_ConstructionOptimization {
         //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
     
-    List<String> structures = Arrays.asList(
-			"pillars",
-			"3x2x3",
-			"flatDisk",
-			"flatCross",
-			"mushroom",
-			"simpleHouse",
-			"enclosedDot"
-			);
+    @Test
+    public void test_construction2() throws InterruptedException {
+    	// Builds a chain of armor blocks that snakes in the air.
+    	
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/snake3D.cons");
     
-	List<ConstructionOptimizer> optimizers = Arrays.asList(
-			null,
-			ConstructionOptimizer.DFS(1),
-			ConstructionOptimizer.DFS(2),
-			ConstructionOptimizer.DFS(3),
-			ConstructionOptimizer.BFS(1),
-			ConstructionOptimizer.BFS(2),
-			ConstructionOptimizer.CustomOptimizer(1),
-			ConstructionOptimizer.CustomOptimizer(2)
-			);
+    	Vec3 dest = new Vec3(21.25f, -5f, 60);
+        
+        var agent_and_goal = deployAgent(blueprint, dest, null);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }  
     
-    @TestFactory
-    Collection<DynamicTest> testFactory_optimization_creative() {
+    @Test
+    public void test_construction3() throws InterruptedException {
+    	// Builds a 4 pillars of 3 armor blocks high.
     	
-    	List<DynamicTest> tests = new LinkedList<>();
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/pillars.cons");
+    
+    	Vec3 dest = new Vec3(21.25f, -5f, 60);
+        
+    	ConstructionOptimizer optimizer = ConstructionOptimizer.DFS(3);
     	
-    	for (String structure : structures) {
-    		for (ConstructionOptimizer optimizer : optimizers) {
-    			String optimizerName = optimizer != null ? optimizer.getName() : "Default";
-    			String testName = structure + " (" + optimizerName + ")";
-    			tests.add(DynamicTest.dynamicTest(
-    					testName, 
-    					() -> test_construction(structure, optimizer, false)));
-    		}
-    	}
-    	
-    	return tests;
+        var agent_and_goal = deployAgent(blueprint, dest, optimizer);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
     
-    @TestFactory
-    Collection<DynamicTest> testFactory_optimization_survival() {
-    	
-    	List<DynamicTest> tests = new LinkedList<>();
-    	
-    	for (String structure : structures) {
-    		for (ConstructionOptimizer optimizer : optimizers) {
-    			String optimizerName = optimizer != null ? optimizer.getName() : "Default";
-    			String testName = structure + " (" + optimizerName + ")";
-    			tests.add(DynamicTest.dynamicTest(
-    					testName, 
-    					() -> test_construction(structure, optimizer, true)));
-    		}
-    	}
-    	
-    	return tests;
-    }
 }

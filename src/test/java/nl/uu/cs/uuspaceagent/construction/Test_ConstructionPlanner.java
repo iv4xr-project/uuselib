@@ -86,7 +86,7 @@ public class Test_ConstructionPlanner {
         float runtime = (end - start)/1000;
         System.out.println("Test took " + runtime + " seconds");
 
-        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn);
+        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, false);
         
         TestUtils.closeConnectionToSE(state);
         return new Pair<>(agent,G) ;

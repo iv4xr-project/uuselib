@@ -13,7 +13,9 @@ import eu.iv4xr.framework.spatial.Vec3;
 import nl.uu.cs.aplib.utils.Pair;
 import spaceEngineers.model.Block;
 import spaceEngineers.model.CharacterObservation;
+import spaceEngineers.model.DefinitionId;
 import spaceEngineers.model.Observation;
+import spaceEngineers.model.PhysicalObject;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -72,9 +74,15 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
      */
     public boolean inConstruction = false;
     
+    /**
+     * Whether the gameMode is set to survival
+     */
+    public boolean inSurvival = false;
+    
     public UUSeAgentState(String agentId) {
         this.agentId = agentId ;
-        //((AStar<DPos3>) (this.pathfinder)).maximumNumberOfIterations = 200;
+        
+        ((AStar<DPos3>) (this.pathfinder)).maximumNumberOfIterations = 10000;
     }
 
     @Override
@@ -122,6 +130,17 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
             content.add(new Pair<>(id,amount)) ;
         }
         return invWE ;
+    }
+    
+    public int getItemCount(DefinitionId itemID) {
+    	var items = (LinkedList<Pair<String, Integer>>) worldmodel.getElement("inv").getProperty("content");
+    	
+		int itemCount = 0;
+		for (Pair<String, Integer> item : items) {
+			if (item.fst.equals(itemID.getType()))
+				itemCount += item.snd;
+		}
+		return itemCount;
     }
 
     @Override
@@ -301,6 +320,18 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
 
     public float health() {
         return (float) worldmodel.elements.get(agentId).properties.get("health") ;
+    }
+    
+    public float oxygen() {
+        return (float) worldmodel.elements.get(agentId).properties.get("oxygen") ;
+    }
+    
+    public float energy() {
+        return (float) worldmodel.elements.get(agentId).properties.get("energy") ;
+    }
+    
+    public float hydrogen() {
+        return (float) worldmodel.elements.get(agentId).properties.get("hydrogen") ;
     }
 
     public boolean jetpackRunning() {

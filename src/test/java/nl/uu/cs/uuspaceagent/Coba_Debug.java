@@ -24,7 +24,7 @@ class Coba_Debug {
 	@Test
 	void test() throws InterruptedException {
 		console("*** start coba...") ;
-		var agentAndState = loadSE("ConstructionPlatform") ;
+		var agentAndState = loadSE("ConstructionPlatformSurvival") ;
         TestAgent agent = agentAndState.fst ;
         UUSeAgentState state = agentAndState.snd ;
         Thread.sleep(1000);
@@ -33,12 +33,13 @@ class Coba_Debug {
         var block = SEBlockFunctions.findClosestBlock(state.worldmodel, (WorldEntity we) -> {
         	return we.getProperty("blockType").toString().contains("Container");
         });
-       
         
         GoalStructure G = SEQ( 
         		DEPLOY(UUGoalLib.accessedBlockInventory(block)),
         		lift("deposit item", UUTacticLib.depositItemToContainer(new DefinitionId("AmmoMagazine", "NATO_5p56x45mm")))
         		);
+        
+        G = DEPLOY(UUGoalLib.rechargedPlayer());
         
         agent.setGoal(G);
         
@@ -47,8 +48,6 @@ class Coba_Debug {
             console(">> [" + turn + "] " + showWOMAgent(state.worldmodel));
             agent.update();
             state.updateState(state.agentId);
-            
-            
             
             
 //            if (true)

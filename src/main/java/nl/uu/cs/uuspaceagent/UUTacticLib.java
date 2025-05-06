@@ -68,7 +68,7 @@ public class UUTacticLib {
      */
     public static float THRESHOLD_SQUARED_DISTANCE_TO_SQUARE = NavGrid.CUBE_SIZE * NavGrid.CUBE_SIZE; //1.3f * Grid2DNav.SQUARE_SIZE * 1.3f * Grid2DNav.SQUARE_SIZE
     public static float THRESHOLD_SQUARED_DISTANCE_TO_POINT= 0.5f ; // magic number ... :|
-    public static float THRESHOLD_SQUARED_DISTANCE_TO_POINT_FLYING = 1.7f;
+    public static float THRESHOLD_SQUARED_DISTANCE_TO_POINT_FLYING = 2f;
 
     /**
      * The unit move-vector that will cause the agent to move in the same direction as its
@@ -839,6 +839,7 @@ public class UUTacticLib {
 	            	
 	                	
 	                	state.env().getController().getCharacter().showInventory();
+	                	
 	                
 	                return true;
 	            }).on((UUSeAgentState state)  -> {
@@ -856,6 +857,13 @@ public class UUTacticLib {
 				}).lift();
     			
     			
+    }
+    
+    public static Action closeTerminal() {
+    	return action("Close terminal").do1((UUSeAgentState state) -> {
+    		state.env().getController().getScreens().getTerminal().close();
+    		return true;
+    	});
     }
     
     
@@ -1024,10 +1032,11 @@ public class UUTacticLib {
     			action("place " + itemId).do1((UUSeAgentState state) -> {
     	    		state.inConstruction = true;
     				state.env().getController().getBlocks().place();
+    				
     	    		state.inConstruction = false;
     				return true;
     			}).lift()
-    			);
+			);
     			
     }
     

@@ -10,6 +10,7 @@ import spaceEngineers.iv4xr.goal.GoalBuilder;
 import spaceEngineers.iv4xr.goal.TacticLib;
 import nl.uu.cs.aplib.mainConcepts.*;
 import nl.uu.cs.aplib.mainConcepts.GoalStructure.GoalsCombinator;
+import nl.uu.cs.aplib.mainConcepts.GoalStructure.PrimitiveGoal;
 
 import static nl.uu.cs.aplib.AplibEDSL.* ;
 import nl.uu.cs.aplib.utils.Pair;
@@ -64,7 +65,13 @@ public class UUGoalLib {
             GoalStructure G = goal(goalname_)
                     .toSolve((Pair<Vec3,Vec3> posAndOrientation) -> {
                         var agentPosition = posAndOrientation.fst ;
-                        return Vec3.sub(targetSquareCenter,agentPosition).lengthSq() <= UUTacticLib.THRESHOLD_SQUARED_DISTANCE_TO_SQUARE ;
+                        if (state.jetpackRunning())
+                        {
+                        	return Vec3.sub(targetSquareCenter,agentPosition).lengthSq() <= UUTacticLib.THRESHOLD_SQUARED_DISTANCE_TO_SQUARE*0.6f ;
+                        } else {
+                        	return Vec3.sub(targetSquareCenter,agentPosition).lengthSq() <= UUTacticLib.THRESHOLD_SQUARED_DISTANCE_TO_SQUARE ;
+                        }
+                        
                     })
                     .withTactic(
                        FIRSTof(UUTacticLib.smartNavigateToTAC(targetLocation), ABORT()) )
@@ -426,7 +433,7 @@ public class UUGoalLib {
     		console("dest.y: " +playerDestination.y + ", origin.y: " + state.navgrid.origin.y + 
     				" (diff: " + Math.abs(playerDestination.y - state.navgrid.origin.y));
     		
-    		//TODO: change the origin.y to player.y and allow walking on blocks that are above origin.y
+    		
     		if (Math.abs(playerDestination.y - state.navgrid.origin.y) < 2 && Math.abs(state.worldmodel.position.y - state.navgrid.origin.y) < 2)
     		{
     			state.navgrid.enableFlying = false;
@@ -450,6 +457,33 @@ public class UUGoalLib {
     				)
             		.lift();
             
+            GoalStructure blockWelded = SEQ(faceToward("face block to weld", blockLocation),
+	            		goal("weld block")
+	            		.toSolve((Boolean e) -> {
+	            			return e;
+	            		})
+	            		.withTactic(SEQ(
+	            				UUTacticLib.equip(new DefinitionId(DefinitionId.PHYSICAL_GUN, "Welder4Item")),
+	            				action("weld block").do1((UUSeAgentState state2) -> {
+	                				
+	                				console("integrity:" + state2.targetBlock().getProperty("integrity"));
+	                				console("maxIntegrity:" + state2.targetBlock().getProperty("maxIntegrity"));
+	                				
+	                				if ((float)state2.targetBlock().getProperty("integrity") == (float)state2.targetBlock().getProperty("maxIntegrity")) {
+	                					return true;
+	                				}
+	                				
+	                				for(int k=0; k<20; k++) {
+	                					state2.env().beginUsingTool();
+	                		        }
+	                				
+	                				return null;
+	                			}).lift()
+	    				))
+	            		.lift()
+            		);
+            		
+            		
             
             		
             // Execution sequence:
@@ -460,7 +494,7 @@ public class UUGoalLib {
             return SEQ(
             		nearLookTarget,
             		faceToward("look towards neighbor side", lookTarget.snd),
-            		blockPlaced,
+            		state.inSurvival ? SEQ(blockPlaced, blockWelded) : blockPlaced,
             		lift("unequiped block", UUTacticLib.unequip()));
         } ;		
     }
@@ -500,10 +534,72 @@ public class UUGoalLib {
     				.lift();
     		
     		return SEQ(
+    				lift("close terminal", UUTacticLib.closeTerminal()),
     				nearLookTarget,
     				facingBlock,
     				openedInventory
     				);
 		};
 	}
+    
+    public static Function<UUSeAgentState, GoalStructure> rechargedPlayer(){
+    	return (UUSeAgentState state) -> {
+    		
+    		var block = SEBlockFunctions.findClosestBlock(state.worldmodel,
+                    e -> "SurvivalKitLarge".equals(e.getStringProperty("blockType")));
+    		
+    		Vec3 intermediatePosition = SEBlockFunctions.getSideCenterPoint(block,SEBlockFunctions.BlockSides.BACK, 1.5f);
+    		Vec3 size = SEBlockFunctions.getActualSize(block) ;
+            intermediatePosition.y -= size.y * 0.5 ;
+    		
+            var interactWithKit = action("interactWithKit").do1((UUSeAgentState state2) -> {
+            	
+            	for(int k=0; k<30; k++) {
+            		state2.env().getController().getCharacter().use();
+            	}
+            	
+            	if (state.oxygen() >= 0.95f && state.hydrogen() >= 0.95f && state.energy() >= 0.95f) {
+            		return true;
+            	}
+            	
+            	return null;
+            });
+            
+    		return SEQ(
+    				DEPLOY(UUGoalLib.closeTo(intermediatePosition)),
+    				faceToward("facing center of survival kit", block.position),
+    				lift("interactWithKit", interactWithKit)
+    				);
+    				
+    	};
+    }
+    
+    public static Function<UUSeAgentState, GoalStructure> restockedPlayer(){
+    	return (UUSeAgentState state) -> {
+    		
+    		// Container block to access
+            var blocks = SEBlockFunctions.findBlocks(state.worldmodel, (WorldEntity we) -> {
+            	return we.getProperty("blockType").toString().contains("Container");
+            });
+            
+            List<GoalStructure> goals = blocks.stream().map((WorldEntity entity) -> {
+            	
+            	GoalStructure transferItem = goal("withdraw steel plates")
+                		.toSolve((Integer transferredCount) -> {
+                			return transferredCount > 0 && state.getItemCount(new DefinitionId("Component", "SteelPlate")) >= 25;
+                		})
+                		.withTactic(FIRSTof(UUTacticLib.withdrawItemToPlayer(new DefinitionId("Component", "SteelPlate")).lift(), ABORT()))
+                		.lift();
+            	
+            	return SEQ(
+            			DEPLOY(accessedBlockInventory(entity)),
+            			transferItem,
+            			lift("close terminal", UUTacticLib.closeTerminal())
+            			);
+            }).toList();
+            
+            return FIRSTof(goals.toArray(new GoalStructure[goals.size()]));
+    	};
+    }
+   
 }

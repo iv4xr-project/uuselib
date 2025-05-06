@@ -56,12 +56,15 @@ public class JsonUtils {
 		return false;
 	}
 	
-	static void addRecord(String structure, ConstructionOptimizer optimizer, Float time, int turns){
+	static void addRecord(String structure, ConstructionOptimizer optimizer, Float time, int turns, boolean survival){
 		// Load records file
 		JSONObject jsonObject = loadRecords("records.json");
 		
 		// Format structureName
 		structure = structure.substring(structure.lastIndexOf('/')+1, structure.length());
+		
+		if (survival)
+			structure += "-survival";
 		
 		// Format optimizerName
 		String optimizerName = "Default";

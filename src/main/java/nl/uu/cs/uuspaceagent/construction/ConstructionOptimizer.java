@@ -195,7 +195,6 @@ class CustomOptimizer extends ConstructionOptimizer {
 		
 		var openNeighbors = planner.blueprint.getOpenHorizontalNeighborPositions(pos).size();
 		
-		//TODO: tweak the missingneighbors factor
 		return distToLatest + elevation + distToPlayer + (6-neighborDefs)/3 + openNeighbors + missingNeighbors;
 	}
 	
