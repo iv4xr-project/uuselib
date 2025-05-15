@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -19,6 +20,7 @@ import com.google.gson.JsonSyntaxException;
 import nl.uu.cs.uuspaceagent.DPos3;
 import spaceEngineers.model.DefinitionId;
 
+import static nl.uu.cs.aplib.utils.CSVUtility.exportToCSVfile;
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
 
 public class JsonUtils {
@@ -56,12 +58,9 @@ public class JsonUtils {
 		return false;
 	}
 	
-	static void addRecord(String structure, ConstructionOptimizer optimizer, Float time, int turns, boolean survival){
+	static void addRecord(String structure, ConstructionOptimizer optimizer, Float time, int turns, int priorityCases, boolean survival){
 		// Load records file
-		JSONObject jsonObject = loadRecords("records.json");
-		
-		// Format structureName
-		structure = structure.substring(structure.lastIndexOf('/')+1, structure.length());
+		JSONObject jsonObject = loadRecords("results/records.json");
 		
 		if (survival)
 			structure += "-survival";
@@ -83,9 +82,28 @@ public class JsonUtils {
 		JSONObject structureObject = (JSONObject) jsonObject.get(structure);
 		structureObject.put(
 				optimizerName, 
-				new JSONObject().put("time", time).put("turns", turns)	
+				new JSONObject().put("time", time).put("turns", turns).put("priorityCases", priorityCases)	
 				);
 		
-		saveRecords(jsonObject, "records.json");
+		saveRecords(jsonObject, "results/records.json");
+	}
+	
+	static void exportCSV(String structure, ConstructionOptimizer optimizer, ArrayList<Number[]> agentPositions, boolean survival) {
+		String optimizerName = "Default";
+ 		if (optimizer != null)
+ 		{
+ 			optimizerName = optimizer.getName();
+ 		}		
+        var columnNames = new String[]{"X", "Y", "Z"};
+        
+        var structureName = structure + (survival ? "-survival" : "");
+        
+        var fileName = "results/" + structureName + "-" + optimizerName + ".csv";
+        try {
+			exportToCSVfile(Character.valueOf(','), columnNames, agentPositions, fileName);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }

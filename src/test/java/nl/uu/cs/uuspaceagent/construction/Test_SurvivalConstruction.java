@@ -87,7 +87,7 @@ public class Test_SurvivalConstruction {
         float runtime = (end - start)/1000;
         System.out.println("Test took " + runtime + " seconds");
 
-        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, true);
+        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, planner.priorityCases, true);
         
         TestUtils.closeConnectionToSE(state);
         return new Pair<>(agent,G) ;
@@ -125,7 +125,7 @@ public class Test_SurvivalConstruction {
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;
         GoalStructure G = agent_and_goal.snd;
-        G.printGoalStructureStatus();
+        //G.printGoalStructureStatus();
         assertTrue(G.getStatus().success());
         console("*** test succesful!") ;
         //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
@@ -145,7 +145,27 @@ public class Test_SurvivalConstruction {
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;
         GoalStructure G = agent_and_goal.snd;
-        G.printGoalStructureStatus();
+        //G.printGoalStructureStatus();
+        assertTrue(G.getStatus().success());
+        console("*** test succesful!") ;
+        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
+    }
+    
+    @Test
+    public void test_construction4() throws InterruptedException {
+    	// Large scale construction
+    	
+    	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/enclosedDot.cons");
+    
+    	Vec3 dest = new Vec3(21.25f, -5f, 60);
+        
+    	ConstructionOptimizer optimizer = ConstructionOptimizer.CustomOptimizer(2);
+    	
+        var agent_and_goal = deployAgent(blueprint, dest, optimizer);
+        TestAgent agent = agent_and_goal.fst ;
+        agent.setTestDataCollector(new TestDataCollector()) ;
+        GoalStructure G = agent_and_goal.snd;
+        //G.printGoalStructureStatus();
         assertTrue(G.getStatus().success());
         console("*** test succesful!") ;
         //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;

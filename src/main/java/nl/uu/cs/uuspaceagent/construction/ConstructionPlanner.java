@@ -109,16 +109,28 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 			return FAIL();
 		}
 		
-		// Check if path is possible
-		var agentSq = agentState.navgrid.gridProjectedLocation(agentState.getHeadPosition());
-		var blockSq = agentState.navgrid.gridProjectedLocation(blockLocation);
-		agentState.navgrid.enableFlying = true;
-		var path = agentState.pathfinder.findPath(agentState.navgrid, blockSq, agentSq);
-		agentState.navgrid.enableFlying = false;
-		if (path == null) {
-			console("*** block is not accessible by agent.");
-			return FAIL();
-		}
+		// Check if path is possible (disabled due to faulty obstacle tracking)
+//		DPos3 agentSq = null;
+//		for (Vec3 playerPos : new Vec3[] {agentState.getCenterPosition(), agentState.positionBefore(), agentState.getHeadPosition()}) {
+//			var candidateSq = agentState.navgrid.gridProjectedLocation(playerPos);
+//			var obstacles = agentState.navgrid.knownObstacles.get(candidateSq);
+//			if (obstacles == null)
+//				agentSq = candidateSq;
+//		}
+//		if (agentSq != null) {
+//			var blockSq = agentState.navgrid.gridProjectedLocation(blockLocation);
+//			
+//			console("Obstacle at player: " + agentState.navgrid.knownObstacles.get(agentSq));
+//			console("Obstacle at block: " + agentState.navgrid.knownObstacles.get(blockSq));
+//			
+//			agentState.navgrid.enableFlying = true;
+//			var path = agentState.pathfinder.findPath(agentState.navgrid, blockSq, agentSq);
+//			agentState.navgrid.enableFlying = false;
+//			if (path == null) {
+//				console("*** block is not accessible by agent.");
+//				return FAIL();
+//			}
+//		}
 		
 		var G = DEPLOY(UUGoalLib.placedBlockAt(blockLocation, blockDefinition));
 		return G;
@@ -259,12 +271,16 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		
 		// Check agent's vitals and inventory.
 		if (agentState.inSurvival) {
-			if (agentState.oxygen() < 0.2f || agentState.hydrogen() < 0.2f|| agentState.energy() < 0.2f) {
+			if (agentState.oxygen() < 0.3f || agentState.hydrogen() < 0.3f|| agentState.energy() < 0.3f) {
+				console("*** Recharging agent vitals");
+				latestBlock = blueprint.originCell;
 				return DEPLOY(UUGoalLib.rechargedPlayer());
 			}
 			
 			
 			if (agentState.getItemCount(new DefinitionId("Component", "SteelPlate")) < 25) {
+				console("*** Restocking agent inventory");
+				latestBlock = blueprint.originCell;
 				return DEPLOY(UUGoalLib.restockedPlayer());
 			}
 		}

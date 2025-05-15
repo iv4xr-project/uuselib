@@ -67,6 +67,7 @@ public class UUTacticLib {
      * as the square of the distance (so that we don't have to keep calculating square-roots).
      */
     public static float THRESHOLD_SQUARED_DISTANCE_TO_SQUARE = NavGrid.CUBE_SIZE * NavGrid.CUBE_SIZE; //1.3f * Grid2DNav.SQUARE_SIZE * 1.3f * Grid2DNav.SQUARE_SIZE
+    public static float THRESHOLD_SQUARED_DISTANCE_TO_SQUARE_FLYING = NavGrid.CUBE_SIZE * NavGrid.CUBE_SIZE * 0.3f;
     public static float THRESHOLD_SQUARED_DISTANCE_TO_POINT= 0.5f ; // magic number ... :|
     public static float THRESHOLD_SQUARED_DISTANCE_TO_POINT_FLYING = 2f;
 
@@ -130,25 +131,26 @@ public class UUTacticLib {
         	var forwardVector = agentState.orientationForward().copy();
         	var relDirection = destinationRelativeLocation.copy();
         	
-        	forwardRun = Rotation.rotate(relDirection, forwardVector, forwardWalk);
-        	forwardRun = forwardRun.normalized();
-        	
-        	forwardWalk = Vec3.mul(forwardRun, WALK_SPEED);
-        	forwardRun = Vec3.mul(forwardRun, RUN_SPEED);
+//        	forwardRun = Rotation.rotate(relDirection, forwardVector, forwardWalk);
+//        	forwardRun = forwardRun.normalized();
+//        	
+//        	
+//        	forwardWalk = Vec3.mul(forwardRun, WALK_SPEED);
+//        	forwardRun = Vec3.mul(forwardRun, RUN_SPEED);
         	
         	
         	/* Code below is a more hardcoded version of the flying code that has been replaced with a rework of the original as seen above.*/
-//        	forwardVector.y = 0;
-//        	relDirection.y = 0;
-//        	
-//            forwardRun = Rotation.rotate(forwardRun, forwardVector, relDirection) ;
-//            forwardWalk = Rotation.rotate(forwardWalk, forwardVector, relDirection) ;
-//            
-//            // yScale indicates how much of the destinationRelativeLocation is in the y-axis.
-//            var yScale = Math.abs(destinationRelativeLocation.normalized().y);
-//            
-//            forwardRun.y = Math.signum(destinationRelativeLocation.y) * Math.min(Math.abs(destinationRelativeLocation.y), RUN_SPEED*yScale);
-//            forwardWalk.y = Math.signum(destinationRelativeLocation.y) * Math.min(Math.abs(destinationRelativeLocation.y), WALK_SPEED*yScale);
+        	forwardVector.y = 0;
+        	relDirection.y = 0;
+        	
+            forwardRun = Rotation.rotate(forwardRun, forwardVector, relDirection) ;
+            forwardWalk = Rotation.rotate(forwardWalk, forwardVector, relDirection) ;
+            
+            // yScale indicates how much of the destinationRelativeLocation is in the y-axis.
+            var yScale = Math.abs(destinationRelativeLocation.normalized().y);
+            
+            forwardRun.y = Math.signum(destinationRelativeLocation.y) * Math.min(Math.abs(destinationRelativeLocation.y), RUN_SPEED*yScale);
+            forwardWalk.y = Math.signum(destinationRelativeLocation.y) * Math.min(Math.abs(destinationRelativeLocation.y), WALK_SPEED*yScale);
             System.out.println(">>> FLY forwardRun: " + forwardRun);
         }
 
@@ -671,7 +673,12 @@ public class UUTacticLib {
                     var agentSq = state.navgrid.gridProjectedLocation(state.worldmodel.position) ;
                     //if(agentSq.equals(nextNode)) {
                     var sqDistToNextNode = Vec3.sub(nextNodePos,state.worldmodel.position).lengthSq();
-                    if(sqDistToNextNode <= THRESHOLD_SQUARED_DISTANCE_TO_SQUARE) {
+
+                    var recklessFly = state.currentPathToFollow.size() > 1;
+                    var threshold = THRESHOLD_SQUARED_DISTANCE_TO_SQUARE;
+                    if (!recklessFly && state.jetpackRunning())
+                    	threshold = THRESHOLD_SQUARED_DISTANCE_TO_SQUARE_FLYING;
+                    if(sqDistToNextNode <= threshold) {
                         // agent is already in the same square as the next-node destination-square. Mark the node
                         // as reached (so, we remove it from the plan):
                         state.currentPathToFollow.remove(0) ;
@@ -705,7 +712,10 @@ public class UUTacticLib {
                     var destinationSqCenterPos = state.navgrid.getSquareCenterLocation(destinationSq) ;
                     //if (state.grid2D.squareDistanceToSquare(agentPos,destinationSq) <= SQEPSILON_TO_NODE_IN_2D_PATH_NAVIGATION) {
                     //if(agentSq.equals(destinationSq)) {
-                    if(Vec3.sub(destinationSqCenterPos,state.worldmodel.position).lengthSq() <= THRESHOLD_SQUARED_DISTANCE_TO_SQUARE) {
+                    
+                    var threshold = state.jetpackRunning() ? THRESHOLD_SQUARED_DISTANCE_TO_SQUARE_FLYING : THRESHOLD_SQUARED_DISTANCE_TO_SQUARE;
+                    
+                    if(Vec3.sub(destinationSqCenterPos,state.worldmodel.position).lengthSq() <= threshold) {
 
                             // the agent is already at the destination. Just return the path, and indicate that
                         // we have arrived at the destination:
@@ -861,7 +871,8 @@ public class UUTacticLib {
     
     public static Action closeTerminal() {
     	return action("Close terminal").do1((UUSeAgentState state) -> {
-    		state.env().getController().getScreens().getTerminal().close();
+    		if (!state.env().getController().getScreens().getFocusedScreen().data().getName().contains("GamePlay"))
+    			state.env().getController().getScreens().getTerminal().close();
     		return true;
     	});
     }
@@ -869,7 +880,6 @@ public class UUTacticLib {
     
     public static Action depositItemToContainer(DefinitionId id) {
     	return action("Deposit item to container").do2((UUSeAgentState state) -> (PhysicalObject object) -> {
-    		
     		try {
     			InventoryTab inventory = state.env().getController().getScreens().getTerminal().getInventory();
         		inventory.transferInventoryItemToRight(0, 0, object.getItemId());

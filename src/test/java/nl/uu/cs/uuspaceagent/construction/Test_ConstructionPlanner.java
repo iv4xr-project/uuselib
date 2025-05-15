@@ -8,10 +8,13 @@ import static nl.uu.cs.aplib.AplibEDSL.goal;
 import static nl.uu.cs.uuspaceagent.PrintInfos.showWOMAgent;
 import static nl.uu.cs.uuspaceagent.TestUtils.console;
 import static nl.uu.cs.uuspaceagent.TestUtils.loadSE;
+import static nl.uu.cs.aplib.utils.CSVUtility.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -73,11 +76,16 @@ public class Test_ConstructionPlanner {
 
         int turn= 0 ;
         long start = System.currentTimeMillis();
+        ArrayList<Number[]> agentPositions = new ArrayList<Number[]>();
         while(G.getStatus().inProgress()) {
             console(">> [" + turn + "] (" + 
             		Math.floor(planner.blueprint.getProgress()*100) + "%) " + 
             		showWOMAgent(state.worldmodel));
             agent.update();
+            
+            Number[] pos = { state.worldmodel.position.x,  state.worldmodel.position.y, state.worldmodel.position.z};
+            agentPositions.add(pos);
+            
             Thread.sleep(50);
             turn++ ;
             //if (turn >= 1400) break ;
@@ -86,7 +94,10 @@ public class Test_ConstructionPlanner {
         float runtime = (end - start)/1000;
         System.out.println("Test took " + runtime + " seconds");
 
-        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, false);
+        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, planner.priorityCases, false);
+        
+ 		JsonUtils.exportCSV(blueprint.name, optimizer, agentPositions, false);
+        
         
         TestUtils.closeConnectionToSE(state);
         return new Pair<>(agent,G) ;
@@ -158,7 +169,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-    	ConstructionOptimizer optimizer = ConstructionOptimizer.DFS(3);
+    	ConstructionOptimizer optimizer = ConstructionOptimizer.CustomOptimizer(2);
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
@@ -178,7 +189,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-    	ConstructionOptimizer optimizer = null;
+    	ConstructionOptimizer optimizer = ConstructionOptimizer.DFS(2);
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
@@ -192,13 +203,13 @@ public class Test_ConstructionPlanner {
     
     @Test
     public void test_construction6() throws InterruptedException {
-    	// Try to force a priority block situation
+    	// Comparing dfs vs bfs
     	
     	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/flatDisk.cons");
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-    	ConstructionOptimizer optimizer = null;
+    	ConstructionOptimizer optimizer = ConstructionOptimizer.DFS(2);
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
@@ -212,7 +223,7 @@ public class Test_ConstructionPlanner {
     
     @Test
     public void test_construction7() throws InterruptedException {
-    	// Try to force a priority block situation
+    	// Comparing dfs vs bfs
     	
     	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/flatCross.cons");
     
@@ -232,7 +243,7 @@ public class Test_ConstructionPlanner {
     
     @Test
     public void test_construction8() throws InterruptedException {
-    	// Try to force a priority block situation
+    	// Mushroom shape that tests building from below and altitude difference in bfs
     	
     	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/mushroom.cons");
     

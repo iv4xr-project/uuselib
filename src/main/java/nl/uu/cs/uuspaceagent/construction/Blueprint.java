@@ -214,6 +214,7 @@ public List<DPos3> getOpenHorizontalNeighborPositions(DPos3 cellPosition){
 			
 			blueprint = new Blueprint(new DefinitionId[size.x][size.y][size.z], origin);
 			blueprint.name = fileName.substring(0, fileName.lastIndexOf('.'));
+			blueprint.name = blueprint.name.substring(blueprint.name.lastIndexOf('/')+1, blueprint.name.length());
 			
 			// Read first line of blocks
 			line = reader.readLine();

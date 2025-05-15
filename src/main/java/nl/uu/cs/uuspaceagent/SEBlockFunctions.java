@@ -90,6 +90,37 @@ public class SEBlockFunctions {
         // We now add the block's actual center, and that should be it:
         return Vec3.add((Vec3) block.getProperty("centerPosition"), rotatedCenterAtFrontFace) ;
     }
+    
+    /**
+     * Get the center of a given side of the block, plus some delta distance perpendicular to
+     * that side.
+     * TODO: This still assumes the block is not vertically tilted.
+     */
+    public static Vec3 getSideOffset(WorldEntity block, BlockSides side, float delta) {
+        Vec3 center = new Vec3(0,0,0) ;
+        switch (side) {
+            case FRONT : center.x  +=  delta ; break ;
+            case BACK  : center.x  -=  delta ; break ;
+            case RIGHT : center.z  +=  delta ; break ;
+            case LEFT  : center.z  -=  delta ; break ;
+            case TOP    : center.y +=  0; break ;
+            case BOTTOM : center.y -=  0 ; break ;
+        }
+
+        // the location of block-center, projected to its "front face", and add the delta :
+        Vec3 centerAtFrontFace = center ;
+
+        // now, rotate that centerAtFrontFace location according to the block's forward orientation:
+        // for now we don't do its up-orientation.
+        Vec3 forwardOrientation = (Vec3) block.getProperty("orientationForward") ;
+        Vec3 x_axis = new Vec3(1,0,0) ;
+        Matrix3D rotation = Rotation.getYRotation(x_axis,forwardOrientation) ;
+        Vec3 rotatedCenterAtFrontFace = rotation.apply(centerAtFrontFace) ;
+
+        // the rotated position is relative to the block's center position.
+        // We now add the block's actual center, and that should be it:
+        return rotatedCenterAtFrontFace;
+    }
 
     /**
      * Get the position of the corner, with minimum x,y,z, assuming the block is
@@ -250,6 +281,31 @@ public class SEBlockFunctions {
 
         return candidates.get(0) ;
     }
+    
+    /**
+     * Return the closest block with the specified property (the selector).
+     */
+    public static List<WorldEntity> findClosestBlocksPosition(WorldModel wom, Vec3 position, Float radius) {
+    	var sqradius = radius*radius;
+    	Predicate<WorldEntity> selector = (WorldEntity e)
+        		-> Vec3.sub(e.position, position).lengthSq() <= sqradius;
+    	
+        var candidates =  SEBlockFunctions.getAllBlocks(wom)
+                .stream()
+                .filter(e -> selector.test(e))
+                .collect(Collectors.toList());
+        //console(Integer.toString(candidates.size()));
+        if(candidates.isEmpty()) return null ;
+        //System.out.println("candidates in find close block " + candidates.size());
+        //candidates.forEach(e -> System.out.println("candidate to move" + e));
+        if(candidates.size() == 1) return candidates;
+        // if there are more than one, sort the candidates to get the closest one:
+        candidates.sort((e1,e2) -> Float.compare(
+                 Vec3.sub(e1.position,position).lengthSq()
+                ,Vec3.sub(e2.position,position).lengthSq())) ;
+
+        return candidates ;
+    }
 
     /**
      * HACK: this will replace grids and blocks packaged in this world model with the same
@@ -281,27 +337,37 @@ public class SEBlockFunctions {
      * Given a worldmodel and a targetPosition, finds the nearest face of any adjacent block.
      * @return The coordinates of the center of the nearest block face.
      */
-    public static Pair<BlockSides, Vec3> findClosestFace(WorldModel wom, Vec3 targetPosition) {
+    public static Pair<BlockSides, WorldEntity> findClosestFace(WorldModel wom, Vec3 targetPosition) {
                                     
-    	//TODO: this block isn't always valid.
-        WorldEntity block = SEBlockFunctions.findClosestBlockPosition(wom,targetPosition,3.0f);
-
-        Pair<BlockSides, Vec3> frontFace = new Pair<>(BlockSides.FRONT, getSideCenterPoint(block, BlockSides.FRONT, 0));
-        Pair<BlockSides, Vec3> backFace = new Pair<>(BlockSides.BACK, getSideCenterPoint(block, BlockSides.BACK, 0));
-        Pair<BlockSides, Vec3> topFace = new Pair<>(BlockSides.TOP, getSideCenterPoint(block, BlockSides.TOP, 0));
-        Pair<BlockSides, Vec3> botFace = new Pair<>(BlockSides.BOTTOM, getSideCenterPoint(block, BlockSides.BOTTOM, 0));
-        Pair<BlockSides, Vec3> rightFace = new Pair<>(BlockSides.RIGHT, getSideCenterPoint(block, BlockSides.RIGHT, 0));
-        Pair<BlockSides, Vec3> leftFace = new Pair<>(BlockSides.LEFT, getSideCenterPoint(block, BlockSides.LEFT, 0));
-        
-        List<Pair<BlockSides, Vec3>> faces = Arrays.asList(frontFace, backFace, topFace, botFace, rightFace, leftFace);
-        
-        faces.sort((v1, v2) -> Float.compare(
-        		Vec3.sub(v1.snd, targetPosition).lengthSq(),
-        		Vec3.sub(v2.snd, targetPosition).lengthSq()
+    	List<WorldEntity> nearbyBlocks = SEBlockFunctions.findClosestBlocksPosition(wom,targetPosition,3.0f);
+    	
+    	List<Pair<Pair<BlockSides, Vec3>, WorldEntity>> candidates = new LinkedList<Pair<Pair<BlockSides, Vec3>, WorldEntity>>();
+    	
+    	for(var block : nearbyBlocks) {
+    		Pair<BlockSides, Vec3> frontFace = new Pair<>(BlockSides.FRONT, getSideCenterPoint(block, BlockSides.FRONT, 0.15f));
+            Pair<BlockSides, Vec3> backFace = new Pair<>(BlockSides.BACK, getSideCenterPoint(block, BlockSides.BACK, 0.15f));
+            Pair<BlockSides, Vec3> topFace = new Pair<>(BlockSides.TOP, getSideCenterPoint(block, BlockSides.TOP, 0));
+            Pair<BlockSides, Vec3> botFace = new Pair<>(BlockSides.BOTTOM, getSideCenterPoint(block, BlockSides.BOTTOM, 0));
+            Pair<BlockSides, Vec3> rightFace = new Pair<>(BlockSides.RIGHT, getSideCenterPoint(block, BlockSides.RIGHT, 0.15f));
+            Pair<BlockSides, Vec3> leftFace = new Pair<>(BlockSides.LEFT, getSideCenterPoint(block, BlockSides.LEFT, 0.15f));
+            
+            List<Pair<BlockSides, Vec3>> faces = Arrays.asList(frontFace, backFace, topFace, botFace, rightFace, leftFace);
+            
+            faces.sort((v1, v2) -> Float.compare(
+            		Vec3.sub(v1.snd, targetPosition).lengthSq(),
+            		Vec3.sub(v2.snd, targetPosition).lengthSq()
+            		));
+            candidates.add(new Pair<>(faces.get(0), block));
+    	}
+    	
+    	candidates.sort((v1, v2) -> Float.compare(
+        		Vec3.sub(v1.fst.snd, wom.position).lengthSq(),
+        		Vec3.sub(v2.fst.snd, wom.position).lengthSq()
         		));
 
-        
-    	return faces.get(0);
+        var result = new Pair<>(candidates.get(0).fst.fst, candidates.get(0).snd);
+
+    	return result;
     }
     
     
@@ -310,7 +376,7 @@ public class SEBlockFunctions {
      * Prioritises points on the same y-position as the target. If any are found, it will not consider other y-positions at all.
      * @return A list of world coordinates that are empty and adjacent to the target.
      */
-    public static List<Vec3> findEmptyNeighbor(NavGrid navGrid, Vec3 targetPosition, BlockSides side) {
+    public static List<Vec3> findEmptyNeighbor(NavGrid navGrid, Vec3 targetPosition, WorldEntity adjacentBlock, BlockSides adjacentSide) {
     	var p = navGrid.gridProjectedLocation(targetPosition);
     	List<Vec3> candidates = new LinkedList<>() ;
     	 
@@ -327,7 +393,7 @@ public class SEBlockFunctions {
     	 }
     	 
     	 // Prioritise standing below when the side is bottom.
-    	 if (side == BlockSides.BOTTOM) {
+    	 if (adjacentSide == BlockSides.BOTTOM) {
     		 new Local().checkNeighbor(new DPos3(p.x,p.y-distance+1,p.z));
     		 if (!candidates.isEmpty()) return candidates;
     	 }
@@ -348,7 +414,12 @@ public class SEBlockFunctions {
 		 if (!candidates.isEmpty()) return candidates;
 		 
 		 // Last resort is to approach from top (can be inconsistent due to mid-air alignment issues.
-		 new Local().checkNeighbor(new DPos3(p.x,p.y+distance,p.z));
+		 var topLocation = DPos3.add(
+				 navGrid.gridProjectedLocation(getSideCenterPoint(adjacentBlock, adjacentSide, 2)),
+				 new DPos3(0, distance, 0)
+				 );
+		 
+		 new Local().checkNeighbor(topLocation);
 		 return candidates;
 
     }

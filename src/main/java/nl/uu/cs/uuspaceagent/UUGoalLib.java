@@ -20,6 +20,7 @@ import spaceEngineers.model.DefinitionId;
 import spaceEngineers.model.Observation;
 import spaceEngineers.model.ToolbarLocation;
 
+import java.awt.SecondaryLoop;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
@@ -65,9 +66,15 @@ public class UUGoalLib {
             GoalStructure G = goal(goalname_)
                     .toSolve((Pair<Vec3,Vec3> posAndOrientation) -> {
                         var agentPosition = posAndOrientation.fst ;
+                        
+                        console("Velocity: " + state.velocity().lengthSq());
+                        if (state.velocity().lengthSq() > 0.2f)
+                        	return false;
+                        
                         if (state.jetpackRunning())
                         {
-                        	return Vec3.sub(targetSquareCenter,agentPosition).lengthSq() <= UUTacticLib.THRESHOLD_SQUARED_DISTANCE_TO_SQUARE*0.6f ;
+                        	
+                        	return Vec3.sub(targetSquareCenter,agentPosition).lengthSq() <= UUTacticLib.THRESHOLD_SQUARED_DISTANCE_TO_SQUARE_FLYING ;
                         } else {
                         	return Vec3.sub(targetSquareCenter,agentPosition).lengthSq() <= UUTacticLib.THRESHOLD_SQUARED_DISTANCE_TO_SQUARE ;
                         }
@@ -411,7 +418,7 @@ public class UUGoalLib {
     		state.inConstruction = true;
     		
     		// lookTarget is the nearest face to the where the block should be placed
-    		Pair<BlockSides, Vec3> lookTarget = SEBlockFunctions.findClosestFace(state.worldmodel, blockLocation);
+    		Pair<BlockSides, WorldEntity> lookTarget = SEBlockFunctions.findClosestFace(state.worldmodel, blockLocation);
     		//console("Face center: " + lookTarget.snd);
     		
     		// Find the best spot for the agent to stand when placing the block.
@@ -419,7 +426,8 @@ public class UUGoalLib {
     		console("looking for empty neighbor near " + lookTarget.fst);
     		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(
     				state.navgrid,
-    				Vec3.sub(blockLocation, Vec3.div(state.getHeadOffset(), 2)), 
+    				Vec3.add(Vec3.sub(blockLocation, new Vec3(0, 1.8f/2, 0)), SEBlockFunctions.getSideOffset(lookTarget.snd, lookTarget.fst, 0.25f)), 
+    				lookTarget.snd,
     				lookTarget.fst);
     		console("destinationCandidates: " + destinationCandidates.toString());
     		destinationCandidates.sort((v1, v2) -> Float.compare(
@@ -493,7 +501,7 @@ public class UUGoalLib {
             // 4. Equip empty hand.
             return SEQ(
             		nearLookTarget,
-            		faceToward("look towards neighbor side", lookTarget.snd),
+            		faceToward("look towards neighbor side", SEBlockFunctions.getSideCenterPoint(lookTarget.snd, lookTarget.fst, 0.05f)),
             		state.inSurvival ? SEQ(blockPlaced, blockWelded) : blockPlaced,
             		lift("unequiped block", UUTacticLib.unequip()));
         } ;		
@@ -505,8 +513,8 @@ public class UUGoalLib {
     		console("looking for empty neighbor near " + entity.position);
     		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(
     				state.navgrid,
-    				Vec3.sub(entity.position, Vec3.div(state.getHeadOffset(), 2)), 
-    				null);
+    				Vec3.sub(entity.position, new Vec3(0, 1.8f/2, 0)), 
+    				entity, null);
     		console("destinationCandidates: " + destinationCandidates.toString());
     		destinationCandidates.sort((v1, v2) -> Float.compare(
             		Vec3.sub(v1, state.worldmodel.position).lengthSq(),
@@ -516,7 +524,7 @@ public class UUGoalLib {
     		
     		
     		state.navgrid.enableFlying = true;
-    		if (Math.abs(playerDestination.y - state.navgrid.origin.y) < 2)
+    		if (Math.abs(playerDestination.y - state.navgrid.origin.y) < 2 && Math.abs(state.worldmodel.position.y - state.navgrid.origin.y) < 2)
     		{
     			state.navgrid.enableFlying = false;
     			playerDestination.y = state.navgrid.origin.y + 0.1f;

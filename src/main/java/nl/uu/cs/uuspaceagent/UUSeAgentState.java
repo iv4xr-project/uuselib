@@ -82,7 +82,7 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
     public UUSeAgentState(String agentId) {
         this.agentId = agentId ;
         
-        ((AStar<DPos3>) (this.pathfinder)).maximumNumberOfIterations = 10000;
+        ((AStar<DPos3>) (this.pathfinder)).maximumNumberOfIterations = 100000;
     }
 
     @Override
@@ -290,6 +290,10 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
     public Vec3 cameraOrientationUp() {
     	return (Vec3) worldmodel.elements.get(agentId).properties.get("cameraOrientationUp") ;
     }
+    
+    public Vec3 velocity() {
+    	return (Vec3) worldmodel.elements.get(agentId).properties.get("velocity") ;
+    }
 
     public WorldEntity targetBlock() {
         var targetId = worldmodel.elements.get(agentId).getStringProperty ("targetBlock") ;
@@ -351,6 +355,10 @@ public class UUSeAgentState extends Iv4xrAgentState<Void> {
     public Vec3 getHeadPosition() {
     	var headPosition = Vec3.add(worldmodel.position, getHeadOffset());
     	return headPosition;
+    }
+    
+    public Vec3 getCenterPosition() {
+    	return Vec3.add(worldmodel.position, Vec3.mul(getHeadOffset(), 0.5f));
     }
     
     public Vec3 getHeadOffset() {

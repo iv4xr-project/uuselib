@@ -87,7 +87,6 @@ public class Test_PlaceBlockAt {
             if (turn >= 1400) break ;
         }
 
-        //SocketReaderWriterKt.closeIfCloseable(state.env().getController());
         TestUtils.closeConnectionToSE(state);
         return new Pair<>(agent,G) ;
     }
@@ -103,7 +102,6 @@ public class Test_PlaceBlockAt {
         G.printGoalStructureStatus();
         assertTrue(G.getStatus().success());
         console("*** test succesful!") ;
-        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
     
     @Test
@@ -116,7 +114,6 @@ public class Test_PlaceBlockAt {
         G.printGoalStructureStatus();
         assertTrue(G.getStatus().success());
         console("*** test succesful!") ;
-        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
     
     
@@ -130,7 +127,6 @@ public class Test_PlaceBlockAt {
         G.printGoalStructureStatus();
         assertTrue(G.getStatus().success());
         console("*** test succesful!") ;
-        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
     
     @Test
@@ -143,7 +139,6 @@ public class Test_PlaceBlockAt {
         G.printGoalStructureStatus();
         assertTrue(G.getStatus().success());
         console("*** test succesful!") ;
-        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
     
     @Test
@@ -156,7 +151,6 @@ public class Test_PlaceBlockAt {
         G.printGoalStructureStatus();
         assertTrue(G.getStatus().success());
         console("*** test succesful!") ;
-        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
     
     @Test
@@ -169,6 +163,5 @@ public class Test_PlaceBlockAt {
         G.printGoalStructureStatus();
         assertTrue(G.getStatus().success());
         console("*** test succesful!") ;
-        //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;
     }
 }

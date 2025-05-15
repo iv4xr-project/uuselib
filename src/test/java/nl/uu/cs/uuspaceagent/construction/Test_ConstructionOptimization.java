@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -77,6 +78,8 @@ public class Test_ConstructionOptimization {
         
         agent.setGoal(G) ;
 
+        ArrayList<Number[]> agentPositions = new ArrayList<Number[]>();
+        
         int turn= 0 ;
         long start = System.currentTimeMillis();
         while(G.getStatus().inProgress()) {
@@ -84,6 +87,10 @@ public class Test_ConstructionOptimization {
             		Math.floor(planner.blueprint.getProgress()*100) + "%) " + 
             		showWOMAgent(state.worldmodel));
             agent.update();
+            
+            Number[] pos = { state.worldmodel.position.x,  state.worldmodel.position.y, state.worldmodel.position.z};
+            agentPositions.add(pos);
+            
             Thread.sleep(50);
             turn++ ;
             //if (turn >= 1400) break ;
@@ -92,7 +99,9 @@ public class Test_ConstructionOptimization {
         float runtime = (end - start)/1000;
         System.out.println("Test took " + runtime + " seconds");
 
-        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, isSurvival);
+        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, planner.priorityCases, isSurvival);
+        if (!isSurvival)
+        	JsonUtils.exportCSV(blueprint.name, optimizer, agentPositions, isSurvival);
         
         TestUtils.closeConnectionToSE(state);
         return new Pair<>(agent,G) ;
