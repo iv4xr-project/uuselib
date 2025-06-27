@@ -118,7 +118,7 @@ public class UUTacticLib {
         boolean running = true ;
         Vec3 forwardRun  = Vec3.mul(FORWARDV3, RUN_SPEED) ;
         Vec3 forwardWalk = Vec3.mul(FORWARDV3, WALK_SPEED) ;
-        if( sqDistance <= 1) running = false ;
+        if( sqDistance <= (agentState.jetpackRunning() && agentState.velocity().lengthSq() > 0.4f ? 4 : 1)) running = false ;
         // adjust the forward vector to make it angles towards the destination
         if(! agentState.jetpackRunning()) {
             // 2D movement on surface:
@@ -144,6 +144,7 @@ public class UUTacticLib {
         	relDirection.y = 0;
         	
             forwardRun = Rotation.rotate(forwardRun, forwardVector, relDirection) ;
+            forwardWalk = Vec3.mul(FORWARDV3, WALK_SPEED*0.7f) ;
             forwardWalk = Rotation.rotate(forwardWalk, forwardVector, relDirection) ;
             
             // yScale indicates how much of the destinationRelativeLocation is in the y-axis.
@@ -760,87 +761,87 @@ public class UUTacticLib {
      */
     public static Tactic smartNavigateToTAC(Vec3 destination) {
     	return FIRSTof(
-    			action("cleanPathToFollow").do2((UUSeAgentState state)
-                        -> (Vec3 queryResult) -> {
-                      
-                    CharacterObservation obs = moveToward(state,queryResult,10) ;
-                    return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
-                })
-    			.on((UUSeAgentState state)  -> {
+			action("cleanPathToFollow").do2((UUSeAgentState state)
+                    -> (Vec3 queryResult) -> {
+                  
+                CharacterObservation obs = moveToward(state,queryResult,10) ;
+                return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
+            })
+			.on((UUSeAgentState state)  -> {
 
-    				if (state.currentPathToFollow.size() <= 1)
-    					return null;
-    				
-                    var currentNodePos = state.navgrid.getSquareCenterLocation(state.currentPathToFollow.get(0)) ;
-                    var nextNodePos = state.navgrid.getSquareCenterLocation(state.currentPathToFollow.get(1)) ;
-                    
-                    var sqDistToNextNode = Vec3.sub(nextNodePos,state.worldmodel.position).lengthSq();
-                    var sqDistBetweenNodes = Vec3.sub(currentNodePos,nextNodePos).lengthSq();
-                    
-                    if (sqDistToNextNode < sqDistBetweenNodes)
-                    {
-                    	state.currentPathToFollow.remove(0) ;
-                    	console("*** REMOVED 1 UNNECESSARY NODE FROM PATH");
-                    	return nextNodePos;
-                    }
-    				
-    				//No door found.
-    				return null;
-    			}).lift(),
-    			action("openDoors").do2((UUSeAgentState state)
-                        -> (DoorBase queryResult) -> {
-                      
-                	DoorBase door = queryResult; 	
-                        	
-                    if(!door.getOpen())
-                    {
-                    	state.env().getController().getCharacter().use();
-                    }
-                    
-                    CharacterObservation obs = state.env().getController().getObserver().observe();
-                    return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
-                })
-    			.on((UUSeAgentState state)  -> {
+				if (state.currentPathToFollow.size() <= 1)
+					return null;
+				
+                var currentNodePos = state.navgrid.getSquareCenterLocation(state.currentPathToFollow.get(0)) ;
+                var nextNodePos = state.navgrid.getSquareCenterLocation(state.currentPathToFollow.get(1)) ;
+                
+                var sqDistToNextNode = Vec3.sub(nextNodePos,state.worldmodel.position).lengthSq();
+                var sqDistBetweenNodes = Vec3.sub(currentNodePos,nextNodePos).lengthSq();
+                
+                if (sqDistToNextNode < sqDistBetweenNodes)
+                {
+                	state.currentPathToFollow.remove(0) ;
+                	console("*** REMOVED 1 UNNECESSARY NODE FROM PATH");
+                	return nextNodePos;
+                }
+				
+				//No door found.
+				return null;
+			}).lift(),
+			action("openDoors").do2((UUSeAgentState state)
+                    -> (DoorBase queryResult) -> {
+                  
+            	DoorBase door = queryResult; 	
+                    	
+                if(!door.getOpen())
+                {
+                	state.env().getController().getCharacter().use();
+                }
+                
+                CharacterObservation obs = state.env().getController().getObserver().observe();
+                return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
+            })
+			.on((UUSeAgentState state)  -> {
 
-    				CharacterObservation cobs = state.env().getController().getObserver().observe();
-    				
-    		        if(cobs.getTargetBlock() != null && cobs.getTargetBlock().getDefinitionId().getId().contains(DefinitionId.DOOR)) {
-		            	DoorBase door = (DoorBase) cobs.getTargetBlock();
-		            	if(!door.getOpen())
-		            		return door ; 
-		            
-    		        }
-    				
-    				//No door found.
-    				return null;
-    			}).lift(),
-    			fixRoll(10),
-    			action("lookStraight").do2((UUSeAgentState state)
-                    -> (Float queryResult) -> {
-                	CharacterObservation obs = null;
-                    for (int i = 0; i < 10; i++) {
-                    	obs = state.env().getController().getCharacter().moveAndRotate(
-                        		SEBlockFunctions.toSEVec3(ZEROV3), 
-                        		new Vec2F(queryResult,0), 
-                        		0, 1);
-                    }
-                    
-                    return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
-                })
-    			.on((UUSeAgentState state)  -> {
-    				
-    				
-    				// Check whether the player is looking straight ahead (no pitch).
-    				Vec3 forward = state.orientationForward();
-    				if (Math.abs(forward.y) < 0.1f) return null;
-    				
-    				if (Math.abs(forward.y) < 0.3f) return Math.signum(forward.y)*5;
-    				
-    				return Math.signum(forward.y)*15;
+				CharacterObservation cobs = state.env().getController().getObserver().observe();
+				
+		        if(cobs.getTargetBlock() != null && cobs.getTargetBlock().getDefinitionId().getId().contains(DefinitionId.DOOR)) {
+	            	DoorBase door = (DoorBase) cobs.getTargetBlock();
+	            	if(!door.getOpen())
+	            		return door ; 
+	            
+		        }
+				
+				//No door found.
+				return null;
+			}).lift(),
+			fixRoll(10),
+			action("lookStraight").do2((UUSeAgentState state)
+                -> (Float queryResult) -> {
+            	CharacterObservation obs = null;
+                for (int i = 0; i < 10; i++) {
+                	obs = state.env().getController().getCharacter().moveAndRotate(
+                    		SEBlockFunctions.toSEVec3(ZEROV3), 
+                    		new Vec2F(queryResult,0), 
+                    		0, 1);
+                }
+                
+                return new Pair<>(SEBlockFunctions.fromSEVec3(obs.getPosition()), SEBlockFunctions.fromSEVec3(obs.getOrientationForward()))  ;
+            })
+			.on((UUSeAgentState state)  -> {
+				
+				
+				// Check whether the player is looking straight ahead (no pitch).
+				Vec3 forward = state.orientationForward();
+				if (Math.abs(forward.y) < 0.1f) return null;
+				
+				if (Math.abs(forward.y) < 0.3f) return Math.signum(forward.y)*5;
+				
+				return Math.signum(forward.y)*15;
 
-    			}).lift(),
-    			navigateToTAC(destination)
-    			);
+			}).lift(),
+			navigateToTAC(destination)
+			);
     }
     
     public static Tactic openBlockInventory() {
@@ -921,7 +922,7 @@ public class UUTacticLib {
         		return object.getAmount();
         		
 			} catch (Exception e) {
-				// TODO: handle exception
+				console(e.getLocalizedMessage());
 			}
     		return 0;
     		

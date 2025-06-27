@@ -8,6 +8,7 @@ import spaceEngineers.model.CubeSize;
 import java.io.Console;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
@@ -337,7 +338,7 @@ public class SEBlockFunctions {
      * Given a worldmodel and a targetPosition, finds the nearest face of any adjacent block.
      * @return The coordinates of the center of the nearest block face.
      */
-    public static Pair<BlockSides, WorldEntity> findClosestFace(WorldModel wom, Vec3 targetPosition) {
+    public static Pair<BlockSides, WorldEntity> findClosestFace(WorldModel wom, UUSeAgentState agentState, Vec3 targetPosition) {
                                     
     	List<WorldEntity> nearbyBlocks = SEBlockFunctions.findClosestBlocksPosition(wom,targetPosition,3.0f);
     	
@@ -360,9 +361,17 @@ public class SEBlockFunctions {
             candidates.add(new Pair<>(faces.get(0), block));
     	}
     	
+    	if (candidates.size() > 1) {
+    		int bottomIndex = -1;
+    		for(int i = 0; i < candidates.size(); i++) {
+    			if (candidates.get(i).fst.fst == BlockSides.BOTTOM) bottomIndex = i;
+    		}
+    		if (bottomIndex > -1) candidates.remove(bottomIndex);
+    	}
+    	
     	candidates.sort((v1, v2) -> Float.compare(
-        		Vec3.sub(v1.fst.snd, wom.position).lengthSq(),
-        		Vec3.sub(v2.fst.snd, wom.position).lengthSq()
+        		Vec3.sub(v1.fst.snd, agentState.getHeadPosition()).lengthSq() + v1.fst.snd.y*2,
+        		Vec3.sub(v2.fst.snd, agentState.getHeadPosition()).lengthSq() + v2.fst.snd.y*2
         		));
 
         var result = new Pair<>(candidates.get(0).fst.fst, candidates.get(0).snd);

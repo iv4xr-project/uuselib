@@ -60,7 +60,7 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 				gridOrigin.y % cellSize, 
 				gridOrigin.z % cellSize);
 		
-		var snappedLocation = new Vec3(
+		Vec3 snappedLocation = new Vec3(
 				Math.round((originLocation.x - gridOffset.x) / cellSize) * cellSize + gridOffset.x,
 				Math.round((originLocation.y - gridOffset.y) / cellSize) * cellSize + gridOffset.y,
 				Math.round((originLocation.z - gridOffset.z) / cellSize) * cellSize + gridOffset.z);
@@ -86,7 +86,6 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 	
 	public DPos3 getCellLocationFromWorld(Vec3 worldPosition) {
 		
-		//This could possibly still behalve incorrectly but seems to work for now.
 		var cellLocation = new DPos3(
 				(int) Math.round((worldPosition.x - location.x - gridOffset.x) / cellSize) + blueprint.originCell.x,
 				(int) Math.floor((worldPosition.y - location.y - gridOffset.y) / cellSize) + blueprint.originCell.y,
@@ -199,8 +198,6 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		// For each unplaced cell, check whether it can be placed.
 		var placeableCells = unplacedCells.stream().filter((DPos3 pos) -> {
 			
-			//if (pos.equals(blueprint.originCell)) return true;
-			
 			var neighborEntities = blueprint.getNeighbourEntities(pos);
 
 			// If the candidate is at y=0, try to find a block underneath the candidate that isn't part of the structure.
@@ -226,10 +223,6 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 			{
 				priorityCells.add(pos);
 			}
-			
-			//TODO: Check whether the above priority cell logic works.
-			//NOTE: This has proven to be much harder than expected due to how complicated it is to create such a situation.
-			
 			
 			return true;
 		}).toList();
@@ -292,12 +285,12 @@ public class ConstructionPlanner implements Iterator<GoalStructure>{
 		if (placeableCells.size() == 0 && blueprint.getProgress() < 1) return FAIL();
 		
 		if (optimizer != null) {
+			agentState.inConstruction = true;
 			placeableCells = optimizer.SortCells(placeableCells);
 		}
 		
 		// Get the goal for the next block
 		DPos3 cellPosition = placeableCells.get(0);
-		console("*** next goal is at DPos3" + cellPosition.toString() + "or Vec3" + getWorldLocationFromCell(cellPosition));
 		GoalStructure G = getConstructionGoal(cellPosition);
 
 		// Add goal to pending list

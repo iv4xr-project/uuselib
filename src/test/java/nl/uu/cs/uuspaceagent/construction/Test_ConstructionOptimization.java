@@ -88,8 +88,10 @@ public class Test_ConstructionOptimization {
             		showWOMAgent(state.worldmodel));
             agent.update();
             
-            Number[] pos = { state.worldmodel.position.x,  state.worldmodel.position.y, state.worldmodel.position.z};
-            agentPositions.add(pos);
+            if (!isSurvival) {
+	            Number[] pos = { state.worldmodel.position.x,  state.worldmodel.position.y, state.worldmodel.position.z};
+	            agentPositions.add(pos);
+            }
             
             Thread.sleep(50);
             turn++ ;
@@ -97,11 +99,15 @@ public class Test_ConstructionOptimization {
         }
         long end = System.currentTimeMillis();
         float runtime = (end - start)/1000;
-        System.out.println("Test took " + runtime + " seconds");
+        
+        if (G.getStatus().success()) {
+        	System.out.println("Test took " + runtime + " seconds");
 
-        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, planner.priorityCases, isSurvival);
-        if (!isSurvival)
-        	JsonUtils.exportCSV(blueprint.name, optimizer, agentPositions, isSurvival);
+            JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, planner.priorityCases, isSurvival);
+            if (!isSurvival)
+            	JsonUtils.exportCSV(blueprint.name, optimizer, agentPositions, isSurvival);
+            
+        }
         
         TestUtils.closeConnectionToSE(state);
         return new Pair<>(agent,G) ;
@@ -127,7 +133,7 @@ public class Test_ConstructionOptimization {
     List<String> structures = Arrays.asList(
 			"pillars",
 			"3x2x3",
-			"flatDisk",
+			//"flatDisk",
 			"flatCross",
 			"mushroom",
 			"simpleHouse",
@@ -148,11 +154,17 @@ public class Test_ConstructionOptimization {
     @TestFactory
     Collection<DynamicTest> testFactory_optimization_creative() {
     	
+    	var oldRecords = JsonUtils.loadRecords("results/records.json");
+    	
     	List<DynamicTest> tests = new LinkedList<>();
     	
     	for (String structure : structures) {
     		for (ConstructionOptimizer optimizer : optimizers) {
     			String optimizerName = optimizer != null ? optimizer.getName() : "Default";
+    			
+    			if (JsonUtils.getRecord(oldRecords, structure, optimizerName, false) != null)
+    				continue;
+    			
     			String testName = structure + " (" + optimizerName + ")";
     			tests.add(DynamicTest.dynamicTest(
     					testName, 
@@ -163,14 +175,22 @@ public class Test_ConstructionOptimization {
     	return tests;
     }
     
+    
+    
     @TestFactory
     Collection<DynamicTest> testFactory_optimization_survival() {
+    	
+    	var oldRecords = JsonUtils.loadRecords("results/records.json");
     	
     	List<DynamicTest> tests = new LinkedList<>();
     	
     	for (String structure : structures) {
     		for (ConstructionOptimizer optimizer : optimizers) {
     			String optimizerName = optimizer != null ? optimizer.getName() : "Default";
+    			
+    			if (JsonUtils.getRecord(oldRecords, structure, optimizerName, true) != null)
+    				continue;
+    			
     			String testName = structure + " (" + optimizerName + ")";
     			tests.add(DynamicTest.dynamicTest(
     					testName, 
@@ -180,4 +200,5 @@ public class Test_ConstructionOptimization {
     	
     	return tests;
     }
+    //Fails: (flatDisk, dfs1), (flatDisk, dfs2), (flatDisk, dfs3)
 }

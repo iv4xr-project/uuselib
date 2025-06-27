@@ -415,45 +415,39 @@ public class UUGoalLib {
     	
     	return (UUSeAgentState state) -> {
     		
-    		state.inConstruction = true;
-    		
     		// lookTarget is the nearest face to the where the block should be placed
-    		Pair<BlockSides, WorldEntity> lookTarget = SEBlockFunctions.findClosestFace(state.worldmodel, blockLocation);
-    		//console("Face center: " + lookTarget.snd);
+    		Pair<BlockSides, WorldEntity> lookTarget = SEBlockFunctions.findClosestFace(state.worldmodel, state, blockLocation);
+    		Vec3 lookLocation = SEBlockFunctions.getSideCenterPoint(lookTarget.snd, lookTarget.fst, 0.05f);
     		
     		// Find the best spot for the agent to stand when placing the block.
-    		//TODO: find better spots when placing directly below
     		console("looking for empty neighbor near " + lookTarget.fst);
     		var destinationCandidates = SEBlockFunctions.findEmptyNeighbor(
     				state.navgrid,
-    				Vec3.add(Vec3.sub(blockLocation, new Vec3(0, 1.8f/2, 0)), SEBlockFunctions.getSideOffset(lookTarget.snd, lookTarget.fst, 0.25f)), 
+    				Vec3.add(Vec3.sub(blockLocation, new Vec3(0, 1.8f/2, 0)), 
+    						SEBlockFunctions.getSideOffset(lookTarget.snd, lookTarget.fst, 0.25f)), 
     				lookTarget.snd,
     				lookTarget.fst);
-    		console("destinationCandidates: " + destinationCandidates.toString());
     		destinationCandidates.sort((v1, v2) -> Float.compare(
             		Vec3.sub(v1, state.worldmodel.position).lengthSq(),
             		Vec3.sub(v2, state.worldmodel.position).lengthSq()
             		));
+    		console("destinationCandidates: " + destinationCandidates.toString());
     		Vec3 playerDestination = destinationCandidates.getFirst();
     		
     		state.navgrid.enableFlying = true;
-    		
-    		console("dest.y: " +playerDestination.y + ", origin.y: " + state.navgrid.origin.y + 
-    				" (diff: " + Math.abs(playerDestination.y - state.navgrid.origin.y));
-    		
-    		
-    		if (Math.abs(playerDestination.y - state.navgrid.origin.y) < 2 && Math.abs(state.worldmodel.position.y - state.navgrid.origin.y) < 2)
+    		if (Math.abs(playerDestination.y - state.navgrid.origin.y) < 2 && 
+    				Math.abs(state.worldmodel.position.y - state.navgrid.origin.y) < 2)
     		{
     			state.navgrid.enableFlying = false;
     			playerDestination.y = state.navgrid.origin.y + 0.1f;
     		}
-
-    		console("player destination: " + playerDestination.toString());
-    		console("flying: " + state.navgrid.enableFlying);
     		
     		
     		// Goal to move within placement/view range of the target.
     		GoalStructure nearLookTarget = DEPLOY(closeTo(playerDestination));
+    		
+    		// Goal to look at the face of neighboring block
+    		GoalStructure lookAtTarget = faceToward("look towards neighbor side", lookLocation);
 
     		// Goal to actually place block from inventory.
             GoalStructure blockPlaced =  goal("place block at")
@@ -465,46 +459,50 @@ public class UUGoalLib {
     				)
             		.lift();
             
-            GoalStructure blockWelded = SEQ(faceToward("face block to weld", blockLocation),
-	            		goal("weld block")
-	            		.toSolve((Boolean e) -> {
-	            			return e;
-	            		})
-	            		.withTactic(SEQ(
-	            				UUTacticLib.equip(new DefinitionId(DefinitionId.PHYSICAL_GUN, "Welder4Item")),
-	            				action("weld block").do1((UUSeAgentState state2) -> {
-	                				
-	                				console("integrity:" + state2.targetBlock().getProperty("integrity"));
-	                				console("maxIntegrity:" + state2.targetBlock().getProperty("maxIntegrity"));
-	                				
-	                				if ((float)state2.targetBlock().getProperty("integrity") == (float)state2.targetBlock().getProperty("maxIntegrity")) {
-	                					return true;
-	                				}
-	                				
-	                				for(int k=0; k<20; k++) {
-	                					state2.env().beginUsingTool();
-	                		        }
-	                				
-	                				return null;
-	                			}).lift()
-	    				))
-	            		.lift()
-            		);
-            		
-            		
+            GoalStructure welded = blockWelded(blockLocation);
             
             		
-            // Execution sequence:
-            // 1. Move to the adjacent spot
-        	// 2. Look at the face of a nearby block that is closest to the intended destination
-        	// 3. Equip and use block from inventory
-            // 4. Equip empty hand.
+            /* Execution sequence:
+             * 1. Move to the adjacent spot
+             * 2. Look at the face of a nearby block that is closest to the intended destination
+             * 3. Equip and use block from inventory
+             * 4. Equip empty hand.
+             */
             return SEQ(
             		nearLookTarget,
-            		faceToward("look towards neighbor side", SEBlockFunctions.getSideCenterPoint(lookTarget.snd, lookTarget.fst, 0.05f)),
-            		state.inSurvival ? SEQ(blockPlaced, blockWelded) : blockPlaced,
-            		lift("unequiped block", UUTacticLib.unequip()));
+            		lookAtTarget,
+            		state.inSurvival ? SEQ(blockPlaced, welded) : blockPlaced
+            		);
         } ;		
+    }
+    
+    public static GoalStructure blockWelded(Vec3 blockLocation) {
+    	
+    	GoalStructure G = SEQ(faceToward("face block to weld", blockLocation),
+        		goal("weld block")
+        		.toSolve((Boolean e) -> {
+        			return e;
+        		})
+        		.withTactic(SEQ(
+        				UUTacticLib.equip(new DefinitionId(DefinitionId.PHYSICAL_GUN, "Welder4Item")),
+        				action("weld block").do1((UUSeAgentState state) -> {
+            				
+            				if ((float)state.targetBlock().getProperty("integrity") == 
+            						(float)state.targetBlock().getProperty("maxIntegrity")) {
+            					return true;
+            				}
+            				
+            				for(int k=0; k<20; k++) {
+            					state.env().beginUsingTool();
+            		        }
+            				
+            				return null;
+            			}).lift()
+				))
+        		.lift()
+    		);
+    	
+    	return G;
     }
     
     public static Function<UUSeAgentState, GoalStructure> accessedBlockInventory(WorldEntity entity){

@@ -92,11 +92,16 @@ public class Test_ConstructionPlanner {
         }
         long end = System.currentTimeMillis();
         float runtime = (end - start)/1000;
-        System.out.println("Test took " + runtime + " seconds");
-
-        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, planner.priorityCases, false);
         
- 		JsonUtils.exportCSV(blueprint.name, optimizer, agentPositions, false);
+        if (G.getStatus().success())
+        {
+        	System.out.println("Test took " + runtime + " seconds");
+
+	        JsonUtils.addRecord(blueprint.name, optimizer, runtime, turn, planner.priorityCases, false);
+	        
+	 		JsonUtils.exportCSV(blueprint.name, optimizer, agentPositions, false);
+        }
+        
         
         
         TestUtils.closeConnectionToSE(state);
@@ -111,7 +116,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-    	var optimizer = ConstructionOptimizer.CustomOptimizer(2);
+    	ConstructionOptimizer optimizer = ConstructionOptimizer.CustomOptimizer(2);
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
@@ -124,7 +129,7 @@ public class Test_ConstructionPlanner {
     }
     
     @Test
-    public void test_construction2() throws InterruptedException {
+    public void test_constructvion2() throws InterruptedException {
     	// Builds a chain of armor blocks that snakes in the air.
     	
     	Blueprint blueprint = Blueprint.loadFromFile("assets/blueprints/snake3D.cons");
@@ -249,7 +254,7 @@ public class Test_ConstructionPlanner {
     
     	Vec3 dest = new Vec3(21.25f, -5f, 60);
         
-    	ConstructionOptimizer optimizer = ConstructionOptimizer.CustomOptimizer(2);
+    	ConstructionOptimizer optimizer = ConstructionOptimizer.BFS(2);
     	
         var agent_and_goal = deployAgent(blueprint, dest, optimizer);
         TestAgent agent = agent_and_goal.fst ;
@@ -275,7 +280,7 @@ public class Test_ConstructionPlanner {
         TestAgent agent = agent_and_goal.fst ;
         agent.setTestDataCollector(new TestDataCollector()) ;
         GoalStructure G = agent_and_goal.snd;
-        G.printGoalStructureStatus();
+        //G.printGoalStructureStatus();
         assertTrue(G.getStatus().success());
         console("*** test succesful!") ;
         //assertTrue(agent.getTestDataCollector().getNumberOfPassVerdictsSeen() == 2) ;

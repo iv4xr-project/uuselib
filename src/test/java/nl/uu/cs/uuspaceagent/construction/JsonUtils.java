@@ -43,6 +43,20 @@ public class JsonUtils {
 		return jsonObject;
 	}
 	
+	static JSONObject getRecord(JSONObject jsonObject, String structure, String optimizer, boolean survival) {
+		if (survival)
+			structure += "-survival";
+		
+		if (jsonObject.has(structure)) {
+			JSONObject structureObject = (JSONObject) jsonObject.get(structure);
+			if (structureObject.has(optimizer)) {
+				JSONObject optimizerObject = (JSONObject) structureObject.get(optimizer);
+				return optimizerObject;
+			}
+		}
+		return null;
+	}
+	
 	static boolean saveRecords(JSONObject jsonObject, String fileName) {
 		
 		try {

@@ -93,8 +93,8 @@ class Coba_CopyConstruction {
 						out.println(blueprint.originCell);
 						
 						var size = blueprint.getSize();
-						for (int x = 0 ; x < size.x ; x++) 
-							for (int y = 0 ; y < size.y ; y++) 
+						for (int y = 0 ; y < size.y ; y++) 
+							for (int x = 0 ; x < size.x ; x++) 
 								for (int z = 0 ; z < size.z ; z++) {
 									DPos3 cellPosition = new DPos3(x, y, z);
 									DefinitionId definition = blueprint.getDefinitionAtCell(cellPosition);
